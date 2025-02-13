@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
+import GlobalNav from "@/components/navigation/GlobalNav";
 
 const openSans = Open_Sans({
   variable: "--font-geist-mono",
@@ -22,7 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${openSans.className}`}>{children}</body>
+      <body className={`${openSans.className}`}>
+        <GlobalNav />
+        <main>{children}</main>
+      </body>
     </html>
   );
 }
