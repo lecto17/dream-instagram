@@ -1,65 +1,54 @@
-import {DocumentTextIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { DocumentTextIcon } from "@sanity/icons";
+import { Rule } from "sanity";
 
-export const postType = defineType({
-  name: 'post',
-  title: 'Post',
-  type: 'document',
+export const postType = {
+  name: "post",
+  title: "Post",
+  type: "document",
   icon: DocumentTextIcon,
   fields: [
-    defineField({
-      name: 'title',
-      type: 'string',
-    }),
-    defineField({
-      name: 'slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-      },
-    }),
-    defineField({
-      name: 'author',
-      type: 'reference',
-      to: {type: 'author'},
-    }),
-    defineField({
-      name: 'mainImage',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-      fields: [
-        defineField({
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-        })
-      ]
-    }),
-    defineField({
-      name: 'categories',
-      type: 'array',
-      of: [defineArrayMember({type: 'reference', to: {type: 'category'}})],
-    }),
-    defineField({
-      name: 'publishedAt',
-      type: 'datetime',
-    }),
-    defineField({
-      name: 'body',
-      type: 'blockContent',
-    }),
+    {
+      title: "Author",
+      name: "author",
+      type: "reference",
+      to: [{ type: "user" }],
+    },
+    {
+      title: "Photo",
+      name: "photo",
+      type: "image",
+    },
+    {
+      title: "Likes",
+      name: "likes",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "user" }] }],
+      validation: (Rule: Rule) => Rule.unique(),
+    },
+    {
+      title: "Comments",
+      name: "comments",
+      type: "array",
+      of: [
+        {
+          title: "Comment",
+          name: "comment",
+          type: "document",
+          fields: [
+            {
+              title: "Author",
+              name: "author",
+              type: "reference",
+              to: [{ type: "user" }],
+            },
+            {
+              title: "Comment",
+              name: "comment",
+              type: "string",
+            },
+          ],
+        },
+      ],
+    },
   ],
-  preview: {
-    select: {
-      title: 'title',
-      author: 'author.name',
-      media: 'mainImage',
-    },
-    prepare(selection) {
-      const {author} = selection
-      return {...selection, subtitle: author && `by ${author}`}
-    },
-  },
-})
+};
