@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     template: "Tell your Voice | %s",
   },
   description: "Listen your neighbor's story",
+  viewport: "width=device-width, initial-scale=1",
 };
 
 export default function RootLayout({
@@ -23,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${openSans.className}`}>
+      <body className={`${openSans.className} w-full mx-auto max-w-screen-xl`}>
         <GlobalNav />
         <main>{children}</main>
       </body>
