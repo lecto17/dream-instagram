@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { AiFillHome } from "react-icons/ai";
 import { BsPlusSquare } from "react-icons/bs";
@@ -13,6 +13,7 @@ import { RiSearchFill } from "react-icons/ri";
 import InstagramBorder from "@/components/border/InstagramBorder";
 import Image from "next/image";
 import Profile from "@images/tiger.jpg";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 interface MENU {
   url: string;
@@ -40,10 +41,15 @@ const MENUS: MENU[] = [
 
 const GlobalNav = () => {
   const pathName = usePathname();
-  const [isLogined, setIsLogined] = useState(false);
+  const { data: session } = useSession();
+  const user = session?.user;
 
   const handleClickIsLogined = () => {
-    setIsLogined((prev) => !prev);
+    if (user) {
+      signOut();
+      return;
+    }
+    signIn();
   };
 
   const getMenuIcon = ({ url, Icon, ActiveIcon }: MENU) => {
@@ -51,7 +57,7 @@ const GlobalNav = () => {
   };
 
   const getCompnentWhenLogined = () => {
-    if (isLogined) {
+    if (user) {
       return (
         <>
           <InstagramBorder className="w-10 h-10">
@@ -72,6 +78,7 @@ const GlobalNav = () => {
         </>
       );
     }
+
     return (
       <InstagramBorder rounded={"rounded-md"} padding="p-[2px]">
         <button className="min-w-[80px]" onClick={handleClickIsLogined}>
