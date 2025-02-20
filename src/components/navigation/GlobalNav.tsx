@@ -11,8 +11,6 @@ import { RiSearchLine } from "react-icons/ri";
 import { RiSearchFill } from "react-icons/ri";
 
 import InstagramBorder from "@/components/border/InstagramBorder";
-import Image from "next/image";
-import Profile from "@images/tiger.jpg";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 interface MENU {
@@ -62,11 +60,13 @@ const GlobalNav = () => {
         <>
           <InstagramBorder className="w-10 h-10">
             <Link href={""}>
-              <Image
-                src={Profile}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={user.image || undefined}
                 className="object-cover h-full rounded-full"
                 alt="profile image"
-                priority
+                fetchPriority="high"
+                referrerPolicy="no-referrer"
               />
             </Link>
           </InstagramBorder>
