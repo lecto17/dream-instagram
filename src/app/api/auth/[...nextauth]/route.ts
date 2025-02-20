@@ -1,4 +1,4 @@
-import { handlers } from "_/auth";
+import { handlers } from "/auth";
 
 export const { GET, POST } = handlers;
 export const runtime = "edge";
