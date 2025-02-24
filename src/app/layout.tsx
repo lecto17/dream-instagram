@@ -3,6 +3,7 @@ import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import GlobalNav from "@/components/navigation/GlobalNav";
 import AuthContext from "@/context/AuthContext";
+import SWRConfigContext from "@/context/SWRConfigContext";
 
 const openSans = Open_Sans({
   variable: "--font-geist-mono",
@@ -38,7 +39,9 @@ export default async function RootLayout({
       <body className={`${openSans.className} w-full mx-auto max-w-screen-xl`}>
         <AuthContext>
           <GlobalNav />
-          <main>{children}</main>
+          <main>
+            <SWRConfigContext>{children}</SWRConfigContext>
+          </main>
         </AuthContext>
       </body>
     </html>
