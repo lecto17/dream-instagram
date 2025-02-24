@@ -12,7 +12,8 @@ const SWRConfigContext = ({ children }: Props) => {
     <SWRConfig
       value={{
         refreshInterval: 3000,
-        fetcher: async (query: string) => await client.fetch(query),
+        fetcher: async (query: string) =>
+          await fetch(query).then((res) => res.json()),
         // (resource, init) => fetch(resource, init).then((res) => res.json()),
       }}
     >
