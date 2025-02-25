@@ -39,7 +39,7 @@ export default async function RootLayout({
       <body className={`${openSans.className} w-full mx-auto max-w-screen-xl`}>
         <AuthContext>
           <GlobalNav />
-          <main>
+          <main className="w-full flex justify-center bg-neutral-50 min-h-full">
             <SWRConfigContext>{children}</SWRConfigContext>
           </main>
         </AuthContext>
