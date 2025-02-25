@@ -4,7 +4,17 @@ export type User = {
   name: string;
   email: string;
   image?: string | null;
-  following?: User | [];
-  followers?: User | [];
-  bookmarks?: [];
+};
+
+export type SimpleUser = Pick<User, "username" | "image">;
+
+// export interface SimpleUser extends Pick<User, "username" | "image"> {
+//   username: string;
+//   image: string;
+// }
+
+export type DetailUser = User & {
+  following?: SimpleUser[] | [];
+  followers?: SimpleUser | [];
+  bookmarks?: string[];
 };
