@@ -8,12 +8,12 @@ export const getQuery = (queryType: QueryType, payload: string) => {
 
   switch (queryType) {
     case "FOLLOWINGS":
-      query = `*[_type == "user" && username == '${payload}'][0].following[]->{
-        id,
-        username,
-        name,
-        image,
-        email
+      query = `*[_type == "user" && username == '${payload}'][0]{
+        ...,
+        "id": _id,
+        following[]-> {username,image},
+        followers[]-> {username,image},
+        "bookmarks":bookmarks[]->id
       }`;
       break;
     default:
