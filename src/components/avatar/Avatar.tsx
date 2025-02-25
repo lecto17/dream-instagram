@@ -1,12 +1,11 @@
 "use client";
 
 import InstagramBorder from "@/components/border/InstagramBorder";
-import { User } from "@/types/user";
-import { getNameByEmail } from "@/utils/utils";
+import { SimpleUser, User } from "@/types/user";
 import Link from "next/link";
 
 interface AvatarProps {
-  user: User;
+  user: User | SimpleUser;
   border?: boolean;
   size?: "small" | "middle" | "big";
 }
@@ -24,12 +23,12 @@ const Avatar = ({ user, border = true, size = "small" }: AvatarProps) => {
         }
         alt="profile image"
         referrerPolicy="no-referrer"
-        className={`rounded-full w-10 h-10 ${size === "middle" ? "w-11 h-11" : "w-[52px] h-[52px]"}`}
+        className={`rounded-full flex w-10 h-10 ${size === "middle" ? "w-11 h-11" : "w-[52px] h-[52px]"}`}
       />
     );
   };
   return (
-    <Link href={`/users/${getNameByEmail(user?.email)}`}>
+    <Link href={`/users/${user.username}}`}>
       {border ? (
         <InstagramBorder>
           <ImageContent />
