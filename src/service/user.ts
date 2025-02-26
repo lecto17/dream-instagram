@@ -1,7 +1,6 @@
 import { client } from "@/sanity/sanity";
 import { fetchAllData, getQuery } from "@/service/fetch";
 import { User } from "@/types/user";
-import { getNameByEmail } from "@/utils/utils";
 
 export const createUser = async ({ id, email, ...rest }: User) => {
   await client.createIfNotExists({
@@ -16,7 +15,7 @@ export const createUser = async ({ id, email, ...rest }: User) => {
 };
 
 export const getUserByname = async (name: string) => {
-  return await client.fetch(getQuery("FOLLOWINGS", getNameByEmail(name)));
+  return await client.fetch(getQuery("FOLLOWINGS", name));
 };
 
 export const getAllUser = async () => {

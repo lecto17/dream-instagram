@@ -1,6 +1,5 @@
 "use client";
 
-import { client } from "@/sanity/sanity";
 import { SWRConfig } from "swr";
 
 interface Props {
