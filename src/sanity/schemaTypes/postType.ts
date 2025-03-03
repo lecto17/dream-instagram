@@ -19,6 +19,11 @@ export const postType = {
       type: "image",
     },
     {
+      title: "Contents",
+      name: "contents",
+      type: "string",
+    },
+    {
       title: "Likes",
       name: "likes",
       type: "array",
