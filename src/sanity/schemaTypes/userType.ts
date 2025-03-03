@@ -49,6 +49,18 @@ export const userType = {
       ],
       validation: (Rule: Rule) => Rule.unique(),
     },
+    {
+      title: "Bookmarks",
+      name: "bookmarks",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "post" }],
+        },
+      ],
+      validation: (Rule: Rule) => Rule.unique(),
+    },
   ],
 };
 
