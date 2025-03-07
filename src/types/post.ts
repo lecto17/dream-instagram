@@ -25,7 +25,7 @@ export type FullPost = {
   userImage: string;
   image: string;
   text: string;
-  likes: string;
+  likes: string[];
   createdAt: string;
   comments: Comment[];
 };
