@@ -4,15 +4,29 @@ import InstagramBorder from "@/components/border/InstagramBorder";
 import { SimpleUser, User } from "@/types/user";
 import Link from "next/link";
 
+type AvatarSize = "small" | "middle" | "big";
+
 interface AvatarProps {
   user: User | SimpleUser;
   border?: boolean;
-  size?: "small" | "middle" | "big";
+  size?: AvatarSize;
 }
 
-const Avatar = ({ user, border = true, size = "small" }: AvatarProps) => {
-  console.log("user ", user);
+const Avatar = ({ user, border = true, size }: AvatarProps) => {
+  console.log("sszz: ", size);
 
+  const getImageSizeStyle = (size: AvatarSize) => {
+    switch (size) {
+      case "small":
+        return "w-9 h-9";
+      case "middle":
+        return "w-11 h-11";
+      case "big":
+        return "w-[52px] h-[52px]";
+      default:
+        return "w-9 h-9";
+    }
+  };
   const ImageContent = () => {
     return (
       // eslint-disable-next-line @next/next/no-img-element
@@ -23,12 +37,17 @@ const Avatar = ({ user, border = true, size = "small" }: AvatarProps) => {
         }
         alt="profile image"
         referrerPolicy="no-referrer"
-        className={`rounded-full flex w-10 h-10 ${size === "middle" ? "w-11 h-11" : "w-[52px] h-[52px]"}`}
+        className={`rounded-full flex object-cover ${getImageSizeStyle(size || "middle")}`}
       />
     );
   };
+  /**
+   * 합성 컴포넌트로 바꾸기
+   * Border, username 등 경우의 수를 전부 대응해줄 수는 없기에.
+   * */
+
   return (
-    <Link href={`/users/${user.username}}`}>
+    <Link className="w-fit" href={`/users/${user.username}}`}>
       {border ? (
         <InstagramBorder>
           <ImageContent />
