@@ -21,8 +21,9 @@ export const getQuery = (queryType: QueryType, payload: string) => {
         ...,
         "username": author->username,
         "userImage": author->image,
+        "image": photo.asset->url,
         "likes": likes[]->username,
-        "text": comments[0].comment,
+        "text": contents,
         "comments": count(comments),
         "id": _id,
         "createdAt": _createdAt
