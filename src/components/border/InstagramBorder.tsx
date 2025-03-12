@@ -16,16 +16,16 @@ interface InstagramBorderProps {
 
 const InstagramBorder = ({
   children,
-  padding = "p-1",
+  padding = "p-[2px]",
   rounded = "rounded-full",
   className,
 }: InstagramBorderProps) => {
   return (
     <div
-      className={`flex overflow-hidden bg-gradient-to-r from-[#F58529] via-[#DD2A7B] to-[#C42D91] ${padding} ${rounded} ${className}`}
+      className={`flex w-fit overflow-hidden bg-gradient-to-r from-[#F58529] via-[#DD2A7B] to-[#C42D91] ${padding} ${rounded} ${className}`}
     >
       <div
-        className={`flex-grow bg-white ${padding} ${rounded} hover:opacity-90 transition`}
+        className={`flex-grow w-fit bg-white ${padding} ${rounded} hover:opacity-90 transition`}
       >
         {React.isValidElement(children)
           ? React.cloneElement(
