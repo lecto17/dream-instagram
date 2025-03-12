@@ -4,7 +4,7 @@ import InstagramBorder from "@/components/border/InstagramBorder";
 import { SimpleUser, User } from "@/types/user";
 import Link from "next/link";
 
-type AvatarSize = "small" | "middle" | "big";
+type AvatarSize = "xs" | "small" | "middle" | "big";
 
 interface AvatarProps {
   user: User | SimpleUser;
@@ -13,10 +13,10 @@ interface AvatarProps {
 }
 
 const Avatar = ({ user, border = true, size }: AvatarProps) => {
-  console.log("sszz: ", size);
-
   const getImageSizeStyle = (size: AvatarSize) => {
     switch (size) {
+      case "xs":
+        return "w-7 h-7";
       case "small":
         return "w-9 h-9";
       case "middle":
