@@ -1,7 +1,7 @@
 import { client } from "@/sanity/sanity";
 
 type DataType = "USERS" | "AUTHORS" | "POSTS" | "CATEGORIES" | "FOLLOWINGS";
-type QueryType = "FOLLOWINGS" | "FOLLOWINGS_POSTS";
+type QueryType = "FOLLOWINGS" | "FOLLOWINGS_POSTS" | "POST_DETAIL";
 
 export const getQuery = (queryType: QueryType, payload: string) => {
   let query = "";
@@ -31,6 +31,13 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       query = `*[_type == "post" && author->username == "${payload}"
         || author._ref in *[_type == "user" && username == "${payload}"].following[]._ref] 
         | order(_createdAt desc){${simplePostProjection}}`;
+      break;
+    case "POST_DETAIL":
+      query = `*[_type == "post" && _id == "${payload}"].comments[]{
+          "image": author->image,
+          "username": author->username,
+          "comment": comment
+      }`;
       break;
     default:
       break;
