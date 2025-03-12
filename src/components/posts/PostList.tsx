@@ -10,7 +10,7 @@ const PostList = () => {
 
   return (
     <section>
-      <ul>
+      <ul className="flex flex-col items-center">
         {isLoading && (
           <div className="w-full flex justify-center mt-32">
             <GridSpinner color={LOADING_BAR_COLOR} />
