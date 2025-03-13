@@ -47,7 +47,10 @@ const Avatar = ({ user, border = true, size }: AvatarProps) => {
    * */
 
   return (
-    <Link className="w-fit" href={`/users/${user.username}}`}>
+    <Link
+      className="w-fit"
+      href={`/users/${user.username ?? ("name" in user && user.name)}`}
+    >
       {border ? (
         <InstagramBorder>
           <ImageContent />
