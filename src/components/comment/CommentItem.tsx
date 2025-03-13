@@ -11,13 +11,13 @@ const CommentItem = ({
   comment: { username, image, comment },
 }: CommentItemProps) => {
   return (
-    <div className="flex">
+    <li className="flex">
       <Avatar user={{ username, image }} size="xs" />
       <p className="flex items-center ml-1">
         <span className="font-bold mr-2">{username}</span>
         {comment}
       </p>
-    </div>
+    </li>
   );
 };
 
