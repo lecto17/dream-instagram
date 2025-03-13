@@ -25,3 +25,7 @@ export const getAllUser = async () => {
 export const getUserBy = async (nameOrUsername: string) => {
   return await client.fetch(getQuery("SEARCH_USER", nameOrUsername));
 };
+
+export const getUserAllInformation = async (nameOrUsername: string) => {
+  return await client.fetch(getQuery("USER_ALL_INFO", nameOrUsername));
+};

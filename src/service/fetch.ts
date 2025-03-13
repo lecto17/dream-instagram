@@ -5,7 +5,8 @@ type QueryType =
   | "FOLLOWINGS"
   | "FOLLOWINGS_POSTS"
   | "POST_DETAIL"
-  | "SEARCH_USER";
+  | "SEARCH_USER"
+  | "USER_ALL_INFO";
 
 export const getQuery = (queryType: QueryType, payload: string) => {
   let query = "";
@@ -51,6 +52,9 @@ export const getQuery = (queryType: QueryType, payload: string) => {
         "username": username,
         "image": image
       }`;
+      break;
+    case "USER_ALL_INFO":
+      query = ``;
       break;
     default:
       break;
