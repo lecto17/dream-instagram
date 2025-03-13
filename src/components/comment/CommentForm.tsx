@@ -1,6 +1,10 @@
-const CommentForm = () => {
+type CommentFormProps = {
+  formStyle?: string;
+};
+
+const CommentForm = ({ formStyle }: CommentFormProps) => {
   return (
-    <form className="flex w-full">
+    <form className={`flex w-full ${formStyle}`}>
       <input
         type="text"
         placeholder="Add a comment..."
