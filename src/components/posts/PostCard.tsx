@@ -1,12 +1,12 @@
 "use client";
 
-import Avatar from "@/components/avatar/Avatar";
 import CommentForm from "@/components/comment/CommentForm";
 import BookMarkIcon from "@/components/icons/BookMarkIcon";
 import HeartIcon from "@/components/icons/HeartIcon";
 import PostModal from "@/components/modal/PostModal";
 import ModalPortal from "@/components/portal/ModalPortal";
 import PostDetail from "@/components/posts/PostDetail";
+import PostUserAvatar from "@/components/posts/PostUserAvatar";
 import { SimplePost } from "@/types/post";
 import { parseDate } from "@/utils/utils";
 import { useState } from "react";
@@ -29,17 +29,13 @@ const PostCard = ({
   };
 
   return (
-    <article className="max-w-[468px] border border-gray-200 shadow-md rounded-lg p-3 mb-3">
+    <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3">
       <div className="flex w-fit items-center mb-3">
-        <Avatar user={{ username, image: userImage }} size="small" />
-        <p className="flex flex-col ml-2 text-base text-gray-700">
-          <span className="font-semibold">{username}</span>
-          <span className="text-xs leading-3 text-gray-500">{location}</span>
-        </p>
+        <PostUserAvatar user={{ username, image }} location={location} />
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className="w-full object-cover aspect-square hover:cursor-pointerr"
+        className="max-w-[468px] object-cover aspect-square hover:cursor-pointerr"
         src={image}
         width={468}
         height={565}
