@@ -25,7 +25,7 @@ const PostModal = ({ children, onClose }: PostModal) => {
 
   return (
     <section
-      className="w-full h-full fixed top-0 left-0 z-[99999] bg-black bg-opacity-65 flex justify-center items-center"
+      className="w-full h-full fixed top-0 left-0 z-10 bg-black bg-opacity-65 flex justify-center items-center max-w-[4000px]"
       onClick={handleClickOuter}
     >
       {children}
