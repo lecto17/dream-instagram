@@ -20,6 +20,7 @@ export default async function SignInPage({
       <InstagramBorder className="w-fit p-2 text-2xl font-semibold">
         {Object.values(providerMap).map((provider) => (
           <form
+            className="p-[2px]"
             key={provider.id}
             action={async () => {
               "use server";
