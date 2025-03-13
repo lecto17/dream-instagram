@@ -36,13 +36,16 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${openSans.className} w-full mx-auto max-w-screen-xl`}>
+      <body className={`${openSans.className} w-full bg-neutral-50`}>
         <AuthContext>
-          <GlobalNav />
-          <main className="w-full flex justify-center bg-neutral-50 min-h-full">
+          <div className="max-w-screen-xl mx-auto">
+            <GlobalNav />
+          </div>
+          <main className="w-full flex justify-center">
             <SWRConfigContext>{children}</SWRConfigContext>
           </main>
         </AuthContext>
+        <div id="portal" />
       </body>
     </html>
   );
