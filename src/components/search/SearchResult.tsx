@@ -1,6 +1,7 @@
 import SearchUserAvatar from "@/components/search/SearchUserAvatar";
 import GridSpinner from "@/components/spinner/GridSpinner";
 import { LOADING_BAR_COLOR } from "@/constants/color";
+import { useDebounce } from "@/hooks/useDebounce";
 import { SearchUser } from "@/types/user";
 import useSWR from "swr";
 
@@ -8,8 +9,10 @@ type Props = {
   text?: string;
 };
 const SearchResult = ({ text }: Props) => {
+  const debouncedText = useDebounce(text, 500);
+
   const { data: users, isLoading } = useSWR<SearchUser[]>(
-    `/api/search/${text}`
+    `/api/search/${debouncedText}`
   );
 
   return (
