@@ -4,7 +4,7 @@ import InstagramBorder from "@/components/border/InstagramBorder";
 import { SimpleUser, User } from "@/types/user";
 import Link from "next/link";
 
-type AvatarSize = "xs" | "small" | "middle" | "big";
+export type AvatarSize = "xs" | "small" | "middle" | "big";
 
 interface AvatarProps {
   user: User | SimpleUser;
