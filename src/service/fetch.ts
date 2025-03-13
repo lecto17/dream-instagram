@@ -1,7 +1,11 @@
 import { client } from "@/sanity/sanity";
 
 type DataType = "USERS" | "AUTHORS" | "POSTS" | "CATEGORIES" | "FOLLOWINGS";
-type QueryType = "FOLLOWINGS" | "FOLLOWINGS_POSTS" | "POST_DETAIL";
+type QueryType =
+  | "FOLLOWINGS"
+  | "FOLLOWINGS_POSTS"
+  | "POST_DETAIL"
+  | "SEARCH_USER";
 
 export const getQuery = (queryType: QueryType, payload: string) => {
   let query = "";
@@ -37,6 +41,15 @@ export const getQuery = (queryType: QueryType, payload: string) => {
           "image": author->image,
           "username": author->username,
           "comment": comment
+      }`;
+      break;
+    case "SEARCH_USER":
+      query = `*[_type == "user" && username match '${payload}*' || name match '${payload}*']{
+        "following": count(following),
+        "followers": count(followers),
+        "name": name,
+        "username": username,
+        "image": image
       }`;
       break;
     default:
