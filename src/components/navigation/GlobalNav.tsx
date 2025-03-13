@@ -12,6 +12,7 @@ import { RiSearchFill } from "react-icons/ri";
 
 import InstagramBorder from "@/components/border/InstagramBorder";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Avatar from "@/components/avatar/Avatar";
 
 interface MENU {
   url: string;
@@ -58,18 +59,7 @@ const GlobalNav = () => {
     if (user) {
       return (
         <>
-          <InstagramBorder className="w-10 h-10">
-            <Link href={""}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={user.image || undefined}
-                className="object-cover h-full rounded-full"
-                alt="profile image"
-                fetchPriority="high"
-                referrerPolicy="no-referrer"
-              />
-            </Link>
-          </InstagramBorder>
+          <Avatar user={user} size="small" />
           <InstagramBorder rounded={"rounded-md"} padding="p-[2px]">
             <button className="min-w-[80px]" onClick={handleClickIsLogined}>
               logout
@@ -89,7 +79,7 @@ const GlobalNav = () => {
   };
 
   return (
-    <section className="sticky top-0 z-10 flex justify-between items-center py-3 px-2 md:px-6 border-b">
+    <section className="sticky top-0 z-10 flex justify-between items-center py-3 px-2 md:px-6 border-b shadow-sm bg-white">
       <Link href="/" className="text-xl font-semibold md:text-3xl">
         Instagram
       </Link>
