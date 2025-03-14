@@ -26,3 +26,11 @@ export type SearchUser = {
   name: string;
   username: string;
 };
+
+export type UserProfile = SearchUser & {
+  posts: number;
+};
+
+export type UserProfileTab = {
+  posts: { image: string; id: string }[];
+};
