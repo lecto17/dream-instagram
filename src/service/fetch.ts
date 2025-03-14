@@ -6,7 +6,8 @@ type QueryType =
   | "FOLLOWINGS_POSTS"
   | "POST_DETAIL"
   | "SEARCH_USER"
-  | "USER_ALL_INFO";
+  | "USER_ALL_INFO"
+  | "USER_PROFILE_TAB";
 
 export const getQuery = (queryType: QueryType, payload: string) => {
   let query = "";
@@ -45,16 +46,40 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       }`;
       break;
     case "SEARCH_USER":
-      query = `*[_type == "user" && username match '${payload}*' || name match '${payload}*']{
+      const projection = `
         "following": count(following),
         "followers": count(followers),
         "name": name,
         "username": username,
         "image": image
+      `;
+      query = `*[_type == "user" && username match "${payload}*" || name match "${payload}*"]{
+        ${projection}
       }`;
       break;
     case "USER_ALL_INFO":
-      query = ``;
+      query = `
+        *[_type == "user" && username == "${payload}"][0]{
+          "following": count(following),
+          "followers": count(followers),
+          "name": name,
+          "username": username,
+          "image": image,
+          "posts": (count(posts))
+      }`;
+      break;
+    case "USER_PROFILE_TAB":
+      const parsedPayload = payload.split("|");
+      // 작성 posts: 모든 post 중 author 자기자신
+      // bookmark: user 내에서 북마크
+      // likes: 모든 posts 중 likes 내에 자기가 있는 post
+      if (parsedPayload[1] === "POSTS") {
+        query = `*[_type == "post" && author->username == "${parsedPayload[0]}"]{ "id": _id, "image": photo.asset->url }`;
+      } else if (parsedPayload[1] === "SAVED") {
+        query = `*[_type == "user" && username == "${parsedPayload[0]}"]{ "id": bookmarks[]->_id, "image": bookmarks[]->photo.asset->url }`;
+      } else {
+        query = `*[_type == "post" && likes[]->username match "${parsedPayload[0]}"]{ "id": _id, "image": photo.asset->url}`;
+      }
       break;
     default:
       break;
