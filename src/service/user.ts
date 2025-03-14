@@ -29,3 +29,12 @@ export const getUserBy = async (nameOrUsername: string) => {
 export const getUserAllInformation = async (nameOrUsername: string) => {
   return await client.fetch(getQuery("USER_ALL_INFO", nameOrUsername));
 };
+
+export const getUserProfileTabInformation = async (
+  username: string,
+  type: string
+) => {
+  return await client.fetch(
+    getQuery("USER_PROFILE_TAB", `${username}|${type}`)
+  );
+};
