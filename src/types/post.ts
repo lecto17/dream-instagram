@@ -13,9 +13,10 @@ export type Comment = {
   comment: string;
   username: string;
   image: string;
+  id: string;
 };
 
-export type SimplePost = Omit<FullPost, "comment"> & {
+export type SimplePost = Omit<FullPost, "comments"> & {
   comments: number;
 };
 
