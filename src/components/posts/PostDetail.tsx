@@ -2,9 +2,8 @@
 
 import CommentForm from "@/components/comment/CommentForm";
 import CommentItem from "@/components/comment/CommentItem";
-import BookMarkIcon from "@/components/icons/BookMarkIcon";
-import HeartIcon from "@/components/icons/HeartIcon";
 import PostUserAvatar from "@/components/posts/PostUserAvatar";
+import ActionBar from "@/components/ui/ActionBar";
 import { Comment } from "@/types/post";
 import { parseDate } from "@/utils/utils";
 import { useCallback } from "react";
@@ -30,8 +29,6 @@ const PostDetail = ({
   username,
 }: PostDetailProps) => {
   const { data: comments } = useSWR<Comment[]>(`/api/posts/${id}`);
-
-  console.log("final comments: ", comments);
 
   const suppressEventBubbling = useCallback((e: React.MouseEvent<Element>) => {
     e.stopPropagation();
@@ -67,7 +64,8 @@ const PostDetail = ({
               </PostUserAvatar>
             </div>
             <ul className="comments-wrapper flex flex-col space-y-1 max-h-[420px] overflow-y-auto">
-              {comments &&
+              {comments?.length &&
+                comments[0] &&
                 comments.map((comment, idx) => (
                   <CommentItem key={`${comment.id}-${idx}`} comment={comment} />
                 ))}
@@ -75,10 +73,18 @@ const PostDetail = ({
           </div>
           <div className="flex flex-col">
             <div className="p-3">
-              <div className="flex justify-between">
-                <HeartIcon />
-                <BookMarkIcon />
-              </div>
+              <ActionBar
+                post={{
+                  id,
+                  username,
+                  userImage,
+                  image,
+                  text,
+                  likes,
+                  createdAt,
+                  comments: comments?.length || 0,
+                }}
+              />
 
               <p className="font-semibold">
                 {likes?.length ?? 0}

@@ -1,18 +1,13 @@
 "use client";
 
-import ToggleButton from "@/components/button/ToggleButton";
 import CommentForm from "@/components/comment/CommentForm";
-import BookMarkIcon from "@/components/icons/BookMarkIcon";
-import BookMarkIconFilled from "@/components/icons/BookMarkIconFilled";
-import HeartIcon from "@/components/icons/HeartIcon";
-import HeartIconFilled from "@/components/icons/HeartIconFilled";
 import PostModal from "@/components/modal/PostModal";
 import ModalPortal from "@/components/portal/ModalPortal";
 import PostDetail from "@/components/posts/PostDetail";
 import PostUserAvatar from "@/components/posts/PostUserAvatar";
+import ActionBar from "@/components/ui/ActionBar";
 import { SimplePost } from "@/types/post";
 import { parseDate } from "@/utils/utils";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 interface PostCardProps {
@@ -24,18 +19,12 @@ const location = "Incheon, Korea";
 
 const PostCard = ({ post, priority }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
-  const { data: session } = useSession();
-  const user = session?.user;
-
-  const [liked, setLiked] = useState(false);
-  const [bookmarked, setBookmarked] = useState(false);
 
   const handleClickImage = () => {
     setShowable(true);
   };
 
   const { id, createdAt, image, likes, text, userImage, username } = post;
-  console.log("likes: ", likes, user?.name);
 
   return (
     <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3">
@@ -68,21 +57,7 @@ const PostCard = ({ post, priority }: PostCardProps) => {
           </PostModal>
         </ModalPortal>
       )}
-      <div className="flex py-2 justify-between">
-        <ToggleButton
-          offIcon={<HeartIcon />}
-          onIcon={<HeartIconFilled />}
-          toggled={liked}
-          onToggle={setLiked}
-        />
-
-        <ToggleButton
-          offIcon={<BookMarkIcon />}
-          onIcon={<BookMarkIconFilled />}
-          toggled={bookmarked}
-          onToggle={setBookmarked}
-        />
-      </div>
+      <ActionBar post={post} />
       <div>
         <p>
           {likes?.length ?? 0}
