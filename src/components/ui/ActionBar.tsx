@@ -22,7 +22,7 @@ const ActionBar = ({ post }: Props) => {
 
   const handleLike = (like: boolean) => {
     if (user) {
-      setLike(post, like);
+      setLike(post, user.username || "", like);
     }
   };
 
