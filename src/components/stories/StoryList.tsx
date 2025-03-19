@@ -22,7 +22,6 @@ const StoryList = () => {
     ...data.following,
     ...data.following,
   ];
-  // const following = undefined;
 
   return (
     <section className="w-full flex justify-center items-center gap-3 py-4 px-5 bg-neutral-50 shadow-sm mb-5 shadow-neutral-300 rounded-lg min-h-[90px] overflow-x-auto relative z-0">
