@@ -5,24 +5,30 @@ import HeartIcon from "@/components/icons/HeartIcon";
 import HeartIconFilled from "@/components/icons/HeartIconFilled";
 import usePosts from "@/hooks/usePosts";
 import { SimplePost } from "@/types/post";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
+import useUser from "@/hooks/useUser";
 
 type Props = {
   post: SimplePost;
 };
 
 const ActionBar = ({ post }: Props) => {
-  const { data: session } = useSession();
-  const user = session?.user;
+  const { setLike } = usePosts();
+  const { user, setBookMarked } = useUser();
 
   const liked = user?.username ? post.likes?.includes(user.username) : false;
-  const [bookmarked, setBookmarked] = useState(false);
-  const { setLike } = usePosts();
+  const bookmarked = user?.bookmarks?.length
+    ? user?.bookmarks?.includes(post.id)
+    : false;
 
   const handleLike = (like: boolean) => {
     if (user) {
       setLike(post, user.username || "", like);
+    }
+  };
+
+  const handleBookMark = (bookmark: boolean) => {
+    if (user) {
+      setBookMarked(post.id, bookmark);
     }
   };
 
@@ -39,7 +45,7 @@ const ActionBar = ({ post }: Props) => {
         offIcon={<BookMarkIcon />}
         onIcon={<BookMarkIconFilled />}
         toggled={bookmarked}
-        onToggle={setBookmarked}
+        onToggle={handleBookMark}
       />
     </div>
   );
