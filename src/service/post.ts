@@ -17,3 +17,23 @@ export const getPostComments = (id: string) => {
       return comments;
     });
 };
+
+export const likePost = async (postId: string, userId: string) => {
+  return await client
+    .patch(postId)
+    .setIfMissing({ likes: [] })
+    .append("likes", [
+      {
+        _ref: userId,
+        _type: "reference",
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+};
+
+export const dislikePost = async (postId: string, userId: string) => {
+  return await client
+    .patch(postId)
+    .unset([`likes[_ref=="${userId}"]`])
+    .commit();
+};
