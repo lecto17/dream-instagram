@@ -38,3 +38,23 @@ export const getUserProfileTabInformation = async (
     getQuery("USER_PROFILE_TAB", `${username}|${type}`)
   );
 };
+
+export const addBookMarkOnPost = async (postId: string, userId: string) => {
+  return await client
+    .patch(userId)
+    .setIfMissing({ bookmarks: [] })
+    .append("bookmarks", [
+      {
+        _ref: postId,
+        _type: "reference",
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+};
+
+export const removeBookMarkOnPost = async (postId: string, userId: string) => {
+  return await client
+    .patch(userId)
+    .unset([`bookmarks[_ref=="${postId}"]`])
+    .commit();
+};
