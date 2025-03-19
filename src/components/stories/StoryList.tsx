@@ -1,27 +1,15 @@
 "use client";
-import useSWR from "swr";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { DetailUser } from "@/types/user";
 import Avatar from "@/components/avatar/Avatar";
 
 import "react-multi-carousel/lib/styles.css";
 import ScrollableBar from "@/components/carousel/ScrollableBar";
 import { LOADING_BAR_COLOR } from "@/constants/color";
+import useUser from "@/hooks/useUser";
 
 const StoryList = () => {
-  const { data, isLoading } = useSWR<DetailUser>("/api/me");
-  const following = data?.following && [
-    ...data.following,
-    ...data.following,
-    ...data.following,
-    ...data.following,
-    ...data.following,
-    ...data.following,
-    ...data.following,
-    ...data.following,
-    ...data.following,
-    ...data.following,
-  ];
+  const { user, isLoading } = useUser();
+  const following = user?.following && [...user.following, ...user.following];
 
   return (
     <section className="w-full flex justify-center items-center gap-3 py-4 px-5 bg-neutral-50 shadow-sm mb-5 shadow-neutral-300 rounded-lg min-h-[90px] overflow-x-auto relative z-0">
