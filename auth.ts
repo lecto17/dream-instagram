@@ -23,15 +23,35 @@ export const { handlers, signIn, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user: { email, name, ...rest } }) {
+      console.log("signin callback payload: ", email, name, rest);
       if (!email) return false;
 
-      await createUser({ id: rest.id || "", email, name: name || "", ...rest });
+      await createUser({
+        id: rest.id || "",
+        email,
+        name: name?.replaceAll(" ", "") || "",
+        ...rest,
+      });
 
       return true;
     },
-    async session({ session, user }) {
-      console.log("session: ", session, user);
+    async session({ session, token }) {
+      const user = session?.user;
+      if (user) {
+        session.user = {
+          ...user,
+          username: user.email?.split("@")[0] || "",
+          id: token.id as string,
+        };
+      }
       return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+
+      return token;
     },
   },
 });
