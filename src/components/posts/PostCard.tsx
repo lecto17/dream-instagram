@@ -20,11 +20,12 @@ const location = "Incheon, Korea";
 const PostCard = ({ post, priority }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
 
-  const handleClickImage = () => {
+  const showPostMal = () => {
     setShowable(true);
   };
 
-  const { id, createdAt, image, likes, text, userImage, username } = post;
+  const { id, createdAt, image, likes, text, userImage, username, comments } =
+    post;
 
   return (
     <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3">
@@ -39,7 +40,7 @@ const PostCard = ({ post, priority }: PostCardProps) => {
         height={565}
         alt={`photo by ${username}`}
         fetchPriority={priority ? "high" : "low"}
-        onClick={handleClickImage}
+        onClick={showPostMal}
       />
       {showable && (
         <ModalPortal>
@@ -68,6 +69,14 @@ const PostCard = ({ post, priority }: PostCardProps) => {
           {text}
         </p>
         <p className="mb-5">{parseDate(createdAt)}</p>
+        {comments && (
+          <span
+            className="font-semibold text-sm text-sky-400 cursor-pointer"
+            onClick={showPostMal}
+          >
+            view all <b>{comments}</b> comments
+          </span>
+        )}
         <CommentForm />
       </div>
     </article>
