@@ -19,8 +19,6 @@ const UserProfileHome = ({ propUserName }: Props) => {
   if (!data || !Object.keys(data).length)
     return <>사용자가 존재하지 않습니다.</>;
 
-  console.log("whte ", data);
-
   const { image, following, followers, username, name, posts } = data;
 
   return (
