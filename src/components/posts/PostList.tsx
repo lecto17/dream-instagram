@@ -1,12 +1,11 @@
 "use client";
-import { SimplePost } from "@/types/post";
-import useSWR from "swr";
 import { LOADING_BAR_COLOR } from "@/constants/color";
 import PostCard from "@/components/posts/PostCard";
 import GridSpinner from "@/components/spinner/GridSpinner";
+import usePosts from "@/hooks/usePosts";
 
 const PostList = () => {
-  const { data: posts, isLoading } = useSWR<SimplePost[]>("/api/posts");
+  const { posts, isLoading } = usePosts();
 
   return (
     <section>
