@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { Comment } from "@/types/post";
 import { useCallback } from "react";
 
@@ -8,6 +8,8 @@ export default function useComment(postId: string) {
     isLoading,
     mutate,
   } = useSWR<Comment[]>(`api/posts/${postId}`);
+
+  const { mutate: globalMutate } = useSWRConfig();
 
   // usePosts의 updatePostLike에는 useCallback을 감싸주지 않음.
   // 해당 함수를 호출할 때마다 새롭게 전달되는 매개변수를 전달하고 이걸 기반으로 api 요청을 하기에 useCallback 필요없음.
@@ -44,9 +46,9 @@ export default function useComment(postId: string) {
         populateCache: false,
         revalidate: false,
         rollbackOnError: true,
-      });
+      }).then(() => globalMutate("/api/posts"));
     },
-    [comments, mutate, updateComment]
+    [comments, mutate, updateComment, globalMutate]
   );
 
   return { comments, isLoading, setComment };
