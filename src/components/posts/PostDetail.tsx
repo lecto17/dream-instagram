@@ -4,10 +4,9 @@ import CommentForm from "@/components/comment/CommentForm";
 import CommentItem from "@/components/comment/CommentItem";
 import PostUserAvatar from "@/components/posts/PostUserAvatar";
 import ActionBar from "@/components/ui/ActionBar";
-import { Comment } from "@/types/post";
+import useComment from "@/hooks/useComment";
 import { parseDate } from "@/utils/utils";
 import { useCallback } from "react";
-import useSWR from "swr";
 
 type PostDetailProps = {
   id: string;
@@ -28,7 +27,7 @@ const PostDetail = ({
   userImage,
   username,
 }: PostDetailProps) => {
-  const { data: comments } = useSWR<Comment[]>(`/api/posts/${id}`);
+  const { comments } = useComment(id);
 
   const suppressEventBubbling = useCallback((e: React.MouseEvent<Element>) => {
     e.stopPropagation();
@@ -92,7 +91,10 @@ const PostDetail = ({
               </p>
               <p className="text-neutral-400">{parseDate(createdAt)}</p>
             </div>
-            <CommentForm formStyle={"border-t border-gray-300 p-3"} />
+            <CommentForm
+              formStyle={"border-t border-gray-300 p-3"}
+              postId={id}
+            />
           </div>
         </div>
       </div>
