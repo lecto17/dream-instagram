@@ -76,7 +76,10 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       if (parsedPayload[1] === "POSTS") {
         query = `*[_type == "post" && author->username == "${parsedPayload[0]}"]{ "id": _id, "image": photo.asset->url }`;
       } else if (parsedPayload[1] === "SAVED") {
-        query = `*[_type == "user" && username == "${parsedPayload[0]}"]{ "id": bookmarks[]->_id, "image": bookmarks[]->photo.asset->url }`;
+        query = `*[_type == "user" && username == "${parsedPayload[0]}"][0].bookmarks[]{
+          "id": @->_id,
+          "image": @->photo.asset->url
+        }`;
       } else {
         query = `*[_type == "post" && likes[]->username match "${parsedPayload[0]}"]{ "id": _id, "image": photo.asset->url}`;
       }
