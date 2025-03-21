@@ -77,7 +77,7 @@ const PostCard = ({ post, priority }: PostCardProps) => {
             view all <b>{comments}</b> comments
           </span>
         )}
-        <CommentForm />
+        <CommentForm postId={post.id} />
       </div>
     </article>
   );
