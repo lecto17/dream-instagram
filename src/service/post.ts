@@ -1,6 +1,6 @@
 import { client, urlFor } from "@/sanity/sanity";
 import { getQuery } from "@/service/fetch";
-import { FullPost, SimplePost } from "@/types/post";
+import { Comment, FullPost, SimplePost } from "@/types/post";
 
 export const getFollowingsPost = (name: string) => {
   return client
@@ -36,4 +36,28 @@ export const dislikePost = async (postId: string, userId: string) => {
     .patch(postId)
     .unset([`likes[_ref=="${userId}"]`])
     .commit();
+};
+
+export const addComment = async (
+  postId: string,
+  userId: string,
+  comment: Comment
+) => {
+  return await client
+    .patch(postId)
+    .setIfMissing({ comments: [] })
+    .append("comments", [
+      {
+        author: { _ref: userId, _type: "reference" },
+        comment: comment.comment,
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+};
+
+export const updateComment = async () => {
+  // return await client
+  //   .patch(postId)
+  //   .unset([`likes[_ref=="${userId}"]`])
+  //   .commit();
 };
