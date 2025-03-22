@@ -9,9 +9,11 @@ import { UserProfile } from "@/types/user";
 import useSWR from "swr";
 
 type Props = {
+  propUserId: string;
   propUserName: string;
 };
 
+const textStyle = "text-center sm:text-left";
 const UserProfileHome = ({ propUserName }: Props) => {
   const { data, isLoading, error } = useSWR<UserProfile>(
     `/api/users/${propUserName}`
@@ -38,17 +40,18 @@ const UserProfileHome = ({ propUserName }: Props) => {
       {error && <Loading />}
 
       <div className="flex flex-col w-full items-center">
-        <section className="flex w-full justify-center items-center py-8 mb-10">
+        <section className="flex flex-col w-full justify-center items-center py-8 mb-10 sm:flex-row">
           <Avatar user={{ username, image }} size="ultra" />
-          <div className="flex flex-col ml-7 space-y-2 mr-2">
-            <h1 className="text-2xl">{username}</h1>
+          <div className="flex flex-col space-y-2 mb-3 sm:m-0 sm:mr-2 sm:ml-7">
+            <h1 className={`text-2xl ${textStyle}`}>{username}</h1>
             <p className="flex space-x-3 text-sm">
               <span className="font-bold">{posts ?? 0}</span> &nbsp;posts
-              <span className="font-bold">{following?.length}</span>{" "}
+              <span className="font-bold">{following ?? 0}</span>{" "}
               &nbsp;following
-              <span className="font-bold">{followers}</span> &nbsp;followers
+              <span className="font-bold">{followers ?? 0}</span>{" "}
+              &nbsp;followers
             </p>
-            <p className="text-2xl font-bold">{name}</p>
+            <p className={`text-2xl font-bold ${textStyle}`}>{name}</p>
           </div>
           {loginUserId !== profileUserId && (
             <FollowButton
