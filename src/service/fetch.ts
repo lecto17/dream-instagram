@@ -66,7 +66,7 @@ export const getQuery = (queryType: QueryType, payload: string) => {
           "name": name,
           "username": username,
           "image": image,
-          "posts": (count(posts))
+          "posts": (count(*[_type == "post" && author->username == "${payload}"]))
       }`;
       break;
     case "USER_PROFILE_TAB":
