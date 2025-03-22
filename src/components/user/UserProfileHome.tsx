@@ -43,7 +43,7 @@ const UserProfileHome = ({ propUserName }: Props) => {
           <div className="flex flex-col ml-7 space-y-2 mr-2">
             <h1 className="text-2xl">{username}</h1>
             <p className="flex space-x-3 text-sm">
-              <span className="font-bold">{posts}</span> &nbsp;posts
+              <span className="font-bold">{posts ?? 0}</span> &nbsp;posts
               <span className="font-bold">{following?.length}</span>{" "}
               &nbsp;following
               <span className="font-bold">{followers}</span> &nbsp;followers
