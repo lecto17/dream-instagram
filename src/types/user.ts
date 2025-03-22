@@ -6,7 +6,9 @@ export type User = {
   image?: string | null;
 };
 
-export type SimpleUser = Pick<User, "username" | "image">;
+export type SimpleUser = Pick<User, "username" | "image"> & {
+  id?: string;
+};
 
 // export interface SimpleUser extends Pick<User, "username" | "image"> {
 //   username: string;
@@ -15,11 +17,12 @@ export type SimpleUser = Pick<User, "username" | "image">;
 
 export type DetailUser = User & {
   following?: SimpleUser[] | [];
-  followers?: SimpleUser | [];
+  followers?: SimpleUser[] | [];
   bookmarks?: string[];
 };
 
 export type SearchUser = {
+  id?: string;
   image: string;
   following: number;
   followers: number;
