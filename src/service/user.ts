@@ -58,3 +58,26 @@ export const removeBookMarkOnPost = async (postId: string, userId: string) => {
     .unset([`bookmarks[_ref=="${postId}"]`])
     .commit();
 };
+
+export const addFollowing = async (userId: string, profileUserId: string) => {
+  return await client
+    .patch(userId)
+    .setIfMissing({ following: [] })
+    .append("following", [
+      {
+        _ref: profileUserId,
+        _type: "reference",
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+};
+
+export const deleteOnFollowing = async (
+  userId: string,
+  profileUserId: string
+) => {
+  return await client
+    .patch(userId)
+    .unset([`following[_ref=="${profileUserId}"]`])
+    .commit();
+};
