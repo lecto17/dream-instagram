@@ -26,12 +26,20 @@ const UserProfileHome = ({ propUserName }: Props) => {
     return <>사용자가 존재하지 않습니다.</>;
 
   // 로그인한 유저의 following
-  const { following, id: loginUserId } = user;
+  const { following: loginUserFollowing, id: loginUserId } = user;
   // Profile user의 정보
-  const { id: profileUserId, image, followers, username, name, posts } = data;
+  const {
+    id: profileUserId,
+    image,
+    following,
+    followers,
+    username,
+    name,
+    posts,
+  } = data;
 
   const isFollow =
-    following?.some(
+    loginUserFollowing?.some(
       ({ id: followingUserId }) => profileUserId === followingUserId
     ) ?? false;
 
