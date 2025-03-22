@@ -61,14 +61,17 @@ export const removeBookMarkOnPost = async (postId: string, userId: string) => {
 
 export const addFollowing = async (userId: string, profileUserId: string) => {
   return await client
-    .patch(userId)
-    .setIfMissing({ following: [] })
-    .append("following", [
-      {
-        _ref: profileUserId,
-        _type: "reference",
-      },
-    ])
+    .transaction()
+    .patch(profileUserId, (user) =>
+      user
+        .setIfMissing({ followers: [] })
+        .append("followers", [{ _ref: userId, _type: "reference" }])
+    )
+    .patch(userId, (user) =>
+      user
+        .setIfMissing({ following: [] })
+        .append("following", [{ _ref: profileUserId, _type: "reference" }])
+    )
     .commit({ autoGenerateArrayKeys: true });
 };
 
@@ -77,7 +80,12 @@ export const deleteOnFollowing = async (
   profileUserId: string
 ) => {
   return await client
-    .patch(userId)
-    .unset([`following[_ref=="${profileUserId}"]`])
-    .commit();
+    .transaction()
+    .patch(profileUserId, (user) =>
+      user.unset([`followers[_ref=="${userId}"]`])
+    )
+    .patch(userId, (user) =>
+      user.unset([`following[_ref=="${profileUserId}"]`])
+    )
+    .commit({ autoGenerateArrayKeys: true });
 };
