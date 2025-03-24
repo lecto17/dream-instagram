@@ -22,11 +22,13 @@ const UserProfileHome = ({ propUserName }: Props) => {
   const { user } = useUser();
 
   if (isLoading) return <>{isLoading && <Loading />}</>;
-  if (!data || !Object.keys(data).length || !user || !Object.keys(user).length)
+  if (!data || !Object.keys(data).length)
     return <>사용자가 존재하지 않습니다.</>;
 
   // 로그인한 유저의 following
-  const { following: loginUserFollowing, id: loginUserId } = user;
+  const loginUserFollowing = user?.following ?? [];
+  const loginUserId = user?.id ?? "";
+
   // Profile user의 정보
   const {
     id: profileUserId,
