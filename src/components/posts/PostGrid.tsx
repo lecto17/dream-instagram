@@ -13,9 +13,10 @@ const PostGrid = ({ username, tab }: Props) => {
     `/api/users/${username}/${tab}`
   );
 
+  if (isLoading) return <Loading />;
+
   return (
     <section className="flex flex-col">
-      {isLoading && <Loading />}
       <ul className="w-full mx-auto grid gap-2 grid-cols-3">
         {posts?.map((post) => <PostGridCard key={post.id} post={post} />)}
       </ul>
