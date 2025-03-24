@@ -34,9 +34,12 @@ export const getUserProfileTabInformation = async (
   username: string,
   type: string
 ) => {
-  return await client.fetch(
-    getQuery("USER_PROFILE_TAB", `${username}|${type}`)
-  );
+  return await client
+    .fetch(getQuery("USER_PROFILE_TAB", `${username}|${type}`))
+    .then((res) => {
+      if (res?.length && !res[0]) return [];
+      return res;
+    });
 };
 
 export const addBookMarkOnPost = async (postId: string, userId: string) => {
