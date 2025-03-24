@@ -7,7 +7,9 @@ interface Props {
 }
 
 const AuthContext = ({ children }: Props) => {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider refetchOnWindowFocus={false}>{children}</SessionProvider>
+  );
 };
 
 export default AuthContext;
