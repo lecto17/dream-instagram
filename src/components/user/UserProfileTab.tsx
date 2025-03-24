@@ -43,7 +43,6 @@ const UserProfileTab = ({ propUserName }: Props) => {
   const handleLClickPost = () => {
     if (!session?.user) {
       redirect("/auth/login");
-      return;
     }
     setShowable(true);
   };
