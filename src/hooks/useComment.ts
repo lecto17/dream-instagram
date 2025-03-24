@@ -7,7 +7,7 @@ export default function useComment(postId: string) {
     data: comments,
     isLoading,
     mutate,
-  } = useSWR<Comment[]>(`api/posts/${postId}`);
+  } = useSWR<Comment[]>(`/api/posts/${postId}`);
 
   const { mutate: globalMutate } = useSWRConfig();
 
@@ -17,7 +17,7 @@ export default function useComment(postId: string) {
   // 이 변수가 바뀌지 않는다면 함수는 그대로 사용해도 괜찮음. 그렇기에 useCallback 감아줌.
   const updateComment = useCallback(
     async (comment: Comment) => {
-      return fetch(`/api/posts/${postId}`, {
+      return await fetch(`/api/posts/${postId}`, {
         method: "PUT",
         body: JSON.stringify({ postId, comment }),
       }).then((res) => res.json());
