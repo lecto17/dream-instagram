@@ -83,7 +83,12 @@ export const getQuery = (queryType: QueryType, payload: string) => {
         }`;
       } else if (parsedPayload[1] === "SAVED") {
         query = `*[_type == "user" && username == "${parsedPayload[0]}"][0].bookmarks[]{
-          ${simplePostProjection},
+          "username": @->author->username,
+          "userImage": @->author->image,
+          "likes": @->likes[]->username,
+          "text": @->contents,
+          "comments": count(@->comments),
+          "createdAt": @->_createdAt,
           "id": @->_id,
           "image": @->photo.asset->url
         }`;
