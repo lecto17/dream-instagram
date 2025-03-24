@@ -11,6 +11,17 @@ type QueryType =
 
 export const getQuery = (queryType: QueryType, payload: string) => {
   let query = "";
+  const simplePostProjection = `
+    ...,
+    "username": author->username,
+    "userImage": author->image,
+    "image": photo.asset->url,
+    "likes": likes[]->username,
+    "text": contents,
+    "comments": count(comments),
+    "id": _id,
+    "createdAt": _createdAt
+  `;
 
   switch (queryType) {
     case "FOLLOWINGS":
@@ -23,17 +34,6 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       }`;
       break;
     case "FOLLOWINGS_POSTS":
-      const simplePostProjection = `
-        ...,
-        "username": author->username,
-        "userImage": author->image,
-        "image": photo.asset->url,
-        "likes": likes[]->username,
-        "text": contents,
-        "comments": count(comments),
-        "id": _id,
-        "createdAt": _createdAt
-      `;
       query = `*[_type == "post" && author->username == "${payload}"
         || author._ref in *[_type == "user" && username == "${payload}"].following[]._ref] 
         | order(_createdAt desc){${simplePostProjection}}`;
@@ -75,14 +75,19 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       // bookmark: user 내에서 북마크
       // likes: 모든 posts 중 likes 내에 자기가 있는 post
       if (parsedPayload[1] === "POSTS") {
-        query = `*[_type == "post" && author->username == "${parsedPayload[0]}"]{ "id": _id, "image": photo.asset->url }`;
+        query = `*[_type == "post" && author->username == "${parsedPayload[0]}"]{ 
+          ${simplePostProjection}
+        }`;
       } else if (parsedPayload[1] === "SAVED") {
         query = `*[_type == "user" && username == "${parsedPayload[0]}"][0].bookmarks[]{
+          ${simplePostProjection},
           "id": @->_id,
           "image": @->photo.asset->url
         }`;
       } else {
-        query = `*[_type == "post" && likes[]->username match "${parsedPayload[0]}"]{ "id": _id, "image": photo.asset->url}`;
+        query = `*[_type == "post" && likes[]->username match "${parsedPayload[0]}"]{
+          ${simplePostProjection}
+        }`;
       }
       break;
     default:
