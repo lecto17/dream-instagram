@@ -10,10 +10,10 @@ const SWRConfigContext = ({ children }: Props) => {
   return (
     <SWRConfig
       value={{
-        refreshInterval: 3000,
         fetcher: async (query: string) =>
           await fetch(query).then((res) => res.json()),
         // (resource, init) => fetch(resource, init).then((res) => res.json()),
+        revalidateOnFocus: false, // SWR의 기본 설정은 탭을 이동했다 돌아오면 자동으로 다시 요청
       }}
     >
       {children}
