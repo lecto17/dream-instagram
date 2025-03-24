@@ -40,8 +40,11 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       break;
     case "POST_DETAIL":
       query = `*[_type == "post" && _id == "${payload}"].comments[]{
-          "image": author->image,
-          "username": author->username,
+          "user": {
+            "id": _id,
+            "image": author->image,
+            "username": author->username,
+          },
           "comment": comment
       }`;
       break;
