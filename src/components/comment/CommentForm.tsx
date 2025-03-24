@@ -1,4 +1,5 @@
 import useComment from "@/hooks/useComment";
+import { useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 
 type CommentFormProps = {
@@ -9,6 +10,8 @@ type CommentFormProps = {
 const CommentForm = ({ postId, formStyle }: CommentFormProps) => {
   const [value, setValue] = useState("");
   const { setComment } = useComment(postId);
+  const { data } = useSession();
+  const user = data?.user;
 
   const handleChangeValue = useCallback((e: React.ChangeEvent) => {
     const comment = (e.target as HTMLInputElement).value;
@@ -17,7 +20,10 @@ const CommentForm = ({ postId, formStyle }: CommentFormProps) => {
 
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
-    setComment({ comment: value, username: "" });
+    setComment({
+      comment: value,
+      user: { username: user?.username || "", image: user?.image },
+    });
     setValue("");
   };
 

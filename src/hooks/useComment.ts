@@ -37,7 +37,13 @@ export default function useComment(postId: string) {
       } else {
         newComments = [
           ...(comments?.length ? comments : []),
-          { ...comment, id: "" },
+          {
+            ...comment,
+            user: {
+              image: comment.user.image,
+              username: comment.user.username,
+            },
+          },
         ];
       }
 
