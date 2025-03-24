@@ -77,12 +77,12 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       // 작성 posts: 모든 post 중 author 자기자신
       // bookmark: user 내에서 북마크
       // likes: 모든 posts 중 likes 내에 자기가 있는 post
-      if (parsedPayload[1] === "POSTS") {
+      if (parsedPayload[1] === "posts") {
         query = `*[_type == "post" && author->username == "${parsedPayload[0]}"]{ 
           ${simplePostProjection}
         }`;
-      } else if (parsedPayload[1] === "SAVED") {
-        query = `*[_type == "user" && username == "${parsedPayload[0]}"][0].bookmarks[]{
+      } else if (parsedPayload[1] === "saved") {
+        query = `*[_type == "user" && username == "${parsedPayload[0]}"].bookmarks[]{
           "username": @->author->username,
           "userImage": @->author->image,
           "likes": @->likes[]->username,
