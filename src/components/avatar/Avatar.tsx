@@ -3,6 +3,7 @@
 import InstagramBorder from "@/components/border/InstagramBorder";
 import { SimpleUser, User } from "@/types/user";
 import Link from "next/link";
+import { memo } from "react";
 
 export type AvatarSize = "xs" | "small" | "middle" | "big" | "ultra";
 
@@ -12,7 +13,11 @@ interface AvatarProps {
   size?: AvatarSize;
 }
 
-const Avatar = ({ user, border = true, size }: AvatarProps) => {
+const Avatar = memo(function Avatar({
+  user,
+  border = true,
+  size,
+}: AvatarProps) {
   const getImageSizeStyle = (size: AvatarSize) => {
     switch (size) {
       case "xs":
@@ -62,6 +67,6 @@ const Avatar = ({ user, border = true, size }: AvatarProps) => {
       )}
     </Link>
   );
-};
+});
 
 export default Avatar;
