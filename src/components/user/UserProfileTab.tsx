@@ -1,5 +1,6 @@
 "use client";
 import PostGrid from "@/components/posts/PostGrid";
+import CacheKeyContext from "@/context/CacheKeyContext";
 import { useState } from "react";
 
 type Props = {
@@ -33,7 +34,11 @@ const UserProfileTab = ({ propUserName }: Props) => {
           </li>
         ))}
       </ul>
-      <PostGrid username={propUserName} tab={activeMenu} />
+      <CacheKeyContext.Provider
+        value={{ postsKey: `/api/users/${propUserName}/${activeMenu}` }}
+      >
+        <PostGrid />
+      </CacheKeyContext.Provider>
     </section>
   );
 };

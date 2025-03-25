@@ -61,3 +61,38 @@ export const updateComment = async () => {
   //   .unset([`likes[_ref=="${userId}"]`])
   //   .commit();
 };
+
+export const addPost = async (contents: string, file: File, userId: string) => {
+  try {
+    const uploadedFile = await client.assets.upload("image", file, {
+      filename: file.name,
+    });
+
+    return await client
+      .create({
+        _type: "post",
+        // title: title,
+        author: {
+          _ref: userId,
+          _type: "reference",
+        },
+        photo: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: uploadedFile._id,
+          },
+        },
+        contents,
+      })
+      .then((res) => {
+        console.log("create post success");
+        return res;
+      })
+      .catch((err) => {
+        console.error("During createPost: ", err);
+      });
+  } catch (e) {
+    console.error("During addPost: ", e);
+  }
+};
