@@ -12,7 +12,7 @@ const NewPost = () => {
   const user = data?.user;
 
   const [text, setText] = useState<string>("");
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | undefined>();
 
   if (!user) redirect("/auth/login");
 
@@ -22,7 +22,7 @@ const NewPost = () => {
         <Avatar user={user} />
         <span className="ml-3">{user.username}</span>
       </div>
-      <FileUpload onChange={setFile} />
+      <FileUpload file={file} onChange={setFile} />
       <textarea
         className="w-full border px-4 py-2 my-5 min-h-32 outline-none text-sm resize-none"
         value={text}
