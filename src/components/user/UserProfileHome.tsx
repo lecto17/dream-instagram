@@ -45,10 +45,10 @@ const UserProfileHome = ({ propUserName }: Props) => {
       ({ id: followingUserId }) => profileUserId === followingUserId
     ) ?? false;
 
+  if (error || isLoading) return <Loading />;
+
   return (
     <>
-      {error && <Loading />}
-
       <div className="flex flex-col w-full items-center">
         <section className="flex flex-col w-full justify-center items-center py-8 mb-10 sm:flex-row">
           <Avatar user={{ username, image }} size="ultra" />
