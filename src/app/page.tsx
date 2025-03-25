@@ -13,12 +13,12 @@ export default async function HomePage() {
   }
 
   return (
-    <section className="w-full flex flex-col md:flex-row p-5 max-w-[850px]">
+    <section className="w-full flex flex-col sm:flex-row p-5 max-w-[850px]">
       <div className="w-full basis-3/4 min-w-0">
         <StoryList />
         <PostList />
       </div>
-      <div className="basis-1/4 ml:8">
+      <div className="hidden sm:block basis-1/4 ml:8">
         <AvatarLocalNav user={user} />
       </div>
     </section>
