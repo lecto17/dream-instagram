@@ -1,5 +1,11 @@
+import NewPost from "@/components/posts/NewPost";
+
 const page = () => {
-  return <div>New Page</div>;
+  return (
+    <section className="w-full max-w-[850px]">
+      <NewPost />
+    </section>
+  );
 };
 
 export default page;
