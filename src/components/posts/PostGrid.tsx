@@ -1,17 +1,9 @@
 import Loading from "@/components/loading/Loading";
 import PostGridCard from "@/components/posts/PostGridCard";
-import { SimplePost } from "@/types/post";
-import useSWR from "swr";
+import usePosts from "@/hooks/usePosts";
 
-type Props = {
-  username: string;
-  tab: "posts" | "saved" | "liked";
-};
-
-const PostGrid = ({ username, tab }: Props) => {
-  const { data: posts, isLoading } = useSWR<SimplePost[]>(
-    `/api/users/${username}/${tab}`
-  );
+const PostGrid = () => {
+  const { posts, isLoading } = usePosts();
 
   if (isLoading) return <Loading />;
 
