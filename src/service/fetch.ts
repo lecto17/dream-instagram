@@ -78,23 +78,26 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       // bookmark: user 내에서 북마크
       // likes: 모든 posts 중 likes 내에 자기가 있는 post
       if (parsedPayload[1] === "posts") {
-        query = `*[_type == "post" && author->username == "${parsedPayload[0]}"]{ 
-          ${simplePostProjection}
+        query = `*[_type == "post" && author->username == "${parsedPayload[0]}"]
+          | order(_createdAt desc) { 
+            ${simplePostProjection}
         }`;
       } else if (parsedPayload[1] === "saved") {
-        query = `*[_type == "user" && username == "${parsedPayload[0]}"].bookmarks[]{
-          "username": @->author->username,
-          "userImage": @->author->image,
-          "likes": @->likes[]->username,
-          "text": @->contents,
-          "comments": count(@->comments),
-          "createdAt": @->_createdAt,
-          "id": @->_id,
-          "image": @->photo.asset->url
+        query = `*[_type == "user" && username == "${parsedPayload[0]}"].bookmarks[]
+          | order(_createdAt desc) { 
+            "username": @->author->username,
+            "userImage": @->author->image,
+            "likes": @->likes[]->username,
+            "text": @->contents,
+            "comments": count(@->comments),
+            "createdAt": @->_createdAt,
+            "id": @->_id,
+            "image": @->photo.asset->url
         }`;
       } else {
-        query = `*[_type == "post" && likes[]->username match "${parsedPayload[0]}"]{
-          ${simplePostProjection}
+        query = `*[_type == "post" && likes[]->username match "${parsedPayload[0]}"]
+          | order(_createdAt desc) { 
+            ${simplePostProjection}
         }`;
       }
       break;
