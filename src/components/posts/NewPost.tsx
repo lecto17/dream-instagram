@@ -7,13 +7,14 @@ import Loading from "@/components/loading/Loading";
 import usePosts from "@/hooks/usePosts";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const NewPost = () => {
   const { data } = useSession();
   const user = data?.user;
   const router = useRouter();
 
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [file, setFile] = useState<File | undefined>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
@@ -57,6 +58,7 @@ const NewPost = () => {
       <textarea
         className="w-full border px-4 py-2 my-5 min-h-32 outline-none text-sm resize-none"
         placeholder="write a message..."
+        ref={textAreaRef}
       />
       <PublishButton onClick={handleClickPublish} />
     </div>
