@@ -1,14 +1,19 @@
+import { useCacheKeyContext } from "@/context/CacheKeyContext";
 import { SimplePost } from "@/types/post";
 import { useCallback } from "react";
 import useSWR from "swr";
 
 export default function usePosts() {
+  const { postsKey } = useCacheKeyContext();
+
   const {
     data: posts,
     isLoading,
     error,
     mutate,
-  } = useSWR<SimplePost[]>("/api/posts");
+  } = useSWR<SimplePost[]>(postsKey);
+
+  // const { mutate: globalMutate } = useSWRConfig();
 
   const updatePostLike = async (id: string, like: boolean) => {
     return await fetch("/api/likes", {
@@ -38,9 +43,28 @@ export default function usePosts() {
         revalidate: false, // default: 첫번째 인자 실행이 완료되면 다시금 data를 call하는데, 필요없기에 false
         rollbackOnError: true, // network 와 같은 에러 상황이 발생할 경우, UI rollback.(=true일 경우)
       });
+      // .then(() => {
+      //   console.log("global mutate");
+      //   return globalMutate(`/api/users/${post.username}/${tab}`, null, {
+      //     revalidate: true,
+      //   });
+      // });
     },
     [posts, mutate]
   );
 
-  return { posts, isLoading, error, setLike };
+  const addPost = async (text: string, file?: File) => {
+    const formData = new FormData();
+    formData.append("text", text);
+    if (file) formData.append("file", file);
+
+    await fetch("/api/post", {
+      method: "POST",
+      body: formData,
+    })
+      .then(() => mutate(undefined, { revalidate: true }))
+      .catch((err) => new Error(err));
+  };
+
+  return { posts, isLoading, error, setLike, addPost };
 }
