@@ -1,6 +1,7 @@
 "use client";
 
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
+import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
@@ -12,7 +13,7 @@ type Props = {
 const FileUpload = ({ file, onChange }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dragRef = useRef<HTMLElement>(null);
-  const [uploaded, setUploaded] = useState<string>();
+  const [uploaded, setUploaded] = useState<File>();
   const isDragging = useDragAndDrop({
     onChange: (e: DragEvent) => handleDrag(e),
     dragRef,
@@ -20,7 +21,7 @@ const FileUpload = ({ file, onChange }: Props) => {
 
   const setFileAndPreview = (file: File) => {
     onChange(file);
-    setUploaded(URL.createObjectURL(file));
+    setUploaded(file);
   };
 
   const handleDrag = (e: DragEvent) => {
@@ -70,17 +71,18 @@ const FileUpload = ({ file, onChange }: Props) => {
       </div>
       {file && (
         <div className="absolute inset-0 flex justify-center bg-white w-full">
-          <div className="relative">
+          <div className="relative w-full">
             <button
-              className="absolute top-5 right-5 w-fit h-fit hover:scale-110 hover:font-semibold transition"
+              className="absolute z-10 top-5 right-5 w-fit h-fit hover:scale-110 hover:font-semibold transition"
               onClick={handleClickClose}
             >
               X
             </button>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={uploaded}
+            <Image
+              src={URL.createObjectURL(uploaded!)}
               alt="uploaded image"
+              fill
+              sizes="650px"
               className="w-full h-full object-contain"
             />
           </div>
