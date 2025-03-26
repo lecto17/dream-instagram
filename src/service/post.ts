@@ -84,6 +84,7 @@ export const addPost = async (contents: string, file: File, userId: string) => {
           },
         },
         contents,
+        likes: [],
       })
       .then((res) => {
         console.log("create post success");
