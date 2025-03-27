@@ -9,6 +9,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   const user = await validateSession();
+  if (!user) return new Response("UnAthenticated Error");
+
   const data = await getFollowingsByUserName(getNameByEmail(user.email));
 
   return new Response(JSON.stringify(data), { status: 200 });

@@ -1,13 +1,13 @@
 import { User } from "@/types/user";
 import { auth } from "/auth";
 
-export const validateSession = async (): Promise<User> => {
+export const validateSession = async (): Promise<User | undefined> => {
   "use server";
   const session = await auth();
   const user = session?.user;
 
   if (!user) {
-    throw new Error("[Error] UnAuthorized");
+    return;
   }
 
   return user;
