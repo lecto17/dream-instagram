@@ -3,17 +3,22 @@ import { signIn, providerMap } from "/auth";
 import { AuthError } from "next-auth";
 import InstagramBorder from "@/components/border/InstagramBorder";
 
+type Props = Promise<{
+  searchParams: { callbackUrl: string | undefined };
+}>;
+
 export default async function SignInPage({
   searchParams,
 }: {
-  searchParams: { callbackUrl: string | undefined };
+  searchParams: Props;
 }) {
   // Dynamic APIs are
   // The `params` and `searchParams` props that get provided to pages, layouts, metadata APIs, and route handlers.
   // next15 부터에서는 위 params나 searchParams를 사용하려면 await를 사용해야한다.
   // https://nextjs.org/docs/messages/sync-dynamic-apis
 
-  const { callbackUrl } = await searchParams;
+  const params = await searchParams;
+  const callbackUrl = params?.searchParams?.callbackUrl || "";
 
   return (
     <section className="mt-[25%] flex justify-center">
