@@ -9,7 +9,6 @@ import { UserProfile } from "@/types/user";
 import useSWR from "swr";
 
 type Props = {
-  propUserId: string;
   propUserName: string;
 };
 
