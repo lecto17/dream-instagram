@@ -3,7 +3,7 @@ import NewPost from "@/components/posts/NewPost";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-export const metaData: Metadata = {
+export const metadata: Metadata = {
   title: "New Post",
   description: "Create a new post",
 };
