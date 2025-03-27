@@ -5,7 +5,7 @@ import GridSpinner from "@/components/spinner/GridSpinner";
 import usePosts from "@/hooks/usePosts";
 
 const PostList = () => {
-  const { posts, isLoading } = usePosts();
+  const { posts, isLoading, addComment } = usePosts();
 
   return (
     <section>
@@ -17,7 +17,12 @@ const PostList = () => {
         )}
         {posts?.length &&
           posts.map((post, idx) => (
-            <PostCard key={post.id} post={post} priority={idx < 2} />
+            <PostCard
+              key={post.id}
+              post={post}
+              priority={idx < 2}
+              addComment={addComment}
+            />
           ))}
       </ul>
     </section>

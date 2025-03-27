@@ -1,26 +1,28 @@
 "use client";
 
+import CommentCount from "@/components/comment/CommentCount";
 import CommentForm from "@/components/comment/CommentForm";
 import PostModal from "@/components/modal/PostModal";
 import ModalPortal from "@/components/portal/ModalPortal";
 import PostDetail from "@/components/posts/PostDetail";
 import PostUserAvatar from "@/components/posts/PostUserAvatar";
 import ActionBar from "@/components/ui/ActionBar";
-import { SimplePost } from "@/types/post";
+import { Comment, SimplePost } from "@/types/post";
 import { parseDate } from "@/utils/utils";
 import { useState } from "react";
 
 interface PostCardProps {
   post: SimplePost;
   priority?: boolean;
+  addComment: (comment: Comment, postId: string) => void;
 }
 
 const location = "Incheon, Korea";
 
-const PostCard = ({ post, priority }: PostCardProps) => {
+const PostCard = ({ post, priority, addComment }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
 
-  const showPostMal = () => {
+  const showPostModal = () => {
     setShowable(true);
   };
 
@@ -30,7 +32,10 @@ const PostCard = ({ post, priority }: PostCardProps) => {
   return (
     <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3">
       <div className="flex w-fit items-center mb-3">
-        <PostUserAvatar user={{ username, image }} location={location} />
+        <PostUserAvatar
+          user={{ username, image: userImage }}
+          location={location}
+        />
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -40,7 +45,7 @@ const PostCard = ({ post, priority }: PostCardProps) => {
         height={565}
         alt={`photo by ${username}`}
         fetchPriority={priority ? "high" : "low"}
-        onClick={showPostMal}
+        onClick={showPostModal}
       />
       {showable && (
         <ModalPortal>
@@ -69,15 +74,8 @@ const PostCard = ({ post, priority }: PostCardProps) => {
           {text}
         </p>
         <p className="mb-5">{parseDate(createdAt)}</p>
-        {comments && (
-          <span
-            className="font-semibold text-sm text-sky-400 cursor-pointer"
-            onClick={showPostMal}
-          >
-            view all <b>{comments}</b> comments
-          </span>
-        )}
-        <CommentForm postId={post.id} />
+        <CommentCount comments={comments} onClick={showPostModal} />
+        <CommentForm postId={post.id} onSubmit={addComment} />
       </div>
     </article>
   );
