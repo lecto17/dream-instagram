@@ -6,17 +6,10 @@ import "react-multi-carousel/lib/styles.css";
 import ScrollableBar from "@/components/carousel/ScrollableBar";
 import { LOADING_BAR_COLOR } from "@/constants/color";
 import useUser from "@/hooks/useUser";
-import { useRouter } from "next/navigation";
 
 const StoryList = () => {
   const { user, isLoading } = useUser();
   const following = user?.following && [...user.following, ...user.following];
-  const router = useRouter();
-
-  if (!user) {
-    router.replace("/auth/login");
-    return;
-  }
 
   return (
     <section className="w-full flex justify-center items-center gap-3 py-4 px-5 bg-neutral-50 shadow-sm mb-5 shadow-neutral-300 rounded-lg min-h-[90px] overflow-x-auto relative z-0">
