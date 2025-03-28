@@ -27,7 +27,7 @@ const PostDetail = ({
   userImage,
   username,
 }: PostDetailProps) => {
-  const { comments } = useComment(id);
+  const { comments, setComment } = useComment(id);
 
   const suppressEventBubbling = useCallback((e: React.MouseEvent<Element>) => {
     e.stopPropagation();
@@ -94,6 +94,7 @@ const PostDetail = ({
             <CommentForm
               formStyle={"border-t border-gray-300 p-3"}
               postId={id}
+              onSubmit={setComment}
             />
           </div>
         </div>
