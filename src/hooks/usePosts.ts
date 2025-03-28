@@ -76,7 +76,7 @@ export default function usePosts() {
     []
   );
 
-  const addComment = useCallback(
+  const addCommentOnPost = useCallback(
     async (comment: Comment, postId: string) => {
       let newPosts;
       if (comment?.id) {
@@ -106,5 +106,5 @@ export default function usePosts() {
     [posts, mutate, upsertCommentOnPost]
   );
 
-  return { posts, isLoading, error, setLike, addPost, addComment };
+  return { posts, isLoading, error, setLike, addPost, addCommentOnPost };
 }

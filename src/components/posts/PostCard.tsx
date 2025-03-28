@@ -14,12 +14,12 @@ import { useState } from "react";
 interface PostCardProps {
   post: SimplePost;
   priority?: boolean;
-  addComment: (comment: Comment, postId: string) => void;
+  addCommentOnPost: (comment: Comment, postId: string) => void;
 }
 
 const location = "Incheon, Korea";
 
-const PostCard = ({ post, priority, addComment }: PostCardProps) => {
+const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
 
   const showPostModal = () => {
@@ -75,7 +75,7 @@ const PostCard = ({ post, priority, addComment }: PostCardProps) => {
         </p>
         <p className="mb-5">{parseDate(createdAt)}</p>
         <CommentCount comments={comments} onClick={showPostModal} />
-        <CommentForm postId={post.id} onSubmit={addComment} />
+        <CommentForm postId={post.id} onSubmit={addCommentOnPost} />
       </div>
     </article>
   );
