@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import React, { ReactElement, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import React, { ReactElement } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { AiFillHome } from "react-icons/ai";
 import { BsPlusSquare } from "react-icons/bs";
@@ -42,7 +42,6 @@ const GlobalNav = () => {
   const pathName = usePathname();
   const { data: session } = useSession();
   const user = session?.user;
-  const router = useRouter();
 
   const handleClickIsLogined = () => {
     if (user) {
@@ -79,12 +78,12 @@ const GlobalNav = () => {
     );
   };
 
-  useEffect(() => {
-    if (!user) {
-      router.replace("/auth/login");
-      return;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.replace("/auth/login");
+  //     return;
+  //   }
+  // }, []);
 
   return (
     <section className="sticky top-0 z-10 flex justify-between items-center py-3 px-2 md:px-6 border-b shadow-sm bg-white">
