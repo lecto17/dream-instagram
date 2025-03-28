@@ -4,6 +4,7 @@ import { getFollowingsPost } from "@/service/post";
 
 export async function GET() {
   const user = await validateSession();
+  if (!user) return new Response("not loggined", { status: 403 });
   const data = await getFollowingsPost(getNameByEmail(user.email));
   return new Response(JSON.stringify(data), { status: 200 });
 }
