@@ -66,12 +66,15 @@ export default function usePosts() {
       .catch((err) => new Error(err));
   };
 
-  const addCommentOnPost = useCallback((postId: string, comment: Comment) => {
-    return fetch(`/api/posts/${postId}`, {
-      method: "POST",
-      body: JSON.stringify({ postId, comment }),
-    }).then((res) => res.json());
-  }, []);
+  const upsertCommentOnPost = useCallback(
+    (postId: string, comment: Comment) => {
+      return fetch(`/api/posts/${postId}`, {
+        method: "PUT",
+        body: JSON.stringify({ postId, comment }),
+      }).then((res) => res.json());
+    },
+    []
+  );
 
   const addComment = useCallback(
     async (comment: Comment, postId: string) => {
@@ -93,14 +96,14 @@ export default function usePosts() {
         });
       }
 
-      mutate(addCommentOnPost(postId, comment), {
+      mutate(upsertCommentOnPost(postId, comment), {
         optimisticData: newPosts,
         populateCache: false,
         revalidate: false,
         rollbackOnError: true,
       });
     },
-    [posts, mutate, addCommentOnPost]
+    [posts, mutate, upsertCommentOnPost]
   );
 
   return { posts, isLoading, error, setLike, addPost, addComment };
