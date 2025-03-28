@@ -15,7 +15,7 @@ const PostList = () => {
             <GridSpinner color={LOADING_BAR_COLOR} />
           </div>
         )}
-        {posts?.length &&
+        {!!posts?.length ? (
           posts.map((post, idx) => (
             <PostCard
               key={post.id}
@@ -23,7 +23,10 @@ const PostList = () => {
               priority={idx < 2}
               addCommentOnPost={addCommentOnPost}
             />
-          ))}
+          ))
+        ) : (
+          <></>
+        )}
       </ul>
     </section>
   );
