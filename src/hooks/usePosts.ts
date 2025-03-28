@@ -1,5 +1,5 @@
 import { useCacheKeyContext } from "@/context/CacheKeyContext";
-import { SimplePost } from "@/types/post";
+import { Comment, SimplePost } from "@/types/post";
 import { useCallback } from "react";
 import useSWR from "swr";
 
@@ -27,7 +27,7 @@ export default function usePosts() {
       const newPost = {
         ...post,
         likes: like
-          ? post.likes.length
+          ? post.likes?.length
             ? [...post.likes, username]
             : [username]
           : post.likes.filter((uname) => uname !== username),
@@ -66,5 +66,42 @@ export default function usePosts() {
       .catch((err) => new Error(err));
   };
 
-  return { posts, isLoading, error, setLike, addPost };
+  const addCommentOnPost = useCallback((postId: string, comment: Comment) => {
+    return fetch(`/api/posts/${postId}`, {
+      method: "POST",
+      body: JSON.stringify({ postId, comment }),
+    }).then((res) => res.json());
+  }, []);
+
+  const addComment = useCallback(
+    async (comment: Comment, postId: string) => {
+      let newPosts;
+      if (comment?.id) {
+        // newPosts = comments?.map(({ id, ...rest }) =>
+        //   id === comment.id
+        //     ? { id, ...rest, comment: comment.comment }
+        //     : { id, ...rest }
+        // );
+      } else {
+        newPosts = posts?.map((el) => {
+          if (postId === el.id) {
+            return {
+              ...el,
+              comments: el.comments + 1,
+            };
+          } else return el;
+        });
+      }
+
+      mutate(addCommentOnPost(postId, comment), {
+        optimisticData: newPosts,
+        populateCache: false,
+        revalidate: false,
+        rollbackOnError: true,
+      });
+    },
+    [posts, mutate, addCommentOnPost]
+  );
+
+  return { posts, isLoading, error, setLike, addPost, addComment };
 }
