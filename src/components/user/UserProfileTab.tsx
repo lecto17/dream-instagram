@@ -4,12 +4,12 @@ import CacheKeyContext from "@/context/CacheKeyContext";
 import { useState } from "react";
 
 type Props = {
-  propUserName: string;
+  username: string;
 };
 
 const ProfileMenus = ["posts", "saved", "liked"] as const;
 
-const UserProfileTab = ({ propUserName }: Props) => {
+const UserProfileTab = ({ username }: Props) => {
   const [activeMenu, setActiveMenu] = useState<(typeof ProfileMenus)[number]>(
     ProfileMenus[0]
   );
@@ -35,7 +35,7 @@ const UserProfileTab = ({ propUserName }: Props) => {
         ))}
       </ul>
       <CacheKeyContext.Provider
-        value={{ postsKey: `/api/users/${propUserName}/${activeMenu}` }}
+        value={{ postsKey: `/api/users/${username}/${activeMenu}` }}
       >
         <PostGrid />
       </CacheKeyContext.Provider>

@@ -36,28 +36,27 @@ export default function useUser() {
     profileUserId: string,
     addOnFollowing: boolean
   ) => {
-    return await fetch("/api/me/following", {
+    return fetch("/api/me/following", {
       method: "PUT",
       body: JSON.stringify({ profileUserId, addOnFollowing }),
     }).then((res) => res.json());
   };
 
-  const setFollowing = (
-    profileUserId: string,
-    profileUserName: string,
-    addOnFollowing: boolean
-  ) => {
-    const newFollowings = addOnFollowing
-      ? [...(user?.following || [])]
-      : (user?.following?.filter(({ id }) => id !== profileUserId) ?? []);
-
-    mutate(updateFollowing(profileUserId, addOnFollowing), {
-      optimisticData: { ...user!, following: newFollowings },
-      populateCache: false,
-      revalidate: false,
-      rollbackOnError: true,
-    }).then(() => globalMutate(`/api/users/${profileUserName}`));
-  };
+  const setFollowing = useCallback(
+    async (
+      profileUserName: string,
+      profileUserId: string,
+      addOnFollowing: boolean
+    ) => {
+      await updateFollowing(profileUserId, addOnFollowing).then(async () => {
+        await Promise.all([
+          mutate(),
+          globalMutate(`/api/users/${profileUserName}`),
+        ]);
+      });
+    },
+    [mutate, globalMutate]
+  );
 
   return { user, isLoading, setBookMarked, setFollowing };
 }
