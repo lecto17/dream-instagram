@@ -25,12 +25,12 @@ export const getQuery = (queryType: QueryType, payload: string) => {
 
   switch (queryType) {
     case "FOLLOWINGS":
-      query = `*[_type == "user" && username == '${payload}'][0]{
+      query = `*[_type == "user" && username == $name][0]{
         ...,
         "id": _id,
         following[]-> {"id": _id, username,image},
         followers[]-> {username,image},
-        "bookmarks":bookmarks[]->id
+        "bookmarks": bookmarks[]->_id
       }`;
       break;
     case "FOLLOWINGS_POSTS":
@@ -62,14 +62,14 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       break;
     case "USER_ALL_INFO":
       query = `
-        *[_type == "user" && username == "${payload}"][0]{
+        *[_type == "user" && username == $username][0]{
           "id": _id,
           "following": count(following),
           "followers": count(followers),
           "name": name,
           "username": username,
           "image": image,
-          "posts": (count(*[_type == "post" && author->username == "${payload}"]))
+          "posts": (count(*[_type == "post" && author->username == $username]))
       }`;
       break;
     case "USER_PROFILE_TAB":
