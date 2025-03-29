@@ -42,7 +42,7 @@ const FollowButton = ({
           <Loading
             type="Pulse"
             color="#808080"
-            style={"mt-0 h-full items-center bg-black/15"}
+            style={"!mt-0 h-full items-center bg-black/15"}
           />
         </div>
       )}
