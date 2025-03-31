@@ -15,7 +15,7 @@ const SearchUserAvatar = ({
         href={`/users/${username}`}
         className="w-full flex justify-center items-center"
       >
-        <Avatar user={{ username, image }} size="big" />
+        <Avatar user={{ username, image }} size="big" isLink={false} />
         <div className="flex flex-col w-full leading-4 ml-3 text-gray-400">
           <span className="text-black">{username}</span>
           <span>{name}</span>

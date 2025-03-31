@@ -11,12 +11,14 @@ interface AvatarProps {
   user: User | SimpleUser;
   border?: boolean;
   size?: AvatarSize;
+  isLink?: boolean;
 }
 
 const Avatar = memo(function Avatar({
   user,
   border = true,
   size,
+  isLink = true,
 }: AvatarProps) {
   const getImageSizeStyle = (size: AvatarSize) => {
     switch (size) {
@@ -53,7 +55,9 @@ const Avatar = memo(function Avatar({
    * Border, username 등 경우의 수를 전부 대응해줄 수는 없기에.
    * */
 
-  return (
+  console.log("what the fuck: ", isLink, border);
+
+  return isLink ? (
     <Link
       className="w-fit"
       href={`/users/${user.username ?? ("name" in user && user.name)}`}
@@ -66,6 +70,8 @@ const Avatar = memo(function Avatar({
         <ImageContent />
       )}
     </Link>
+  ) : (
+    <ImageContent />
   );
 });
 
