@@ -50,13 +50,11 @@ const Avatar = memo(function Avatar({
       />
     );
   };
+
   /**
    * 합성 컴포넌트로 바꾸기
    * Border, username 등 경우의 수를 전부 대응해줄 수는 없기에.
    * */
-
-  console.log("what the fuck: ", isLink, border);
-
   return isLink ? (
     <Link
       className="w-fit"

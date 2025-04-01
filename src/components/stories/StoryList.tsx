@@ -9,7 +9,7 @@ import useUser from "@/hooks/useUser";
 
 const StoryList = () => {
   const { user, isLoading } = useUser();
-  const following = user?.following && [...user.following, ...user.following];
+  const following = user?.following && [...user.following];
 
   return (
     <section className="w-full flex justify-center items-center gap-3 py-4 px-5 bg-neutral-50 shadow-sm mb-5 shadow-neutral-300 rounded-lg min-h-[90px] overflow-x-auto relative z-0">
