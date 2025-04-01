@@ -12,7 +12,7 @@ const StoryList = () => {
   const following = user?.following && [...user.following];
 
   return (
-    <section className="w-full flex justify-center items-center gap-3 py-4 px-5 bg-neutral-50 shadow-sm mb-5 shadow-neutral-300 rounded-lg min-h-[90px] overflow-x-auto relative z-0">
+    <div className="w-full flex justify-center items-center gap-3 py-4 px-5 bg-neutral-50 shadow-sm mb-5 shadow-neutral-300 rounded-lg min-h-[90px] overflow-x-auto relative z-0">
       {isLoading ? (
         <div className="flex w-full h-full justify-center items-center">
           <PropagateLoader color={LOADING_BAR_COLOR} />
@@ -34,7 +34,7 @@ const StoryList = () => {
           ))}
         </ScrollableBar>
       )}
-    </section>
+    </div>
   );
 };
 
