@@ -34,8 +34,8 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       }`;
       break;
     case "FOLLOWINGS_POSTS":
-      query = `*[_type == "post" && author->username == "${payload}"
-        || author._ref in *[_type == "user" && username == "${payload}"].following[]._ref] 
+      query = `*[_type == "post" && author->_id == "${payload}"
+        || author._ref in *[_type == "user" && _id == "${payload}"].following[]._ref] 
         | order(_createdAt desc){${simplePostProjection}}`;
       break;
     case "POST_DETAIL":
