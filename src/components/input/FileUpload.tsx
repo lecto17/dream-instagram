@@ -50,7 +50,7 @@ const FileUpload = ({ file, onChange }: Props) => {
 
   return (
     <section
-      className={`flex w-full border-2 border-blue-300 border-dashed p-5 max-h-[300px] relative overflow-hidden ${isDragging ? "bg-sky-300 bg-opacity-15" : ""}`}
+      className={`flex w-full border-2 border-blue-200 border-dashed p-5 max-h-[300px] relative overflow-hidden ${isDragging ? "bg-sky-300 bg-opacity-15" : ""}`}
       ref={dragRef}
     >
       <input
