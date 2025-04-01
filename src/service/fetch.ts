@@ -7,7 +7,8 @@ type QueryType =
   | "POST_DETAIL"
   | "SEARCH_USER"
   | "USER_ALL_INFO"
-  | "USER_PROFILE_TAB";
+  | "USER_PROFILE_TAB"
+  | "RECOMMEND_USERS";
 
 export const getQuery = (queryType: QueryType, payload: string) => {
   let query = "";
@@ -100,6 +101,14 @@ export const getQuery = (queryType: QueryType, payload: string) => {
             ${simplePostProjection}
         }`;
       }
+      break;
+    case "RECOMMEND_USERS":
+      query = `*[_type == "user" && _id != "${payload}" || username == "hnookim"] | order(_createdAt desc)[0..4] {
+        "id": _id,
+        "username": username,
+        "name": name,
+        "image": image
+      }`;
       break;
     default:
       break;

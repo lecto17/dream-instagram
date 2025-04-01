@@ -94,3 +94,7 @@ export const deleteOnFollowing = async (
     )
     .commit({ autoGenerateArrayKeys: true });
 };
+
+export const getRecommendUsers = async (exceptUserId: string) => {
+  return await client.fetch(getQuery("RECOMMEND_USERS", exceptUserId));
+};
