@@ -16,7 +16,7 @@ const AvatarLocalNav = ({ user }: AvatarLocalNavProps) => {
           <span className="block font-semibold">
             {getNameByEmail(user.email)}
           </span>
-          <span className="text-gray-300 text-lg">{user.name}</span>
+          <span className="text-gray-500 text-lg">{user.name}</span>
         </p>
       </div>
     </section>
