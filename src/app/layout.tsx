@@ -36,6 +36,18 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <link
+          rel="preconnect"
+          href="https://lh3.googleusercontent.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://cdn.sanity.io"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={`${openSans.className} w-full bg-neutral-50`}>
         <AuthContext>
           <div className="max-w-screen-xl mx-auto">
