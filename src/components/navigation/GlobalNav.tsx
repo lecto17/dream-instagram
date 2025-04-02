@@ -16,6 +16,7 @@ import Avatar from "@/components/avatar/Avatar";
 
 interface MENU {
   url: string;
+  name: string;
   Icon: () => ReactElement;
   ActiveIcon: () => ReactElement;
 }
@@ -25,16 +26,19 @@ const MENUS: MENU[] = [
     url: "/",
     Icon: () => <AiOutlineHome />,
     ActiveIcon: () => <AiFillHome />,
+    name: "home icon",
   },
   {
     url: "/search",
     Icon: () => <RiSearchLine />,
     ActiveIcon: () => <RiSearchFill />,
+    name: "search users icon",
   },
   {
     url: "/new",
     Icon: () => <BsPlusSquare />,
     ActiveIcon: () => <BsPlusSquareFill />,
+    name: "post new article icon",
   },
 ];
 
@@ -78,13 +82,6 @@ const GlobalNav = () => {
     );
   };
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.replace("/auth/login");
-  //     return;
-  //   }
-  // }, []);
-
   return (
     <section className="sticky top-0 z-10 flex justify-between items-center py-3 px-2 md:px-6 border-b shadow-sm bg-white">
       <Link href="/" className="text-xl font-semibold md:text-3xl">
@@ -94,6 +91,7 @@ const GlobalNav = () => {
         {MENUS.map((menu) => (
           <li key={menu.url} className="text-3xl">
             <Link href={menu.url}>{getMenuIcon(menu)}</Link>
+            <span className="sr-only">{menu.name}</span>
           </li>
         ))}
         {getCompnentWhenLogined()}
