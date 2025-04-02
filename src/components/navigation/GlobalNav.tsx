@@ -87,15 +87,19 @@ const GlobalNav = () => {
       <Link href="/" className="text-xl font-semibold md:text-3xl">
         Instagram
       </Link>
-      <ul className="flex gap-4 items-center pl-4 h-10">
-        {MENUS.map((menu) => (
-          <li key={menu.url} className="text-3xl">
-            <Link href={menu.url}>{getMenuIcon(menu)}</Link>
-            <span className="sr-only">{menu.name}</span>
-          </li>
-        ))}
+      <div className="flex items-center space-x-2">
+        <ul className="flex gap-4 items-center pl-4 h-10 mr-5">
+          {MENUS.map((menu) => (
+            <li key={menu.url} className="text-3xl">
+              <Link href={menu.url} aria-label={menu.url}>
+                {getMenuIcon(menu)}
+              </Link>
+              <span className="sr-only">{menu.name}</span>
+            </li>
+          ))}
+        </ul>
         {getCompnentWhenLogined()}
-      </ul>
+      </div>
     </section>
   );
 };
