@@ -39,6 +39,7 @@ const ActionBar = ({ post }: Props) => {
         onIcon={<HeartIconFilled />}
         toggled={liked}
         onToggle={handleLike}
+        ariaLabel="heart icon"
       />
 
       <ToggleButton
@@ -46,6 +47,7 @@ const ActionBar = ({ post }: Props) => {
         onIcon={<BookMarkIconFilled />}
         toggled={bookmarked}
         onToggle={handleBookMark}
+        ariaLabel="bookmark icon"
       />
     </div>
   );

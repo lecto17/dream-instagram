@@ -5,13 +5,24 @@ type Props = {
   onToggle: (toggled: boolean) => void;
   onIcon: React.ReactNode;
   offIcon: React.ReactNode;
+  ariaLabel?: string;
 };
 
-const ToggleButton = ({ toggled, onToggle, onIcon, offIcon }: Props) => {
+const ToggleButton = ({
+  toggled,
+  onToggle,
+  onIcon,
+  offIcon,
+  ariaLabel,
+}: Props) => {
   const handleToggle = useCallback(() => {
     onToggle(!toggled);
   }, [onToggle, toggled]);
-  return <button onClick={handleToggle}>{toggled ? onIcon : offIcon}</button>;
+  return (
+    <button onClick={handleToggle} aria-label={ariaLabel ?? "toggle button"}>
+      {toggled ? onIcon : offIcon}
+    </button>
+  );
 };
 
 export default ToggleButton;
