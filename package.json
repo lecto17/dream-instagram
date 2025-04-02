@@ -13,6 +13,7 @@
     "@sanity/icons": "^3.5.7",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.75.0",
+    "browser-image-compression": "^2.0.2",
     "next": "15.1.7",
     "next-auth": "^5.0.0-beta.25",
     "next-sanity": "^9.8.56",
