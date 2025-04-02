@@ -8,25 +8,31 @@ import RecommendUsers from "@/components/user/RecommendUsers";
 const PostList = () => {
   const { posts, isLoading, addCommentOnPost } = usePosts();
 
+  if (isLoading) {
+    return (
+      <div className="w-full flex justify-center mt-32">
+        <GridSpinner color={LOADING_BAR_COLOR} />
+      </div>
+    );
+  }
+
+  if (!posts?.length) {
+    return <RecommendUsers />;
+  }
+
   return (
     <ul className="flex flex-col items-center">
-      {isLoading && (
-        <div className="w-full flex justify-center mt-32">
-          <GridSpinner color={LOADING_BAR_COLOR} />
-        </div>
-      )}
-      {!!posts?.length ? (
+      {!!posts?.length &&
         posts.map((post, idx) => (
-          <PostCard
-            key={post.id}
-            post={post}
-            priority={idx < 2}
-            addCommentOnPost={addCommentOnPost}
-          />
-        ))
-      ) : (
-        <RecommendUsers />
-      )}
+          <li key={post.id}>
+            <PostCard
+              key={post.id}
+              post={post}
+              priority={idx < 2}
+              addCommentOnPost={addCommentOnPost}
+            />
+          </li>
+        ))}
     </ul>
   );
 };
