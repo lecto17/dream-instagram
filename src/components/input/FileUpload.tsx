@@ -1,6 +1,7 @@
 "use client";
 
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
+import { transferImageToWebP } from "@/utils/utils";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
@@ -24,19 +25,21 @@ const FileUpload = ({ file, onChange }: Props) => {
     setUploaded(file);
   };
 
-  const handleDrag = (e: DragEvent) => {
+  const handleDrag = async (e: DragEvent) => {
     const files = e.dataTransfer?.files;
     if (!files || !files?.length) return;
 
-    setFileAndPreview(files[0]);
+    const converted = (await transferImageToWebP(files[0])) || files[0];
+    setFileAndPreview(converted);
   };
 
-  const handleChange = (e: ChangeEvent) => {
+  const handleChange = async (e: ChangeEvent) => {
     const input = e.target as HTMLInputElement;
-
     if (!input.files?.[0]) return;
 
-    setFileAndPreview(input.files[0]);
+    const converted =
+      (await transferImageToWebP(input.files[0])) || input.files[0];
+    setFileAndPreview(converted);
   };
 
   const handleClick = () => {
