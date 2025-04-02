@@ -1,7 +1,6 @@
-import { getNameByEmail } from "@/utils/utils";
 import {
   addBookMarkOnPost,
-  getFollowingsByUserName,
+  getFollowingsBy,
   removeBookMarkOnPost,
 } from "@/service/user";
 import { validateSession } from "@/actions/action";
@@ -11,8 +10,7 @@ export async function GET() {
   const user = await validateSession();
   if (!user) return new Response("UnAthenticated Error");
 
-  const data = await getFollowingsByUserName(getNameByEmail(user.email));
-
+  const data = await getFollowingsBy(user.id || "");
   return new Response(JSON.stringify(data), { status: 200 });
 }
 

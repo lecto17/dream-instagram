@@ -14,7 +14,7 @@ export const createUser = async ({ id, email, ...rest }: User) => {
   });
 };
 
-export const getFollowingsByUserName = async (name: string) => {
+export const getFollowingsBy = async (name: string) => {
   return await client.fetch(getQuery("FOLLOWINGS", name));
 };
 
