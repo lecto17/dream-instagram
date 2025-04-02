@@ -39,7 +39,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className="max-w-[468px] object-cover aspect-square hover:cursor-pointerr"
+        className="max-w-[468px] object-cover aspect-square hover:cursor-pointer"
         src={image}
         width={468}
         height={565}
