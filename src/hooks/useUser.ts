@@ -50,12 +50,25 @@ export default function useUser() {
     ) => {
       await updateFollowing(profileUserId, addOnFollowing).then(async () => {
         await Promise.all([
-          mutate(),
+          mutate(
+            {
+              ...user!,
+              following: user?.following?.length
+                ? [
+                    ...user.following,
+                    { username: profileUserName, id: profileUserId },
+                  ]
+                : [{ username: profileUserName, id: profileUserId }],
+            },
+            { revalidate: true }
+          ),
           globalMutate(`/api/users/${profileUserName}`),
         ]);
+        // await mutate();
+        // await globalMutate(`/api/users/${profileUserName}`);
       });
     },
-    [mutate, globalMutate]
+    [user, mutate, globalMutate]
   );
 
   return { user, isLoading, setBookMarked, setFollowing };
