@@ -7,11 +7,16 @@ export const createUser = async ({ id, email, ...rest }: User) => {
     _id: id,
     _type: "user",
     ...rest,
+    email,
     username: email.split("@")[0],
     followers: [],
     following: [],
     bookmarks: [],
   });
+};
+
+export const isAlreadyExistsEmail = async (email: string) => {
+  return await client.fetch(getQuery("IS_EXISTS_EMAIL", email));
 };
 
 export const getFollowingsBy = async (name: string) => {
@@ -95,6 +100,6 @@ export const deleteOnFollowing = async (
     .commit({ autoGenerateArrayKeys: true });
 };
 
-export const getRecommendUsers = async (exceptUserId: string) => {
-  return await client.fetch(getQuery("RECOMMEND_USERS", exceptUserId));
+export const getRecommendUsers = async (exceptEmail: string) => {
+  return await client.fetch(getQuery("RECOMMEND_USERS", exceptEmail));
 };

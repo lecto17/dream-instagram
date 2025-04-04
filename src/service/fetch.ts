@@ -8,7 +8,8 @@ type QueryType =
   | "SEARCH_USER"
   | "USER_ALL_INFO"
   | "USER_PROFILE_TAB"
-  | "RECOMMEND_USERS";
+  | "RECOMMEND_USERS"
+  | "IS_EXISTS_EMAIL";
 
 export const getQuery = (queryType: QueryType, payload: string) => {
   let query = "";
@@ -103,13 +104,17 @@ export const getQuery = (queryType: QueryType, payload: string) => {
       }
       break;
     case "RECOMMEND_USERS":
-      query = `*[_type == "user" && _id != "${payload}" || username == "hnookim"] | order(_createdAt desc)[0..4] {
+      query = `*[_type == "user" && email != "${payload}" || username == "hnookim"] | order(_createdAt desc)[0..4] {
         "id": _id,
         "username": username,
         "name": name,
         "image": image
       }`;
       break;
+    case "IS_EXISTS_EMAIL":
+      query = `*[_type == "user" && email == "${payload}"][0] {
+        "id":_id
+      }`;
     default:
       break;
   }
