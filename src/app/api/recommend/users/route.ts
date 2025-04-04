@@ -5,6 +5,6 @@ export async function GET() {
   const user = await validateSession();
   if (!user) return new Response("unAuthenticated Error", { status: 401 });
 
-  const data = await getRecommendUsers(user.id);
+  const data = await getRecommendUsers(user.email);
   return new Response(JSON.stringify(data), { status: 200 });
 }
