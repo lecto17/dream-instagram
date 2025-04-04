@@ -52,7 +52,10 @@ const GlobalNav = () => {
       signOut();
       return;
     }
-    signIn();
+
+    signIn("google", {
+      redirectTo: pathName === "/auth/login" ? "/" : pathName,
+    });
   };
 
   const getMenuIcon = ({ url, Icon, ActiveIcon }: MENU) => {
