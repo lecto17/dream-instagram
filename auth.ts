@@ -1,4 +1,4 @@
-import { createUser } from "@/service/user";
+import { createUser, isAlreadyExistsEmail } from "@/service/user";
 import NextAuth from "next-auth";
 import type { Provider } from "next-auth/providers";
 import Google from "next-auth/providers/google";
@@ -23,8 +23,9 @@ export const { handlers, signIn, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user: { email, name, ...rest } }) {
-      console.log("signin callback payload: ", email, name, rest);
       if (!email) return false;
+      const isExists = await isAlreadyExistsEmail(email);
+      if (isExists?.id) return true;
 
       await createUser({
         id: rest.id || "",
