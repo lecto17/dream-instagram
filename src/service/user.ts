@@ -19,8 +19,8 @@ export const isAlreadyExistsEmail = async (email: string) => {
   return await client.fetch(getQuery("IS_EXISTS_EMAIL", email));
 };
 
-export const getFollowingsBy = async (name: string) => {
-  return await client.fetch(getQuery("FOLLOWINGS", name));
+export const getFollowingsBy = async (email: string) => {
+  return await client.fetch(getQuery("FOLLOWINGS", email));
 };
 
 export const getAllUser = async () => {

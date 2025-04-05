@@ -27,7 +27,7 @@ export const getQuery = (queryType: QueryType, payload: string) => {
 
   switch (queryType) {
     case "FOLLOWINGS":
-      query = `*[_type == "user" && _id == "${payload}"][0]{
+      query = `*[_type == "user" && email == "${payload}"][0]{
         ...,
         "id": _id,
         following[]-> {"id": _id, username,image},
