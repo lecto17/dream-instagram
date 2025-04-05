@@ -10,7 +10,7 @@ export async function GET() {
   const user = await validateSession();
   if (!user) return new Response("UnAthenticated Error");
 
-  const data = await getFollowingsBy(user.id || "");
+  const data = await getFollowingsBy(user.email || "");
   return new Response(JSON.stringify(data), { status: 200 });
 }
 

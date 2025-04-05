@@ -24,6 +24,7 @@ export const { handlers, signIn, auth } = NextAuth({
   callbacks: {
     async signIn({ user: { email, name, ...rest } }) {
       if (!email) return false;
+
       const isExists = await isAlreadyExistsEmail(email);
       if (isExists?.id) return true;
 
