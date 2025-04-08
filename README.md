@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+인스타그램 형식을 사용해 사용자들이 자신의 이야기를 자유롭게 소통할 수 있는 창구를 만들려 합니다.
 
-## Getting Started
+## 기술 스택
 
-First, run the development server:
+`next.js`, `next-auth`, `tailwind`, `sanity`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 구현 기능 및 점검 내용
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 로그인
+- 게시글 작성
+- 게시글 좋아요, 북마크 토글
+- 게시글 댓글 작성
+- 사용자 프로필 페이지
+- 사용자 검색
+- 사용자 팔로우, 언팔로우
+- 팔로우한 사용자 게시글 조회
+- Lighthouse를 통한 접근성 개선
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 보완할 부분
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- next-auth 로그인 시 user별 id 값 prisma 사용하여 값 고정
+- sanity 접속 client 구분(client, freshClient)
+- 사용자 프로필 페이지 로딩 시 화면
+- sanity 이전 -> supabase 혹은 자체 db
+- 익명 로그인 기능(or 이메일 인증 기능)
+- 채널 별 데이터 저장
+- 간단한 대화창
