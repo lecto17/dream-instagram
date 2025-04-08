@@ -14,7 +14,7 @@ export const parseDate = (date: string) => {
 
 export const transferImageToWebP = async (file: File) => {
   const options = {
-    maxSizeMB: 0.01, // 1MB 이하로 압축
+    maxSizeMB: 0.01, // 100kb 이하로 압축
     maxWidthOrHeight: 1024, // 최대 가로/세로 크기
     useWebWorker: true, // 웹 워커 사용으로 성능 개선
     initialQuality: 0.7,
