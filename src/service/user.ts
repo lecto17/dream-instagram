@@ -15,7 +15,7 @@ export const createUser = async ({ id, email, ...rest }: User) => {
   });
 };
 
-export const isAlreadyExistsEmail = async (email: string) => {
+export const findUserIdBy = async (email: string) => {
   return await client.fetch(getQuery("IS_EXISTS_EMAIL", email));
 };
 

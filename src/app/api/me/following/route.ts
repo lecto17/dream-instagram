@@ -1,9 +1,5 @@
 import { validateSession } from "@/actions/action";
-import {
-  addFollowing,
-  deleteOnFollowing,
-  isAlreadyExistsEmail,
-} from "@/service/user";
+import { addFollowing, deleteOnFollowing, findUserIdBy } from "@/service/user";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
@@ -22,7 +18,7 @@ export async function PUT(req: NextRequest) {
   const request = addOnFollowing ? addFollowing : deleteOnFollowing;
   let isAlready;
   try {
-    isAlready = await isAlreadyExistsEmail(user.email);
+    isAlready = await findUserIdBy(user.email);
   } catch (e) {
     return new Response(JSON.stringify(e), { status: 500 });
   }
