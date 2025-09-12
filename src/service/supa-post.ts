@@ -1,0 +1,89 @@
+import { SupaComment, SupaPost } from '@/types/post';
+import { objectMapper } from '@/utils/mapper';
+import { serverSupabase } from '@/lib/supabaseServerClient';
+
+export const getPosts = async (date: string) => {
+  const client = await serverSupabase();
+
+  console.log('0) date', date);
+  const { data: posts, error } = await client
+    .from('posts')
+    .select('*')
+    .gte('created_at', `${date}T00:00:00.000Z`)
+    .lte('created_at', `${date}T23:59:59.999Z`);
+
+  if (error) throw error;
+
+  const postsWithCommentCount = await Promise.all(
+    posts.map(async (post) => {
+      const { data: comments } = await client
+        .from('comments')
+        .select('*')
+        .eq('post_id', post.id);
+      return { ...post, comments: comments?.length || 0 };
+    }),
+  );
+
+  // const postsWithComments = await Promise.all(
+  //   posts.map(async (post) => {
+  //     const { data: comments } = await client
+  //       .from('comments')
+  //       .select(
+  //         `
+  //           id, post_id, author_id, body, created_at
+  //         `,
+  //       )
+  //       .eq('post_id', post.id)
+  //       .eq('is_deleted', false)
+  //       .order('created_at', { ascending: false });
+  //     const _transfored = comments?.map(objectMapper) || [];
+  //     return { ...post, comments: _transfored };
+  //   }),
+  // );
+
+  const transformedData = postsWithCommentCount?.map(objectMapper);
+  return transformedData;
+};
+
+export const getPostComments = async (id: string) => {
+  const client = await serverSupabase();
+  const { data, error } = await client
+    .from('comments')
+    .select('*')
+    .eq('post_id', id);
+
+  if (error) throw error;
+
+  return data.map(objectMapper);
+};
+
+export const addPost = async (post: SupaPost) => {
+  const client = await serverSupabase();
+  const { data, error } = await client
+    .from('posts')
+    .insert(post)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+};
+
+export const addComment = async (
+  postId: string,
+  userId: string,
+  comment: SupaComment,
+) => {
+  const client = await serverSupabase();
+  const { data, error } = await client
+    .from('comments')
+    .insert({
+      post_id: postId,
+      author_id: userId,
+      body: comment.body,
+      created_at: new Date().toISOString(),
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+};

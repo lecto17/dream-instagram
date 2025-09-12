@@ -1,21 +1,27 @@
-import { auth } from "/auth";
-import StoryList from "@/components/stories/StoryList";
-import PostList from "@/components/posts/PostList";
-import AvatarLocalNav from "@/components/navigation/AvatarLocalNav";
-import { redirect } from "next/navigation";
+// import { auth } from '/auth';
+// import StoryList from '@/components/stories/StoryList';
+import PostList from '@/components/posts/PostList';
+import AvatarLocalNav from '@/components/navigation/AvatarLocalNav';
+import { redirect } from 'next/navigation';
+import { serverSupabase } from '@/lib/supabaseServerClient';
+import { getMyProfile } from '@/service/supa-user';
+import { getAuthenticatedUser } from '@/actions/action';
 
 export default async function HomePage() {
-  const session = await auth();
-  const user = session?.user;
+  // const session = await auth();
+  // const user = session?.user;
 
-  if (!user) {
-    redirect("/auth/login");
-  }
+  // if (!user) {
+  //   redirect("/auth/login");
+  // }
+
+  const user = await getAuthenticatedUser();
+  if (user == null) return redirect('/auth/login');
 
   return (
     <section className="w-full flex flex-col sm:flex-row p-5 max-w-[850px]">
       <div className="w-full basis-3/4 min-w-0">
-        <StoryList />
+        {/* <StoryList /> */}
         <PostList />
       </div>
       <div className="hidden sm:block basis-1/4 ml:8">

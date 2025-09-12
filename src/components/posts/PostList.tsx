@@ -1,9 +1,9 @@
-"use client";
-import { LOADING_BAR_COLOR } from "@/constants/color";
-import PostCard from "@/components/posts/PostCard";
-import GridSpinner from "@/components/spinner/GridSpinner";
-import usePosts from "@/hooks/usePosts";
-import RecommendUsers from "@/components/user/RecommendUsers";
+'use client';
+import { LOADING_BAR_COLOR } from '@/constants/color';
+import PostCard from '@/components/posts/PostCard';
+import GridSpinner from '@/components/spinner/GridSpinner';
+import usePosts from '@/hooks/usePosts';
+// import RecommendUsers from "@/components/user/RecommendUsers";
 
 const PostList = () => {
   const { posts, isLoading, addCommentOnPost } = usePosts();
@@ -16,13 +16,14 @@ const PostList = () => {
     );
   }
 
-  if (!posts?.length) {
-    return <RecommendUsers />;
-  }
+  // if (!posts?.length) {
+  //   return <RecommendUsers />;
+  // }
 
   return (
     <ul className="flex flex-col items-center">
-      {!!posts?.length &&
+      {posts != null &&
+        posts.length > 0 &&
         posts.map((post, idx) => (
           <li key={post.id}>
             <PostCard

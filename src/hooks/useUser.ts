@@ -1,14 +1,15 @@
-import useSWR, { useSWRConfig } from "swr";
-import { DetailUser } from "@/types/user";
-import { useCallback } from "react";
+import useSWR, { useSWRConfig } from 'swr';
+import { DetailUser, SupaUserProfile, UserProfile } from '@/types/user';
+import { useCallback } from 'react';
 
 export default function useUser() {
-  const { data: user, isLoading, mutate } = useSWR<DetailUser>("/api/me");
+  // const { data: user, isLoading, mutate } = useSWR<DetailUser>("/api/me");
+  const { data: user, isLoading, mutate } = useSWR<SupaUserProfile>('/api/me');
   const { mutate: globalMutate } = useSWRConfig();
 
   const updateBookMark = async (postId: string, bookmark: boolean) => {
-    return await fetch("/api/me", {
-      method: "PUT",
+    return await fetch('/api/me', {
+      method: 'PUT',
       body: JSON.stringify({ postId, bookmark }),
     }).then((res) => res.json());
   };
@@ -29,15 +30,15 @@ export default function useUser() {
         rollbackOnError: true,
       });
     },
-    [user, mutate]
+    [user, mutate],
   );
 
   const updateFollowing = async (
     profileUserId: string,
-    addOnFollowing: boolean
+    addOnFollowing: boolean,
   ) => {
-    return fetch("/api/me/following", {
-      method: "PUT",
+    return fetch('/api/me/following', {
+      method: 'PUT',
       body: JSON.stringify({ profileUserId, addOnFollowing }),
     }).then((res) => res.json());
   };
@@ -46,7 +47,7 @@ export default function useUser() {
     async (
       profileUserName: string,
       profileUserId: string,
-      addOnFollowing: boolean
+      addOnFollowing: boolean,
     ) => {
       await updateFollowing(profileUserId, addOnFollowing).then(async () => {
         await Promise.all([
@@ -60,7 +61,7 @@ export default function useUser() {
                   ]
                 : [{ username: profileUserName, id: profileUserId }],
             },
-            { revalidate: true }
+            { revalidate: true },
           ),
           globalMutate(`/api/users/${profileUserName}`),
         ]);
@@ -68,7 +69,7 @@ export default function useUser() {
         // await globalMutate(`/api/users/${profileUserName}`);
       });
     },
-    [user, mutate, globalMutate]
+    [user, mutate, globalMutate],
   );
 
   return { user, isLoading, setBookMarked, setFollowing };
