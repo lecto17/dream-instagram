@@ -1,19 +1,19 @@
-import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
-import "./globals.css";
-import GlobalNav from "@/components/navigation/GlobalNav";
-import AuthContext from "@/context/AuthContext";
-import SWRConfigContext from "@/context/SWRConfigContext";
+import type { Metadata } from 'next';
+import { Open_Sans } from 'next/font/google';
+import './globals.css';
+import GlobalNav from '@/components/navigation/GlobalNav';
+// import AuthContext from '@/context/AuthContext';
+import SWRConfigContext from '@/context/SWRConfigContext';
 
 const openSans = Open_Sans({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Tell your Voice",
-    template: "Tell your Voice | %s",
+    default: 'Tell your Voice',
+    template: 'Tell your Voice | %s',
   },
   description: "Listen your neighbor's story",
 };
@@ -42,21 +42,14 @@ export default async function RootLayout({
           href="https://lh3.googleusercontent.com"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preconnect"
-          href="https://cdn.sanity.io"
-          crossOrigin="anonymous"
-        />
       </head>
       <body className={`${openSans.className} w-full bg-neutral-50`}>
-        <AuthContext>
-          <div className="max-w-screen-xl mx-auto">
-            <GlobalNav />
-          </div>
-          <main className="w-full flex justify-center">
-            <SWRConfigContext>{children}</SWRConfigContext>
-          </main>
-        </AuthContext>
+        {/* <AuthContext> */}
+        <div className="max-w-screen-xl mx-auto">{/* <GlobalNav /> */}</div>
+        <main className="w-full flex justify-center">
+          <SWRConfigContext>{children}</SWRConfigContext>
+        </main>
+        {/* </AuthContext> */}
         <div id="portal" />
       </body>
     </html>
