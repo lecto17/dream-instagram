@@ -45,7 +45,9 @@ export default async function RootLayout({
       </head>
       <body className={`${openSans.className} w-full bg-neutral-50`}>
         {/* <AuthContext> */}
-        <div className="max-w-screen-xl mx-auto">{/* <GlobalNav /> */}</div>
+        <div className="max-w-screen-xl mx-auto">
+          <GlobalNav />
+        </div>
         <main className="w-full flex justify-center">
           <SWRConfigContext>{children}</SWRConfigContext>
         </main>
