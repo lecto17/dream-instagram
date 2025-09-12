@@ -1,11 +1,12 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { objectMapper } from '@/utils/mapper';
 import { SupaUserProfile } from '@/types/user';
+import { serverSupabase } from '@/lib/supabaseServerClient';
 
 export const getMyProfile = async (
-  client: SupabaseClient,
   userId: string,
 ): Promise<SupaUserProfile> => {
+  const client = await serverSupabase();
   const { data: profile, error } = await client
     .from('user_profiles')
     .select('*')
