@@ -5,6 +5,7 @@ import AvatarLocalNav from '@/components/navigation/AvatarLocalNav';
 import { redirect } from 'next/navigation';
 import { serverSupabase } from '@/lib/supabaseServerClient';
 import { getMyProfile } from '@/service/supa-user';
+import { getAuthenticatedUser } from '@/actions/action';
 
 export default async function HomePage() {
   // const session = await auth();
@@ -14,20 +15,8 @@ export default async function HomePage() {
   //   redirect("/auth/login");
   // }
 
-  const supabase = await serverSupabase();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+  const user = await getAuthenticatedUser();
   if (user == null) return redirect('/auth/login');
-  const profile = await getMyProfile(supabase, user.id);
-
-  // 사용자 정보와 프로필 정보를 합치기
-  const userWithProfile = {
-    ...user,
-    profile: profile || null,
-  };
 
   return (
     <section className="w-full flex flex-col sm:flex-row p-5 max-w-[850px]">
@@ -36,7 +25,7 @@ export default async function HomePage() {
         <PostList />
       </div>
       <div className="hidden sm:block basis-1/4 ml:8">
-        <AvatarLocalNav user={userWithProfile} />
+        <AvatarLocalNav user={user} />
       </div>
     </section>
   );
