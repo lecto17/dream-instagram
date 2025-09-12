@@ -1,4 +1,13 @@
-import { SimpleUser, User } from "@/types/user";
+import { SimpleUser, User } from '@/types/user';
+
+export type supaPost = {
+  id: string;
+  authorId: string;
+  caption: string;
+  imageKey: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type Post = {
   postId: string;
@@ -14,7 +23,7 @@ export type Comment = {
   id?: string;
 };
 
-export type SimplePost = Omit<FullPost, "comments"> & {
+export type SimplePost = Omit<FullPost, 'comments'> & {
   comments: number;
 };
 
