@@ -7,15 +7,16 @@ import ModalPortal from '@/components/portal/ModalPortal';
 import PostDetail from '@/components/posts/PostDetail';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
 import ActionBar from '@/components/ui/ActionBar';
-import { Comment, SimplePost, supaPost } from '@/types/post';
+import { Comment, SimplePost, SupaComment, SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useState } from 'react';
 
 interface PostCardProps {
-  post: supaPost;
+  post: SupaPost;
   // post: SimplePost;
   priority?: boolean;
-  addCommentOnPost: (comment: Comment, postId: string) => void;
+  // addCommentOnPost: (comment: Comment, postId: string) => void;
+  addCommentOnPost: (comment: SupaComment, postId: string) => void;
 }
 
 const location = 'Incheon, Korea';
@@ -28,7 +29,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   };
 
   // const { id, createdAt, image, likes, text, userImage, username, comments } = post;
-  const { id, createdAt, imageKey, authorId, caption } = post;
+  const { id, createdAt, imageKey, authorId, caption, comments } = post;
 
   return (
     <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3">
@@ -53,14 +54,18 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
           <PostModal onClose={() => setShowable(false)}>
             <PostDetail
               key={id}
+              post={post}
+            />
+            {/* <PostDetail
+              key={id}
               id={id}
               createdAt={createdAt}
-              image={imageKey}
+              imageKey={imageKey}
               likes={[]}
               text={caption}
               userImage={''}
               username={authorId}
-            />
+            /> */}
           </PostModal>
         </ModalPortal>
       )}
@@ -75,14 +80,14 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
           {caption}
         </p>
         <p className="mb-5">{parseDate(createdAt)}</p>
-        {/* <CommentCount
-          comments={comments}
+        <CommentCount
+          countOfComments={comments}
           onClick={showPostModal}
         />
         <CommentForm
           postId={post.id}
           onSubmit={addCommentOnPost}
-        /> */}
+        />
       </div>
     </article>
   );

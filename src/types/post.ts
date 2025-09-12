@@ -1,12 +1,19 @@
-import { SimpleUser, User } from '@/types/user';
+import { SimpleUser, SupaUserProfile, User } from '@/types/user';
 
-export type supaPost = {
+export type SupaPost = {
   id: string;
   authorId: string;
   caption: string;
   imageKey: string;
   createdAt: string;
   updatedAt: string;
+  comments: number;
+};
+
+export type SupaComment = {
+  body: string;
+  user: Pick<SupaUserProfile, 'avatarUrl' | 'userName'>;
+  id?: string;
 };
 
 export type Post = {

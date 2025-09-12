@@ -1,11 +1,11 @@
-import { format } from "timeago.js";
-import imageCompression from "browser-image-compression";
+import { format } from 'timeago.js';
+import imageCompression from 'browser-image-compression';
 
 export const getNameByEmail = (email?: string | null) => {
-  if (!email) return "";
+  if (!email) return '';
 
-  if (!email.includes("@")) return email;
-  return email.split("@")[0];
+  if (!email.includes('@')) return email;
+  return email.split('@')[0];
 };
 
 export const parseDate = (date: string) => {
@@ -23,6 +23,12 @@ export const transferImageToWebP = async (file: File) => {
     const compressedFile = await imageCompression(file, options);
     return compressedFile;
   } catch (error) {
-    console.error("이미지 압축 실패:", error);
+    console.error('이미지 압축 실패:', error);
   }
+};
+
+export const getYYYYMMDDLocal = () => {
+  return new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Asia/Seoul',
+  }).format(new Date());
 };

@@ -1,13 +1,14 @@
-import useSWR, { useSWRConfig } from "swr";
-import { Comment } from "@/types/post";
-import { useCallback } from "react";
+import useSWR, { useSWRConfig } from 'swr';
+import { Comment, SupaComment } from '@/types/post';
+import { useCallback } from 'react';
 
 export default function useComment(postId: string) {
   const {
     data: comments,
     isLoading,
     mutate,
-  } = useSWR<Comment[]>(`/api/posts/${postId}`);
+    // } = useSWR<Comment[]>(`/api/posts/${postId}`);
+  } = useSWR<SupaComment[]>(`/api/posts/${postId}`);
 
   const { mutate: globalMutate } = useSWRConfig();
 
@@ -16,23 +17,23 @@ export default function useComment(postId: string) {
   // updateComment 같은 경우는 함수 호출마다 comment를 새롭게 전달받긴 하지만, 이 함수 외부 변수인 postId에 의존하고 있는데,
   // 이 변수가 바뀌지 않는다면 함수는 그대로 사용해도 괜찮음. 그렇기에 useCallback 감아줌.
   const updateComment = useCallback(
-    async (comment: Comment) => {
+    async (comment: SupaComment) => {
       return await fetch(`/api/posts/${postId}`, {
-        method: "PUT",
+        method: 'PUT',
         body: JSON.stringify({ postId, comment }),
       }).then((res) => res.json());
     },
-    [postId]
+    [postId],
   );
 
   const setComment = useCallback(
-    (comment: Comment) => {
+    (comment: SupaComment) => {
       let newComments;
       if (comment?.id) {
         newComments = comments?.map(({ id, ...rest }) =>
           id === comment.id
-            ? { id, ...rest, comment: comment.comment }
-            : { id, ...rest }
+            ? { id, ...rest, body: comment.body }
+            : { id, ...rest },
         );
       } else {
         newComments = [
@@ -40,8 +41,8 @@ export default function useComment(postId: string) {
           {
             ...comment,
             user: {
-              image: comment.user.image,
-              username: comment.user.username,
+              avatarUrl: comment.user.avatarUrl,
+              userName: comment.user.userName,
             },
           },
         ];
@@ -52,9 +53,9 @@ export default function useComment(postId: string) {
         populateCache: false,
         revalidate: false,
         rollbackOnError: true,
-      }).then(() => globalMutate("/api/posts"));
+      }).then(() => globalMutate('/api/posts'));
     },
-    [comments, mutate, updateComment, globalMutate]
+    [comments, mutate, updateComment, globalMutate],
   );
 
   return { comments, isLoading, setComment };

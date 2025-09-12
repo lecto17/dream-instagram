@@ -1,5 +1,5 @@
 import { useCacheKeyContext } from '@/context/CacheKeyContext';
-import { Comment, SimplePost, supaPost } from '@/types/post';
+import { Comment, SimplePost, SupaComment, SupaPost } from '@/types/post';
 import { useCallback } from 'react';
 import useSWR from 'swr';
 
@@ -12,7 +12,9 @@ export default function usePosts() {
     error,
     mutate,
     // } = useSWR<SimplePost[]>(postsKey);
-  } = useSWR<supaPost[]>(postsKey);
+  } = useSWR<SupaPost[]>(postsKey);
+
+  console.log('pposts', posts);
 
   // const { mutate: globalMutate } = useSWRConfig();
 
@@ -68,7 +70,7 @@ export default function usePosts() {
   };
 
   const upsertCommentOnPost = useCallback(
-    (postId: string, comment: Comment) => {
+    (postId: string, comment: SupaComment) => {
       return fetch(`/api/posts/${postId}`, {
         method: 'PUT',
         body: JSON.stringify({ postId, comment }),
@@ -77,8 +79,18 @@ export default function usePosts() {
     [],
   );
 
+  // const upsertCommentOnPost = useCallback(
+  //   (postId: string, comment: Comment) => {
+  //     return fetch(`/api/posts/${postId}`, {
+  //       method: 'PUT',
+  //       body: JSON.stringify({ postId, comment }),
+  //     }).then((res) => res.json());
+  //   },
+  //   [],
+  // );
+
   const addCommentOnPost = useCallback(
-    async (comment: Comment, postId: string) => {
+    async (comment: SupaComment, postId: string) => {
       let newPosts;
       if (comment?.id) {
         // newPosts = comments?.map(({ id, ...rest }) =>
@@ -106,6 +118,36 @@ export default function usePosts() {
     },
     [posts, mutate, upsertCommentOnPost],
   );
+
+  // const addCommentOnPost = useCallback(
+  //   async (comment: Comment, postId: string) => {
+  //     let newPosts;
+  //     if (comment?.id) {
+  //       // newPosts = comments?.map(({ id, ...rest }) =>
+  //       //   id === comment.id
+  //       //     ? { id, ...rest, comment: comment.comment }
+  //       //     : { id, ...rest }
+  //       // );
+  //     } else {
+  //       newPosts = posts?.map((el) => {
+  //         if (postId === el.id) {
+  //           return {
+  //             ...el,
+  //             comments: el.comments + 1,
+  //           };
+  //         } else return el;
+  //       });
+  //     }
+
+  //     mutate(upsertCommentOnPost(postId, comment), {
+  //       optimisticData: newPosts,
+  //       populateCache: false,
+  //       revalidate: false,
+  //       rollbackOnError: true,
+  //     });
+  //   },
+  //   [posts, mutate, upsertCommentOnPost],
+  // );
 
   return { posts, isLoading, error, setLike, addPost, addCommentOnPost };
 }
