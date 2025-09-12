@@ -1,5 +1,5 @@
 // import { validateSession } from '@/actions/action';
-import { serverSupabase } from '@/lib/supabaseClient';
+import { serverSupabase } from '@/lib/supabaseServerClient';
 import { getFollowingsPost } from '@/service/post';
 import { getPosts } from '@/service/supa-post';
 // import { findUserIdBy } from '@/service/user';

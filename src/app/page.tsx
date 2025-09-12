@@ -3,7 +3,7 @@
 import PostList from '@/components/posts/PostList';
 import AvatarLocalNav from '@/components/navigation/AvatarLocalNav';
 import { redirect } from 'next/navigation';
-import { serverSupabase } from '@/lib/supabaseClient';
+import { serverSupabase } from '@/lib/supabaseServerClient';
 import { getMyProfile } from '@/service/supa-user';
 
 export default async function HomePage() {
