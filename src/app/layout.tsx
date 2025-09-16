@@ -43,12 +43,12 @@ export default async function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${openSans.className} w-full bg-neutral-50`}>
+      <body className={`${openSans.className} w-full h-full bg-neutral-50`}>
         {/* <AuthContext> */}
-        <div className="max-w-screen-xl mx-auto">
+        <div className="max-w-screen-xl mx-auto h-16">
           <GlobalNav />
         </div>
-        <main className="w-full flex justify-center">
+        <main className="w-full h-[calc(100%-64px)] flex justify-center">
           <SWRConfigContext>{children}</SWRConfigContext>
         </main>
         {/* </AuthContext> */}
