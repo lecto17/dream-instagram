@@ -7,7 +7,7 @@ import DateList from '@/components/date/DateList';
 import { getDateYYYYMMDDWithDash, isValidDate } from '@/utils/utils';
 
 type HomePageProps = {
-  searchParams: { date?: string };
+  searchParams: Promise<{ date: string }>;
 };
 
 export default async function HomePage({ searchParams }: HomePageProps) {
@@ -15,12 +15,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   if (user == null) return redirect('/auth/login');
 
   // URL에서 date 파라미터 가져오기
-  const dateParam = searchParams.date;
+  const { date: dateParam } = await searchParams;
 
   // date 파라미터가 없거나 유효하지 않으면 오늘 날짜로 리다이렉트
   if (!dateParam || !isValidDate(dateParam)) {
     const today = getDateYYYYMMDDWithDash().replaceAll('-', '');
-    return redirect(`/?date=${today}`);
+    return redirect(`?date=${today}`);
   }
 
   /**
