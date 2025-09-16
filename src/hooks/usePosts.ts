@@ -1,10 +1,12 @@
 import { useCacheKeyContext } from '@/context/CacheKeyContext';
 import { Comment, SimplePost, SupaComment, SupaPost } from '@/types/post';
+import { getDateYYYYMMDDWithDash } from '@/utils/utils';
 import { useCallback } from 'react';
 import useSWR from 'swr';
 
-export default function usePosts() {
+export default function usePosts(date?: string) {
   const { postsKey } = useCacheKeyContext();
+  const today = getDateYYYYMMDDWithDash().replaceAll('-', '');
 
   const {
     data: posts,
@@ -12,9 +14,7 @@ export default function usePosts() {
     error,
     mutate,
     // } = useSWR<SimplePost[]>(postsKey);
-  } = useSWR<SupaPost[]>(postsKey);
-
-  console.log('pposts', posts);
+  } = useSWR<SupaPost[]>(`${postsKey}?date=${date || today}`);
 
   // const { mutate: globalMutate } = useSWRConfig();
 
