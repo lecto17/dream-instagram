@@ -1,5 +1,7 @@
+import { getDateYYYYMMDDWithDash } from '@/utils/utils';
+
 type DateProps = {
-  date: number;
+  date: Date;
   isSelected: boolean;
   onClick?: () => void;
 };
@@ -9,6 +11,10 @@ export default function DatePresenter({
   onClick,
   isSelected,
 }: DateProps) {
+  const dateString = getDateYYYYMMDDWithDash(date)
+    .replaceAll('-', '')
+    .slice(-2);
+
   return (
     <div
       className="flex items-center justify-center border border-gray-300 rounded-md p-5 w-full cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-300"
@@ -17,7 +23,7 @@ export default function DatePresenter({
       <span
         className={`text-lg font-semibold ${isSelected ? 'text-blue-500' : ''}`}
       >
-        {date}
+        {dateString}
       </span>
     </div>
   );
