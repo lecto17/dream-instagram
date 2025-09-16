@@ -7,6 +7,7 @@ import ModalPortal from '@/components/portal/ModalPortal';
 import PostDetail from '@/components/posts/PostDetail';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
 import ActionBar from '@/components/ui/ActionBar';
+import useUser from '@/hooks/useUser';
 import { Comment, SimplePost, SupaComment, SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useState } from 'react';
@@ -23,6 +24,7 @@ const location = 'Incheon, Korea';
 
 const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
+  const { user: userProfile } = useUser();
 
   const showPostModal = () => {
     setShowable(true);
@@ -34,10 +36,13 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   return (
     <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3">
       <div className="flex w-fit items-center mb-3">
-        {/* <PostUserAvatar
-          user={{ username, image: userImage }}
+        <PostUserAvatar
+          user={{
+            username: userProfile?.userName,
+            image: userProfile?.avatarUrl,
+          }}
           location={location}
-        /> */}
+        />
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
