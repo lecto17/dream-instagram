@@ -1,4 +1,5 @@
-import Carousel from "react-multi-carousel";
+import { ComponentProps, PropsWithChildren } from 'react';
+import Carousel from 'react-multi-carousel';
 
 const responsive = {
   desktop: {
@@ -12,12 +13,18 @@ const responsive = {
   },
 };
 
-const ScrollableBar = ({ children }: { children: React.ReactNode }) => {
+type ScrollableBarProps = PropsWithChildren &
+  Omit<ComponentProps<typeof Carousel>, 'responsive'>;
+
+const ScrollableBar = ({ children, ...props }: ScrollableBarProps) => {
   return (
     <Carousel
-      responsive={responsive}
       infinite={true}
       containerClass="w-full flex gap-2"
+      swipeable={true}
+      draggable={true}
+      {...props}
+      responsive={responsive}
     >
       {children}
     </Carousel>
