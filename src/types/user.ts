@@ -5,6 +5,12 @@ export type SupaUserProfile = {
   userName: string;
 };
 
+export type OnboardingUserProfile = {
+  id: string;
+  userName: string;
+  avatarUrl: File | null;
+};
+
 export type User = {
   id: string;
   username?: string;
