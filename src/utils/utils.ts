@@ -27,8 +27,20 @@ export const transferImageToWebP = async (file: File) => {
   }
 };
 
-export const getYYYYMMDDLocal = () => {
+export const getDateYYYYMMDDWithDash = (date?: Date) => {
   return new Intl.DateTimeFormat('sv-SE', {
     timeZone: 'Asia/Seoul',
-  }).format(new Date());
+  }).format(date ?? new Date());
+};
+
+export const isValidDate = (dateString: string): boolean => {
+  // dateString YYYYMMDD 형식인지 확인
+  if (
+    dateString.length !== 8 ||
+    dateString.split('').some((el) => isNaN(Number(el)))
+  ) {
+    return false;
+  }
+
+  return true;
 };
