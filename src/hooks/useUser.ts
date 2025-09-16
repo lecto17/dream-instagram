@@ -1,11 +1,23 @@
 import useSWR, { useSWRConfig } from 'swr';
-import { DetailUser, SupaUserProfile, UserProfile } from '@/types/user';
+import {
+  DetailUser,
+  OnboardingUserProfile,
+  SupaUserProfile,
+  UserProfile,
+} from '@/types/user';
 import { useCallback } from 'react';
 
 export default function useUser() {
   // const { data: user, isLoading, mutate } = useSWR<DetailUser>("/api/me");
   const { data: user, isLoading, mutate } = useSWR<SupaUserProfile>('/api/me');
   const { mutate: globalMutate } = useSWRConfig();
+
+  const updateUserProfile = async (data: OnboardingUserProfile) => {
+    return await fetch('/api/me', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }).then((res) => res.json());
+  };
 
   const updateBookMark = async (postId: string, bookmark: boolean) => {
     return await fetch('/api/me', {
@@ -72,5 +84,5 @@ export default function useUser() {
     [user, mutate, globalMutate],
   );
 
-  return { user, isLoading, setBookMarked, setFollowing };
+  return { user, isLoading, setBookMarked, setFollowing, updateUserProfile };
 }

@@ -14,3 +14,21 @@ export const getMyProfile = async (
   if (error) throw error;
   return profile.map(objectMapper)[0] as SupaUserProfile;
 };
+
+export const updateUserProfile = async (
+  id: string,
+  userName: string,
+  avatarUrl: File | null,
+) => {
+  const client = await serverSupabase();
+  const { error } = await client
+    .from('user_profiles')
+    .update({
+      user_name: userName,
+      avatar_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgpGCq88yZBiO8pMw46Cw_-xbdoFkDgK4yqg&s',
+    })
+    .eq('id', id);
+
+  if (error) throw error;
+};

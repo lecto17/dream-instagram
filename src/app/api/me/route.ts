@@ -8,7 +8,7 @@ import {
   // validateSession
 } from '@/actions/action';
 import { NextRequest, NextResponse } from 'next/server';
-import { getMyProfile } from '@/service/supa-user';
+import { getMyProfile, updateUserProfile } from '@/service/supa-user';
 
 // export async function GET() {
 //   const user = await validateSession();
@@ -39,4 +39,17 @@ export async function PUT(req: NextRequest) {
   // return request(postId, user.id)
   //   .then(NextResponse.json)
   //   .catch((err) => new Response(JSON.stringify(err), { status: 500 }));
+
+  const { id, userName, avatarUrl } = await req.json();
+
+  /**
+   * TODO
+   * 이미지 s3 업로드 url 받아오기
+   */
+
+  console.log('[PUT PUT]');
+  console.log(id, userName, avatarUrl);
+
+  await updateUserProfile(id, userName, avatarUrl);
+  return new Response(JSON.stringify({ message: 'success' }), { status: 200 });
 }
