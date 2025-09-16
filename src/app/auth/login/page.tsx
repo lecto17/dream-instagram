@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 // import { signIn, providerMap } from '/auth';
 // import { AuthError } from 'next-auth';
 import InstagramBorder from '@/components/border/InstagramBorder';
-import { login, signup } from '@/actions/action';
+import SignIn from '@/components/sign-in/SignIn';
 
 type Props = Promise<{
   searchParams: { callbackUrl: string | undefined };
@@ -24,24 +24,9 @@ export default async function SignInPage({
   return (
     <section className="mt-[25%] flex justify-center">
       {/* <InstagramBorder className="w-fit p-2 text-2xl font-semibold"> */}
-      <form className="flex flex-col">
-        <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-        />
-        <button formAction={login}>Log in</button>
-        <button formAction={signup}>Sign up</button>
-      </form>
+
+      <SignIn />
+
       {/* {Object.values(providerMap).map((provider) => (
           <form
             className="p-[2px]"
