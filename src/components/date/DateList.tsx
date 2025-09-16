@@ -6,11 +6,14 @@ import { getDateYYYYMMDDWithDash } from '@/utils/utils';
 
 const useDateList = () => {
   const router = useRouter();
+  // const dateParam = useSearchParams().get('date');
+  // const year = Number(dateParam?.slice(0, 4));
+  // const month = Number(dateParam?.slice(4, 6));
+  // const day = Number(dateParam?.slice(6, 8));
+  // const date = new Date(`${year}-${month}-${day}`);
+
+  const date = new Date();
   const dateParam = useSearchParams().get('date');
-  const year = Number(dateParam?.slice(0, 4));
-  const month = Number(dateParam?.slice(4, 6));
-  const day = Number(dateParam?.slice(6, 8));
-  const date = new Date(`${year}-${month}-${day}`);
 
   // 주차 별로 고정된 날짜를 출력하는게 좋을지 고민 필요
   const getRecentDates = () => {
