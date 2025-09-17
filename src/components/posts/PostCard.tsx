@@ -6,9 +6,10 @@ import PostModal from '@/components/modal/PostModal';
 import ModalPortal from '@/components/portal/ModalPortal';
 import PostDetail from '@/components/posts/PostDetail';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
-import ActionBar from '@/components/ui/ActionBar';
+// import ActionBar from '@/components/ui/ActionBar';
 import useUser from '@/hooks/useUser';
-import { Comment, SimplePost, SupaComment, SupaPost } from '@/types/post';
+// import { Comment, SimplePost, SupaComment, SupaPost } from '@/types/post';
+import { SupaComment, SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useState } from 'react';
 
@@ -38,8 +39,8 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
       <div className="flex w-fit items-center mb-3">
         <PostUserAvatar
           user={{
-            username: userProfile?.userName,
-            image: userProfile?.avatarUrl,
+            userName: userProfile?.userName || '',
+            avatarUrl: userProfile?.avatarUrl || '',
           }}
           location={location}
         />

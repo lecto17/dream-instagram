@@ -3,13 +3,12 @@
 import CommentForm from '@/components/comment/CommentForm';
 import CommentItem from '@/components/comment/CommentItem';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
-import ActionBar from '@/components/ui/ActionBar';
+// import ActionBar from '@/components/ui/ActionBar';
 import useComment from '@/hooks/useComment';
 import useUser from '@/hooks/useUser';
 import { SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useCallback } from 'react';
-import useSWR from 'swr';
 
 // type PostDetailProps = {
 //   id: string;
@@ -49,13 +48,13 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
       </div>
       <div className="w-full h-full flex flex-col basis-2/5 ">
         <div className="flex w-full items-center border-b border-gray-200 p-2 mb-2">
-          <PostUserAvatar user={{ username: userName, image: avatarUrl }} />
+          <PostUserAvatar user={{ userName, avatarUrl }} />
         </div>
         <div className="h-full flex flex-col justify-between">
           <div className="flex flex-col p-3">
             <div className="flex items-center mb-2">
               <PostUserAvatar
-                user={{ username: userName, image: avatarUrl }}
+                user={{ userName, avatarUrl }}
                 avatarSize="xs"
                 noLocation
               >

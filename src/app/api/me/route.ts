@@ -1,13 +1,7 @@
 import {
-  addBookMarkOnPost,
-  getFollowingsBy,
-  removeBookMarkOnPost,
-} from '@/service/user';
-import {
   getAuthenticatedUser,
   // validateSession
 } from '@/actions/action';
-import { NextRequest, NextResponse } from 'next/server';
 import { getMyProfile } from '@/service/supa-user';
 
 // export async function GET() {
@@ -26,7 +20,8 @@ export async function GET() {
   return new Response(JSON.stringify(profile), { status: 200 });
 }
 
-export async function PUT(req: NextRequest) {
+export async function PUT() {
+  // export async function PUT(req: NextRequest) {
   // const user = await validateSession();
   // if (!user) {
   //   return new Response('Authenticated Error');

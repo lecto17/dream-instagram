@@ -1,7 +1,7 @@
 export type SupaUserProfile = {
   avatarUrl: string | null;
-  createdAt: string;
-  id: string;
+  createdAt?: string;
+  id?: string;
   userName: string;
 };
 

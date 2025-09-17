@@ -2,7 +2,7 @@
 
 ## 기술 스택
 
-`next.js`, `next-auth`, `tailwind`, `sanity`
+`next.js`, `next-auth`, `tailwind`, `supabase`
 
 ## 구현 기능 및 점검 내용
 
@@ -19,9 +19,7 @@
 ## 보완할 부분
 
 - next-auth 로그인 시 user별 id 값 prisma 사용하여 값 고정
-- sanity 접속 client 구분(client, freshClient)
 - 사용자 프로필 페이지 로딩 시 화면
-- sanity 이전 -> supabase 혹은 자체 db
 - 익명 로그인 기능(or 이메일 인증 기능)
 - 채널 별 데이터 저장
 - 간단한 대화창

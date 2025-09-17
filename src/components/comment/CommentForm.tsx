@@ -1,5 +1,6 @@
 import useUser from '@/hooks/useUser';
-import { Comment, SupaComment } from '@/types/post';
+// import { Comment, SupaComment } from '@/types/post';
+import { SupaComment } from '@/types/post';
 // import { useSession } from "next-auth/react";
 import { useCallback, useState } from 'react';
 

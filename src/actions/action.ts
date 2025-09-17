@@ -1,4 +1,3 @@
-import { User } from '@/types/user';
 // import { auth } from '/auth';
 import { serverSupabase } from '@/lib/supabaseServerClient';
 import { redirect } from 'next/navigation';

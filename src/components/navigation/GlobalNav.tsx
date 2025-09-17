@@ -12,8 +12,8 @@ import { RiSearchFill } from 'react-icons/ri';
 
 import InstagramBorder from '@/components/border/InstagramBorder';
 // import { useSession, signIn, signOut } from 'next-auth/react';
-import Avatar from '@/components/avatar/Avatar';
-import { createClient } from '@/lib/supabaseBrowserClient';
+// import Avatar from '@/components/avatar/Avatar';
+// import { createClient } from '@/lib/supabaseBrowserClient';
 
 interface MENU {
   url: string;
@@ -45,6 +45,8 @@ const MENUS: MENU[] = [
 
 const GlobalNav = () => {
   const pathName = usePathname();
+  // const user = createClient().auth.getUser();
+
   // const { data: session } = useSession();
   // const user = session?.user;
   // const client = createClient();

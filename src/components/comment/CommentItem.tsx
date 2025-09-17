@@ -1,7 +1,7 @@
 'use client';
 
 import Avatar from '@/components/avatar/Avatar';
-import { Comment, SupaComment } from '@/types/post';
+import { SupaComment } from '@/types/post';
 import { SupaUserProfile } from '@/types/user';
 
 type CommentItemProps = {

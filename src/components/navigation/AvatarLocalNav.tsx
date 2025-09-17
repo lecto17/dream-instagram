@@ -16,7 +16,7 @@ const AvatarLocalNav = ({ user }: AvatarLocalNavProps) => {
     <section className="flex flex-col py-5 items-center">
       <div className="flex items-center">
         <Avatar
-          user={user}
+          user={userProfile!}
           border={false}
           size="middle"
         />

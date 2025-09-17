@@ -1,5 +1,5 @@
 import useSWR, { useSWRConfig } from 'swr';
-import { Comment, SupaComment } from '@/types/post';
+import { SupaComment } from '@/types/post';
 import { useCallback } from 'react';
 
 export default function useComment(postId: string) {

@@ -1,8 +1,8 @@
-import Avatar, { AvatarSize } from "@/components/avatar/Avatar";
-import { SimpleUser } from "@/types/user";
+import Avatar, { AvatarSize } from '@/components/avatar/Avatar';
+import { SupaUserProfile } from '@/types/user';
 
 type Props = {
-  user: SimpleUser;
+  user: SupaUserProfile;
   avatarSize?: AvatarSize;
   location?: string;
   noLocation?: boolean;
@@ -11,16 +11,19 @@ type Props = {
 
 const PostUserAvatar = ({
   user,
-  avatarSize = "small",
-  location = "인천광역시, 영종도",
+  avatarSize = 'small',
+  location = '인천광역시, 영종도',
   noLocation,
   children,
 }: Props) => {
   return (
     <>
-      <Avatar user={user} size={avatarSize} />
+      <Avatar
+        user={user}
+        size={avatarSize}
+      />
       <p className="flex flex-col ml-2 text-base text-gray-700">
-        <span className="font-semibold">{user.username}</span>
+        <span className="font-semibold">{user.userName}</span>
         {!noLocation && (
           <span className="text-xs leading-3 text-gray-500">{location}</span>
         )}

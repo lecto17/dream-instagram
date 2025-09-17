@@ -1,7 +1,8 @@
 'use client';
 
 import InstagramBorder from '@/components/border/InstagramBorder';
-import { SimpleUser, SupaUserProfile, User } from '@/types/user';
+// import { SimpleUser, SupaUserProfile, User } from '@/types/user';
+import { SupaUserProfile } from '@/types/user';
 import Link from 'next/link';
 import { memo } from 'react';
 

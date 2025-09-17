@@ -40,7 +40,7 @@ export const objectsMapperWithFields = (
   fieldMappings: Record<string, string>,
 ) => {
   return datas.map((data) => {
-    const transformed: Record<string, any> = {};
+    const transformed: Record<string, unknown> = {};
 
     for (const [originalKey, newKey] of Object.entries(fieldMappings)) {
       if (data[originalKey] !== undefined) {

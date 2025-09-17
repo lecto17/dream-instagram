@@ -1,4 +1,3 @@
-import { SupabaseClient } from '@supabase/supabase-js';
 import { objectMapper } from '@/utils/mapper';
 import { SupaUserProfile } from '@/types/user';
 import { serverSupabase } from '@/lib/supabaseServerClient';
