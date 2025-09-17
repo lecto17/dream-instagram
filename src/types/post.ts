@@ -13,7 +13,8 @@ export type SupaPost = {
 
 export type SupaComment = {
   body: string;
-  user: Pick<SupaUserProfile, 'avatarUrl' | 'userName'>;
+  avatarUrl: string | null;
+  userName: string;
   id?: string;
 };
 

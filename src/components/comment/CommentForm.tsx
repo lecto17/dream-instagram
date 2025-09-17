@@ -27,10 +27,8 @@ const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
     onSubmit(
       {
         body: value,
-        user: {
-          userName: userProfile?.userName || '',
-          avatarUrl: userProfile?.avatarUrl || '',
-        },
+        userName: userProfile?.userName || '',
+        avatarUrl: userProfile?.avatarUrl || '',
       },
       postId,
     );

@@ -48,17 +48,16 @@ export const getPosts = async (date: string) => {
 export const getPostComments = async (id: string) => {
   const client = await serverSupabase();
   const { data, error } = await client
-    .from('comments')
+    .from('comments_enriched')
     .select('*')
     .eq('post_id', id);
 
   if (error) throw error;
-
   return data.map(objectMapper);
 };
 
 export const addPost = async (
-  post: Omit<SupaPost, 'comments' | 'id' | 'updatedAt'>,
+  post: Omit<SupaPost, 'comments' | 'id' | 'updatedAt' | 'author'>,
 ) => {
   const client = await serverSupabase();
   const { authorId, caption, imageKey, createdAt } = post;
