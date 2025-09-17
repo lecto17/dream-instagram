@@ -25,10 +25,7 @@ export default function Home() {
         <PostList />
       </div>
       <div className="hidden sm:block basis-1/4 ml:8">
-        {/* <AvatarLocalNav
-          user={user}
-          profile={profile}
-        /> */}
+        <AvatarLocalNav />
       </div>
     </section>
   );

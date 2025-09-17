@@ -2,14 +2,9 @@
 import Avatar from '@/components/avatar/Avatar';
 
 import { getNameByEmail } from '@/utils/utils';
-import { User } from '@supabase/supabase-js';
 import useUser from '@/hooks/useUser';
 
-interface AvatarLocalNavProps {
-  user: User;
-}
-
-const AvatarLocalNav = ({ user }: AvatarLocalNavProps) => {
+const AvatarLocalNav = () => {
   const { user: userProfile } = useUser();
 
   return (
@@ -22,7 +17,7 @@ const AvatarLocalNav = ({ user }: AvatarLocalNavProps) => {
         />
         <p className="ml-4 text-base leading-3">
           <span className="block font-semibold">
-            {getNameByEmail(user.email)}
+            {/* {getNameByEmail(userProfile?.email)} */}
           </span>
           <span className="text-gray-500 text-lg">{userProfile?.userName}</span>
         </p>
