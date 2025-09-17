@@ -2,7 +2,8 @@ import {
   getAuthenticatedUser,
   // validateSession
 } from '@/actions/action';
-import { getMyProfile } from '@/service/supa-user';
+import { NextRequest, NextResponse } from 'next/server';
+import { getMyProfile, updateUserProfile } from '@/service/supa-user';
 
 // export async function GET() {
 //   const user = await validateSession();
@@ -20,7 +21,7 @@ export async function GET() {
   return new Response(JSON.stringify(profile), { status: 200 });
 }
 
-export async function PUT() {
+export async function PUT(req: NextRequest) {
   // export async function PUT(req: NextRequest) {
   // const user = await validateSession();
   // if (!user) {
@@ -34,4 +35,17 @@ export async function PUT() {
   // return request(postId, user.id)
   //   .then(NextResponse.json)
   //   .catch((err) => new Response(JSON.stringify(err), { status: 500 }));
+
+  /**
+   * TODO
+   * 이미지 s3 업로드 url 받아오기
+   */
+
+  const user = await getAuthenticatedUser();
+  if (!user) return new Response('UnAthenticated Error');
+
+  const { userName, avatarFile } = await req.json();
+
+  await updateUserProfile(user.id, userName, avatarFile);
+  return new Response(JSON.stringify({ message: 'success' }), { status: 200 });
 }

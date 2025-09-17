@@ -43,7 +43,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   } = post;
 
   return (
-    <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3">
+    <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3 min-w-[468px]">
       <div className="flex w-fit items-center mb-3">
         <PostUserAvatar
           user={{
@@ -54,15 +54,17 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
         />
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className="max-w-[468px] object-cover aspect-square hover:cursor-pointer"
-        src={imageKey}
-        width={468}
-        height={565}
-        alt={`photo by ${authorId}`}
-        fetchPriority={priority ? 'high' : 'low'}
-        onClick={showPostModal}
-      />
+      {imageKey && (
+        <img
+          className="max-w-[468px] object-cover aspect-square hover:cursor-pointer"
+          src={imageKey}
+          width={468}
+          height={565}
+          alt={`photo by ${authorId}`}
+          fetchPriority={priority ? 'high' : 'low'}
+          onClick={showPostModal}
+        />
+      )}
       {showable && (
         <ModalPortal>
           <PostModal onClose={() => setShowable(false)}>
@@ -89,11 +91,11 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
           {likes?.length ?? 0}
           {likes?.length > 1 ? ' likes' : ' like'}
         </p> */}
-        <p className="flex items-center">
+        <p className="flex items-center mb-5">
           {/* <span className="font-bold mr-2">{username}</span> */}
           {caption}
         </p>
-        <p className="mb-5">{parseDate(createdAt)}</p>
+        <p className="mb-5 text-gray-400 text-sm  ">{parseDate(createdAt)}</p>
         <CommentCount
           countOfComments={comments}
           onClick={showPostModal}
