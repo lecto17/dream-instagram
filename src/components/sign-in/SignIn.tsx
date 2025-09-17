@@ -1,6 +1,7 @@
 'use client';
 
 import { createClient } from '@/lib/supabaseBrowserClient';
+import { getAppUrl } from '@/utils/env';
 
 const SignIn = () => {
   const _signInWithKakao = async () => {
@@ -8,7 +9,7 @@ const SignIn = () => {
     await supabase.auth.signInWithOAuth({
       provider: 'kakao',
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+        redirectTo: `${getAppUrl()}/auth/callback`,
       },
     });
   };
