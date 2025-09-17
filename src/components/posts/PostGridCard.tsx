@@ -1,49 +1,46 @@
-import PostModal from "@/components/modal/PostModal";
-import ModalPortal from "@/components/portal/ModalPortal";
-import PostDetail from "@/components/posts/PostDetail";
-import { SimplePost } from "@/types/post";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-import { useState } from "react";
+import PostModal from '@/components/modal/PostModal';
+import ModalPortal from '@/components/portal/ModalPortal';
+import PostDetail from '@/components/posts/PostDetail';
+import useUser from '@/hooks/useUser';
+import { createClient } from '@/lib/supabaseBrowserClient';
+import { SupaPost } from '@/types/post';
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
 
 type Props = {
-  post: SimplePost;
+  post: SupaPost;
 };
 
-const PostGridCard = ({
-  post: { image, userImage, username, id, likes, createdAt, text },
-}: Props) => {
+const PostGridCard = ({ post }: Props) => {
   const [showable, setShowable] = useState(false);
-  const { data: session } = useSession();
+  const user = createClient().auth.getUser();
+  const { user: userProfile } = useUser();
 
   const handleLClickPost = () => {
-    if (!session?.user) {
-      redirect("/auth/login");
+    if (user == null) {
+      redirect('/auth/login');
     }
 
     setShowable(true);
   };
 
   return (
-    <li className="cursor-pointer" onClick={handleLClickPost}>
+    <li
+      className="cursor-pointer"
+      onClick={handleLClickPost}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={image}
-        alt={username + "'s article"}
+        src={post.imageKey}
+        alt={userProfile?.userName + "'s article"}
         className="aspect-square object-cover"
       />
       {showable && (
         <ModalPortal>
           <PostModal onClose={() => setShowable(false)}>
             <PostDetail
-              key={id}
-              id={id}
-              createdAt={createdAt}
-              image={image}
-              likes={likes}
-              text={text}
-              userImage={userImage}
-              username={username}
+              key={post.id}
+              post={post}
             />
           </PostModal>
         </ModalPortal>

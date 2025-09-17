@@ -1,29 +1,31 @@
-import { redirect } from "next/navigation";
-import { signIn, providerMap } from "/auth";
-import { AuthError } from "next-auth";
-import InstagramBorder from "@/components/border/InstagramBorder";
+// import { redirect } from 'next/navigation';
+// import { signIn, providerMap } from '/auth';
+// import { AuthError } from 'next-auth';
+// import InstagramBorder from '@/components/border/InstagramBorder';
+import InstagramBorder from '@/components/border/InstagramBorder';
+import SignIn from '@/components/sign-in/SignIn';
 
-type Props = Promise<{
-  searchParams: { callbackUrl: string | undefined };
-}>;
+// type Props = Promise<{
+//   searchParams: { callbackUrl: string | undefined };
+// }>;
 
-export default async function SignInPage({
-  searchParams,
-}: {
-  searchParams: Props;
-}) {
+export default async function SignInPage() {
+  // export default async function SignInPage({ searchParams }: { searchParams: Props }) {
   // Dynamic APIs are
   // The `params` and `searchParams` props that get provided to pages, layouts, metadata APIs, and route handlers.
   // next15 부터에서는 위 params나 searchParams를 사용하려면 await를 사용해야한다.
   // https://nextjs.org/docs/messages/sync-dynamic-apis
 
-  const params = await searchParams;
-  const callbackUrl = params?.searchParams?.callbackUrl || "";
+  // const params = await searchParams;
+  // const callbackUrl = params?.searchParams?.callbackUrl || '';
 
   return (
     <section className="mt-[25%] flex justify-center">
-      <InstagramBorder className="w-fit p-2 text-2xl font-semibold">
-        {Object.values(providerMap).map((provider) => (
+      {/* <InstagramBorder className="w-fit p-2 text-2xl font-semibold"> */}
+
+      <SignIn />
+
+      {/* {Object.values(providerMap).map((provider) => (
           <form
             className="p-[2px]"
             key={provider.id}
@@ -56,8 +58,8 @@ export default async function SignInPage({
               <span>Sign in with {provider.name}</span>
             </button>
           </form>
-        ))}
-      </InstagramBorder>
+        ))} */}
+      {/* </InstagramBorder> */}
     </section>
   );
 }

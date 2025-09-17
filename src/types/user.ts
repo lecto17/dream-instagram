@@ -1,3 +1,16 @@
+export type SupaUserProfile = {
+  avatarUrl: string | null;
+  createdAt?: string;
+  id?: string;
+  userName: string;
+};
+
+export type OnboardingUserProfile = {
+  id: string;
+  userName: string;
+  avatarFile: File | null;
+};
+
 export type User = {
   id: string;
   username?: string;
@@ -6,7 +19,7 @@ export type User = {
   image?: string | null;
 };
 
-export type SimpleUser = Pick<User, "username" | "image"> & {
+export type SimpleUser = Pick<User, 'username' | 'image'> & {
   id?: string;
 };
 

@@ -1,12 +1,28 @@
-"use client";
+'use client';
 
-import { SWRConfig } from "swr";
+import { SupaUserProfile } from '@/types/user';
+import { User } from '@supabase/supabase-js';
+import { SWRConfig } from 'swr';
 
-interface Props {
+type Props = {
   children: React.ReactNode;
-}
+  fallback?: Record<string, unknown>;
+  user?: User;
+  profile?: SupaUserProfile;
+};
 
-const SWRConfigContext = ({ children }: Props) => {
+const SWRConfigContext = ({ children, fallback, user, profile }: Props) => {
+  const initialData = {
+    ...fallback,
+    // 사용자 정보 캐시
+    ...(user && { '/api/me': user }),
+    // 프로필 정보 캐시
+    ...(profile && user && { [`/api/profile/${user.id}`]: profile }),
+  };
+
+  console.log('[SWRConfigContext SWRConfigContext]');
+  console.log(initialData);
+
   return (
     <SWRConfig
       value={{
@@ -14,6 +30,7 @@ const SWRConfigContext = ({ children }: Props) => {
           await fetch(query).then((res) => res.json()),
         // (resource, init) => fetch(resource, init).then((res) => res.json()),
         revalidateOnFocus: false, // SWR의 기본 설정은 탭을 이동했다 돌아오면 자동으로 다시 요청
+        fallback: initialData,
       }}
     >
       {children}

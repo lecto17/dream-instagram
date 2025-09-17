@@ -1,15 +1,15 @@
 type Props = {
-  comments: number;
+  countOfComments: number;
   onClick: () => void;
 };
-const CommentCount = ({ comments, onClick }: Props) => {
+const CommentCount = ({ countOfComments, onClick }: Props) => {
   return (
-    !!comments && (
+    countOfComments !== 0 && (
       <span
         className="font-semibold text-sm text-sky-400 cursor-pointer"
         onClick={onClick}
       >
-        view all <b>{comments}</b> comments
+        view all <b>{countOfComments}</b> comments
       </span>
     )
   );

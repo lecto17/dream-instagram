@@ -1,19 +1,21 @@
-import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
-import "./globals.css";
-import GlobalNav from "@/components/navigation/GlobalNav";
-import AuthContext from "@/context/AuthContext";
-import SWRConfigContext from "@/context/SWRConfigContext";
+import type { Metadata } from 'next';
+import { Open_Sans } from 'next/font/google';
+import './globals.css';
+import GlobalNav from '@/components/navigation/GlobalNav';
+// import AuthContext from '@/context/AuthContext';
+import SWRConfigContext from '@/context/SWRConfigContext';
+import { getAuthenticatedUser } from '@/actions/action';
+import { getMyProfile } from '@/service/supa-user';
 
 const openSans = Open_Sans({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Tell your Voice",
-    template: "Tell your Voice | %s",
+    default: 'Tell your Voice',
+    template: 'Tell your Voice | %s',
   },
   description: "Listen your neighbor's story",
 };
@@ -34,6 +36,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // 전역적으로 사용자 정보와 프로필 정보 가져오기
+  const user = await getAuthenticatedUser();
+  const profile = user ? await getMyProfile(user.id) : null;
+
   return (
     <html lang="ko">
       <head>
@@ -42,21 +48,16 @@ export default async function RootLayout({
           href="https://lh3.googleusercontent.com"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preconnect"
-          href="https://cdn.sanity.io"
-          crossOrigin="anonymous"
-        />
       </head>
-      <body className={`${openSans.className} w-full bg-neutral-50`}>
-        <AuthContext>
-          <div className="max-w-screen-xl mx-auto">
-            <GlobalNav />
-          </div>
-          <main className="w-full flex justify-center">
-            <SWRConfigContext>{children}</SWRConfigContext>
-          </main>
-        </AuthContext>
+      <body className={`${openSans.className} w-full h-full bg-neutral-50`}>
+        {/* <AuthContext> */}
+        <div className="max-w-screen-xl mx-auto h-16">
+          <GlobalNav />
+        </div>
+        <main className="w-full h-[calc(100%-64px)] flex justify-center">
+          <SWRConfigContext>{children}</SWRConfigContext>
+        </main>
+        {/* </AuthContext> */}
         <div id="portal" />
       </body>
     </html>

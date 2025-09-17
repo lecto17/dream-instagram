@@ -1,19 +1,25 @@
-"use client";
+'use client';
 
-import Avatar from "@/components/avatar/Avatar";
-import { Comment } from "@/types/post";
+import Avatar from '@/components/avatar/Avatar';
+import { SupaComment } from '@/types/post';
+import { SupaUserProfile } from '@/types/user';
 
 type CommentItemProps = {
-  comment: Comment;
+  // comment: Comment;
+  comment: SupaComment;
+  user: Pick<SupaUserProfile, 'avatarUrl' | 'userName'>;
 };
 
-const CommentItem = ({ comment: { user, comment } }: CommentItemProps) => {
+const CommentItem = ({ comment: { body }, user }: CommentItemProps) => {
   return (
     <li className="flex">
-      <Avatar user={user} size="xs" />
+      <Avatar
+        user={user}
+        size="xs"
+      />
       <p className="flex items-center ml-1">
-        <span className="font-bold mr-2">{user?.username || ""}</span>
-        {comment}
+        <span className="font-bold mr-2">{user?.userName}</span>
+        {body}
       </p>
     </li>
   );

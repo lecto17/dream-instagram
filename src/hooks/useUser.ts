@@ -1,75 +1,88 @@
-import useSWR, { useSWRConfig } from "swr";
-import { DetailUser } from "@/types/user";
-import { useCallback } from "react";
+import useSWR, { useSWRConfig } from 'swr';
+import {
+  DetailUser,
+  OnboardingUserProfile,
+  SupaUserProfile,
+  UserProfile,
+} from '@/types/user';
 
 export default function useUser() {
-  const { data: user, isLoading, mutate } = useSWR<DetailUser>("/api/me");
-  const { mutate: globalMutate } = useSWRConfig();
+  // const { data: user, isLoading, mutate } = useSWR<DetailUser>("/api/me");
+  const { data: user, isLoading } = useSWR<SupaUserProfile>('/api/me');
+  // const { mutate: globalMutate } = useSWRConfig();
 
-  const updateBookMark = async (postId: string, bookmark: boolean) => {
-    return await fetch("/api/me", {
-      method: "PUT",
-      body: JSON.stringify({ postId, bookmark }),
+  const updateUserProfile = async (data: Omit<OnboardingUserProfile, 'id'>) => {
+    return await fetch('/api/me', {
+      method: 'PUT',
+      body: JSON.stringify(data),
     }).then((res) => res.json());
   };
 
-  const setBookMarked = useCallback(
-    (postId: string, bookmark: boolean) => {
-      const newUser = {
-        ...user!,
-        bookmarks: bookmark
-          ? [...(user?.bookmarks || []), postId]
-          : user?.bookmarks?.filter((id) => id != postId) || [],
-      };
+  // const updateBookMark = async (postId: string, bookmark: boolean) => {
+  //   return await fetch('/api/me', {
+  //     method: 'PUT',
+  //     body: JSON.stringify({ postId, bookmark }),
+  //   }).then((res) => res.json());
+  // };
 
-      mutate(updateBookMark(postId, bookmark), {
-        optimisticData: newUser,
-        populateCache: false,
-        revalidate: false,
-        rollbackOnError: true,
-      });
-    },
-    [user, mutate]
-  );
+  // const setBookMarked = useCallback(
+  //   (postId: string, bookmark: boolean) => {
+  //     const newUser = {
+  //       ...user!,
+  //       bookmarks: bookmark
+  //         ? [...(user?.bookmarks || []), postId]
+  //         : user?.bookmarks?.filter((id) => id != postId) || [],
+  //     };
 
-  const updateFollowing = async (
-    profileUserId: string,
-    addOnFollowing: boolean
-  ) => {
-    return fetch("/api/me/following", {
-      method: "PUT",
-      body: JSON.stringify({ profileUserId, addOnFollowing }),
-    }).then((res) => res.json());
-  };
+  //     mutate(updateBookMark(postId, bookmark), {
+  //       optimisticData: newUser,
+  //       populateCache: false,
+  //       revalidate: false,
+  //       rollbackOnError: true,
+  //     });
+  //   },
+  //   [user, mutate],
+  // );
 
-  const setFollowing = useCallback(
-    async (
-      profileUserName: string,
-      profileUserId: string,
-      addOnFollowing: boolean
-    ) => {
-      await updateFollowing(profileUserId, addOnFollowing).then(async () => {
-        await Promise.all([
-          mutate(
-            {
-              ...user!,
-              following: user?.following?.length
-                ? [
-                    ...user.following,
-                    { username: profileUserName, id: profileUserId },
-                  ]
-                : [{ username: profileUserName, id: profileUserId }],
-            },
-            { revalidate: true }
-          ),
-          globalMutate(`/api/users/${profileUserName}`),
-        ]);
-        // await mutate();
-        // await globalMutate(`/api/users/${profileUserName}`);
-      });
-    },
-    [user, mutate, globalMutate]
-  );
+  // const updateFollowing = async (
+  //   profileUserId: string,
+  //   addOnFollowing: boolean,
+  // ) => {
+  //   return fetch('/api/me/following', {
+  //     method: 'PUT',
+  //     body: JSON.stringify({ profileUserId, addOnFollowing }),
+  //   }).then((res) => res.json());
+  // };
 
-  return { user, isLoading, setBookMarked, setFollowing };
+  // const setFollowing = useCallback(
+  //   async (
+  //     profileUserName: string,
+  //     profileUserId: string,
+  //     addOnFollowing: boolean,
+  //   ) => {
+  //     await updateFollowing(profileUserId, addOnFollowing).then(async () => {
+  //       await Promise.all([
+  //         mutate(
+  //           {
+  //             ...user!,
+  //             following: user?.following?.length
+  //               ? [
+  //                   ...user.following,
+  //                   { username: profileUserName, id: profileUserId },
+  //                 ]
+  //               : [{ username: profileUserName, id: profileUserId }],
+  //           },
+  //           { revalidate: true },
+  //         ),
+  //         globalMutate(`/api/users/${profileUserName}`),
+  //       ]);
+  //       // await mutate();
+  //       // await globalMutate(`/api/users/${profileUserName}`);
+  //     });
+  //   },
+  //   [user, mutate, globalMutate],
+  // );
+
+  // return { user, isLoading, setBookMarked, setFollowing, updateUserProfile };
+  return { user, isLoading, updateUserProfile };
 }
