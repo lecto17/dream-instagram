@@ -13,9 +13,6 @@ export default function Home() {
     user?.id ? `/api/profile/${user.id}` : null,
   );
 
-  console.log('[Home] User:', user);
-  console.log('[Home] Profile from SWR cache:', profile);
-
   if (profileLoading) {
     return <div>로딩 중...</div>;
   }
