@@ -4,6 +4,8 @@ import './globals.css';
 import GlobalNav from '@/components/navigation/GlobalNav';
 // import AuthContext from '@/context/AuthContext';
 import SWRConfigContext from '@/context/SWRConfigContext';
+import { getAuthenticatedUser } from '@/actions/action';
+import { getMyProfile } from '@/service/supa-user';
 
 const openSans = Open_Sans({
   variable: '--font-geist-mono',
@@ -34,6 +36,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // 전역적으로 사용자 정보와 프로필 정보 가져오기
+  const user = await getAuthenticatedUser();
+  const profile = user ? await getMyProfile(user.id) : null;
+
   return (
     <html lang="ko">
       <head>
@@ -49,7 +55,12 @@ export default async function RootLayout({
           <GlobalNav />
         </div>
         <main className="w-full h-[calc(100%-64px)] flex justify-center">
-          <SWRConfigContext>{children}</SWRConfigContext>
+          <SWRConfigContext
+            user={user}
+            profile={profile}
+          >
+            {children}
+          </SWRConfigContext>
         </main>
         {/* </AuthContext> */}
         <div id="portal" />
