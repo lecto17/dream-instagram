@@ -21,12 +21,14 @@ import { useCallback } from 'react';
 // };
 
 const PostDetail = ({ post }: { post: SupaPost }) => {
-  const { id, createdAt, imageKey, caption } = post;
+  const {
+    id,
+    createdAt,
+    imageKey,
+    caption,
+    author: { userName, avatarUrl },
+  } = post;
   const { comments, setComment } = useComment(id);
-
-  console.log('ccomments', comments);
-  const { user: { userName, avatarUrl } = { userName: '', avatarUrl: '' } } =
-    useUser();
 
   const suppressEventBubbling = useCallback((e: React.MouseEvent<Element>) => {
     e.stopPropagation();
@@ -34,19 +36,20 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
 
   return (
     <article
-      className="w-[1000px] h-[700px] flex bg-white"
+      // className="w-[1000px] h-[700px] flex bg-white"
+      className="w-[1000px] h-[700px] flex bg-white md:w-[600px] md:h-[600px] md:flex-col"
       onClick={suppressEventBubbling}
     >
-      <div className="w-full flex basis-3/5">
+      <div className="w-full h-full flex basis-3/5 md:h-4/5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          className="w-full max-h-[800px] object-cover hover:cursor-pointerr"
+          className="w-full max-h-[800px] object-cover hover:cursor-pointer md:h-full md:object-contain"
           src={imageKey}
           alt={`photo by ${userName}`}
           fetchPriority={'auto'}
         />
       </div>
-      <div className="w-full h-full flex flex-col basis-2/5 ">
+      <div className="w-full h-full flex flex-col basis-2/5">
         <div className="flex w-full items-center border-b border-gray-200 p-2 mb-2">
           <PostUserAvatar user={{ userName, avatarUrl }} />
         </div>
@@ -62,8 +65,8 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
               </PostUserAvatar>
             </div>
             <ul className="comments-wrapper flex flex-col space-y-1 max-h-[420px] overflow-y-auto">
-              {comments?.length &&
-                comments[0] &&
+              {comments != null &&
+                comments.length > 0 &&
                 comments.map((comment, idx) => (
                   <CommentItem
                     key={`${comment.id}-${idx}`}
