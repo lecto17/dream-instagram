@@ -5,9 +5,9 @@ import { serverSupabase } from '@/lib/supabaseServerClient';
 export const getPosts = async (date: string) => {
   const client = await serverSupabase();
 
-  console.log('0) date', date);
+  // posts 테이블과 users 테이블로 만든 뷰에서 게시글 조회
   const { data: posts, error } = await client
-    .from('posts')
+    .from('posts_enriched')
     .select('*')
     .gte('created_at', `${date}T00:00:00.000Z`)
     .lte('created_at', `${date}T23:59:59.999Z`);

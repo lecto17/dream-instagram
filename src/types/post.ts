@@ -8,6 +8,7 @@ export type SupaPost = {
   createdAt: string;
   updatedAt: string;
   comments: number;
+  author: Pick<SupaUserProfile, 'avatarUrl' | 'userName' | 'id'>;
 };
 
 export type SupaComment = {
