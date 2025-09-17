@@ -59,7 +59,10 @@ export default function usePosts(date?: string) {
   const addPost = async (text: string, file?: File) => {
     const formData = new FormData();
     formData.append('text', text);
-    if (file) formData.append('file', file);
+    if (file) {
+      formData.append('file', file);
+      formData.append('fileName', file.name);
+    }
 
     await fetch('/api/post', {
       method: 'POST',

@@ -57,11 +57,19 @@ export const getPostComments = async (id: string) => {
   return data.map(objectMapper);
 };
 
-export const addPost = async (post: SupaPost) => {
+export const addPost = async (
+  post: Omit<SupaPost, 'comments' | 'id' | 'updatedAt'>,
+) => {
   const client = await serverSupabase();
+  const { authorId, caption, imageKey, createdAt } = post;
   const { data, error } = await client
     .from('posts')
-    .insert(post)
+    .insert({
+      author_id: authorId,
+      caption,
+      image_key: imageKey,
+      created_at: createdAt,
+    })
     .select()
     .single();
   if (error) throw error;

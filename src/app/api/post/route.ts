@@ -2,6 +2,7 @@
 import { getAuthenticatedUser } from '@/actions/action';
 // import { addPost } from '@/service/post';
 import { addPost } from '@/service/supa-post';
+import { uploadFileToS3 } from '@/service/s3-upload';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -11,20 +12,25 @@ export async function POST(req: NextRequest) {
     return new Response('Authenticated Error');
   }
 
+  let publicUrl = '';
   const formData = await req.formData();
   const file = formData.get('file') as File;
   const text = formData.get('text') as string;
+  const fileName = formData.get('fileName') as string;
 
-  if (!text) {
-    return new Response('Bad Request', { status: 400 });
+  if (file != null) {
+    const { url } = await uploadFileToS3({
+      file,
+      fileName,
+    });
+    publicUrl = url;
   }
 
   const param = {
-    author_id: user.id,
+    authorId: user.id,
     caption: text,
-    image_key: file?.name || '',
-    created_at: new Date().toISOString(),
-    updated_at: null,
+    imageKey: publicUrl,
+    createdAt: new Date().toISOString(),
   };
 
   return addPost(param)
