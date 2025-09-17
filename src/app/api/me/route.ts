@@ -1,9 +1,4 @@
 import {
-  addBookMarkOnPost,
-  getFollowingsBy,
-  removeBookMarkOnPost,
-} from '@/service/user';
-import {
   getAuthenticatedUser,
   // validateSession
 } from '@/actions/action';
@@ -27,6 +22,7 @@ export async function GET() {
 }
 
 export async function PUT(req: NextRequest) {
+  // export async function PUT(req: NextRequest) {
   // const user = await validateSession();
   // if (!user) {
   //   return new Response('Authenticated Error');

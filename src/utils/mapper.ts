@@ -23,7 +23,17 @@ const transformKeys = (
 
   for (const [key, value] of Object.entries(obj)) {
     const pascalKey = snakeToCamel(key);
-    transformed[pascalKey] = value;
+    if (
+      value &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      !(value instanceof Date)
+    ) {
+      // 중첩된 객체에 대해 재귀적으로 transformKeys 적용
+      transformed[pascalKey] = transformKeys(value as Record<string, unknown>);
+    } else {
+      transformed[pascalKey] = value;
+    }
   }
 
   return transformed;
@@ -40,7 +50,7 @@ export const objectsMapperWithFields = (
   fieldMappings: Record<string, string>,
 ) => {
   return datas.map((data) => {
-    const transformed: Record<string, any> = {};
+    const transformed: Record<string, unknown> = {};
 
     for (const [originalKey, newKey] of Object.entries(fieldMappings)) {
       if (data[originalKey] !== undefined) {

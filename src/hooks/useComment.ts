@@ -1,5 +1,5 @@
 import useSWR, { useSWRConfig } from 'swr';
-import { Comment, SupaComment } from '@/types/post';
+import { SupaComment } from '@/types/post';
 import { useCallback } from 'react';
 
 export default function useComment(postId: string) {
@@ -40,10 +40,8 @@ export default function useComment(postId: string) {
           ...(comments?.length ? comments : []),
           {
             ...comment,
-            user: {
-              avatarUrl: comment.user.avatarUrl,
-              userName: comment.user.userName,
-            },
+            avatarUrl: comment.avatarUrl,
+            userName: comment.userName,
           },
         ];
       }
@@ -53,7 +51,10 @@ export default function useComment(postId: string) {
         populateCache: false,
         revalidate: false,
         rollbackOnError: true,
-      }).then(() => globalMutate('/api/posts'));
+      }).then(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        return globalMutate(`/api/posts?date=${searchParams.get('date')}`);
+      });
     },
     [comments, mutate, updateComment, globalMutate],
   );

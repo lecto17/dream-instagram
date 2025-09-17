@@ -1,18 +1,16 @@
-import { client } from "@/sanity/sanity";
-
-type DataType = "USERS" | "AUTHORS" | "POSTS" | "CATEGORIES" | "FOLLOWINGS";
+type DataType = 'USERS' | 'AUTHORS' | 'POSTS' | 'CATEGORIES' | 'FOLLOWINGS';
 type QueryType =
-  | "FOLLOWINGS"
-  | "FOLLOWINGS_POSTS"
-  | "POST_DETAIL"
-  | "SEARCH_USER"
-  | "USER_ALL_INFO"
-  | "USER_PROFILE_TAB"
-  | "RECOMMEND_USERS"
-  | "IS_EXISTS_EMAIL";
+  | 'FOLLOWINGS'
+  | 'FOLLOWINGS_POSTS'
+  | 'POST_DETAIL'
+  | 'SEARCH_USER'
+  | 'USER_ALL_INFO'
+  | 'USER_PROFILE_TAB'
+  | 'RECOMMEND_USERS'
+  | 'IS_EXISTS_EMAIL';
 
 export const getQuery = (queryType: QueryType, payload: string) => {
-  let query = "";
+  let query = '';
   const simplePostProjection = `
     ...,
     "username": author->username,
@@ -26,7 +24,7 @@ export const getQuery = (queryType: QueryType, payload: string) => {
   `;
 
   switch (queryType) {
-    case "FOLLOWINGS":
+    case 'FOLLOWINGS':
       query = `*[_type == "user" && email == "${payload}"][0]{
         ...,
         "id": _id,
@@ -35,12 +33,12 @@ export const getQuery = (queryType: QueryType, payload: string) => {
         "bookmarks": bookmarks[]->_id
       }`;
       break;
-    case "FOLLOWINGS_POSTS":
+    case 'FOLLOWINGS_POSTS':
       query = `*[_type == "post" && author->_id == "${payload}"
         || author._ref in *[_type == "user" && _id == "${payload}"].following[]._ref] 
         | order(_createdAt desc){${simplePostProjection}}`;
       break;
-    case "POST_DETAIL":
+    case 'POST_DETAIL':
       query = `*[_type == "post" && _id == "${payload}"].comments[]{
           "user": {
             "id": _id,
@@ -50,7 +48,7 @@ export const getQuery = (queryType: QueryType, payload: string) => {
           "comment": comment
       }`;
       break;
-    case "SEARCH_USER":
+    case 'SEARCH_USER':
       const projection = `
         "following": count(following),
         "followers": count(followers),
@@ -62,7 +60,7 @@ export const getQuery = (queryType: QueryType, payload: string) => {
         ${projection}
       }`;
       break;
-    case "USER_ALL_INFO":
+    case 'USER_ALL_INFO':
       query = `
         *[_type == "user" && username == "${payload}"][0]{
           "id": _id,
@@ -74,17 +72,17 @@ export const getQuery = (queryType: QueryType, payload: string) => {
           "posts": (count(*[_type == "post" && author->username == "${payload}"]))
       }`;
       break;
-    case "USER_PROFILE_TAB":
-      const parsedPayload = payload.split("|");
+    case 'USER_PROFILE_TAB':
+      const parsedPayload = payload.split('|');
       // 작성 posts: 모든 post 중 author 자기자신
       // bookmark: user 내에서 북마크
       // likes: 모든 posts 중 likes 내에 자기가 있는 post
-      if (parsedPayload[1] === "posts") {
+      if (parsedPayload[1] === 'posts') {
         query = `*[_type == "post" && author->username == "${parsedPayload[0]}"]
           | order(_createdAt desc) { 
             ${simplePostProjection}
         }`;
-      } else if (parsedPayload[1] === "saved") {
+      } else if (parsedPayload[1] === 'saved') {
         query = `*[_type == "user" && username == "${parsedPayload[0]}"].bookmarks[]
           | order(_createdAt desc) { 
             "username": @->author->username,
@@ -103,7 +101,7 @@ export const getQuery = (queryType: QueryType, payload: string) => {
         }`;
       }
       break;
-    case "RECOMMEND_USERS":
+    case 'RECOMMEND_USERS':
       query = `*[_type == "user" && email != "${payload}" || username == "hnookim"] | order(_createdAt desc)[0..4] {
         "id": _id,
         "username": username,
@@ -111,7 +109,7 @@ export const getQuery = (queryType: QueryType, payload: string) => {
         "image": image
       }`;
       break;
-    case "IS_EXISTS_EMAIL":
+    case 'IS_EXISTS_EMAIL':
       query = `*[_type == "user" && email == "${payload}"][0] {
         "id":_id
       }`;
@@ -122,20 +120,20 @@ export const getQuery = (queryType: QueryType, payload: string) => {
   return query;
 };
 
-export const fetchAllData = async <T>(dataType: DataType): Promise<T[]> => {
-  let query = "";
-  switch (dataType) {
-    case "USERS":
-      query = `*[_type == "user"]{ username, name, email, image, following, followers }`;
-      break;
-    case "FOLLOWINGS":
-      // query =
-      break;
-    case "CATEGORIES":
-      query = `*[_type == "categories"]{ username, name, email, image, following, followers }`;
-      break;
-    default:
-      break;
-  }
-  return await client.fetch(query);
+export const fetchAllData = async <T>(dataType: DataType) => {
+  // let query = '';
+  // switch (dataType) {
+  //   case 'USERS':
+  //     query = `*[_type == "user"]{ username, name, email, image, following, followers }`;
+  //     break;
+  //   case 'FOLLOWINGS':
+  //     // query =
+  //     break;
+  //   case 'CATEGORIES':
+  //     query = `*[_type == "categories"]{ username, name, email, image, following, followers }`;
+  //     break;
+  //   default:
+  //     break;
+  // }
+  // return await client.fetch(query);
 };

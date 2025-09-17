@@ -1,7 +1,7 @@
 'use client';
 
 import Avatar from '@/components/avatar/Avatar';
-import { Comment, SupaComment } from '@/types/post';
+import { SupaComment } from '@/types/post';
 import { SupaUserProfile } from '@/types/user';
 
 type CommentItemProps = {
@@ -18,7 +18,7 @@ const CommentItem = ({ comment: { body }, user }: CommentItemProps) => {
         size="xs"
       />
       <p className="flex items-center ml-1">
-        <span className="font-bold mr-2">{user?.userName || ''}</span>
+        <span className="font-bold mr-2">{user?.userName}</span>
         {body}
       </p>
     </li>

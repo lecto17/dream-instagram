@@ -3,13 +3,12 @@
 import CommentForm from '@/components/comment/CommentForm';
 import CommentItem from '@/components/comment/CommentItem';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
-import ActionBar from '@/components/ui/ActionBar';
+// import ActionBar from '@/components/ui/ActionBar';
 import useComment from '@/hooks/useComment';
 import useUser from '@/hooks/useUser';
 import { SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useCallback } from 'react';
-import useSWR from 'swr';
 
 // type PostDetailProps = {
 //   id: string;
@@ -22,12 +21,14 @@ import useSWR from 'swr';
 // };
 
 const PostDetail = ({ post }: { post: SupaPost }) => {
-  const { id, createdAt, imageKey, caption } = post;
+  const {
+    id,
+    createdAt,
+    imageKey,
+    caption,
+    author: { userName, avatarUrl },
+  } = post;
   const { comments, setComment } = useComment(id);
-
-  console.log('ccomments', comments);
-  const { user: { userName, avatarUrl } = { userName: '', avatarUrl: '' } } =
-    useUser();
 
   const suppressEventBubbling = useCallback((e: React.MouseEvent<Element>) => {
     e.stopPropagation();
@@ -35,27 +36,28 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
 
   return (
     <article
-      className="w-[1000px] h-[700px] flex bg-white"
+      // className="w-[1000px] h-[700px] flex bg-white"
+      className="flex flex-col items-center justify-center pt-[10px] overflow-hidden w-[350px] h-[500px] bg-white md:w-[600px] md:h-[600px] md:pt-5 lg:w-[1000px] lg:h-[700px] lg:flex-row lg:pt-0"
       onClick={suppressEventBubbling}
     >
-      <div className="w-full flex basis-3/5">
+      <div className="flex justify-center h-3/5 w-[90%] lg:w-full lg:h-full lg:basis-3/5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          className="w-full max-h-[800px] object-cover hover:cursor-pointerr"
+          className="w-full max-h-[800px] object-cover hover:cursor-pointer md:h-full lg:object-cover"
           src={imageKey}
           alt={`photo by ${userName}`}
           fetchPriority={'auto'}
         />
       </div>
-      <div className="w-full h-full flex flex-col basis-2/5 ">
-        <div className="flex w-full items-center border-b border-gray-200 p-2 mb-2">
-          <PostUserAvatar user={{ username: userName, image: avatarUrl }} />
+      <div className="w-full h-full flex flex-col basis-2/5">
+        <div className="hidden lg:flex lg:w-full items-center border-b border-gray-200 p-2 mb-2">
+          <PostUserAvatar user={{ userName, avatarUrl }} />
         </div>
         <div className="h-full flex flex-col justify-between">
           <div className="flex flex-col p-3">
             <div className="flex items-center mb-2">
               <PostUserAvatar
-                user={{ username: userName, image: avatarUrl }}
+                user={{ userName, avatarUrl }}
                 avatarSize="xs"
                 noLocation
               >
@@ -63,13 +65,16 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
               </PostUserAvatar>
             </div>
             <ul className="comments-wrapper flex flex-col space-y-1 max-h-[420px] overflow-y-auto">
-              {comments?.length &&
-                comments[0] &&
+              {comments != null &&
+                comments.length > 0 &&
                 comments.map((comment, idx) => (
                   <CommentItem
                     key={`${comment.id}-${idx}`}
                     comment={comment}
-                    user={{ userName, avatarUrl }}
+                    user={{
+                      userName: comment.userName,
+                      avatarUrl: comment.avatarUrl,
+                    }}
                   />
                 ))}
             </ul>

@@ -5,14 +5,13 @@ import PublishButton from '@/components/button/PublishButton';
 import FileUpload from '@/components/input/FileUpload';
 import Loading from '@/components/loading/Loading';
 import usePosts from '@/hooks/usePosts';
-import { User } from '@supabase/supabase-js';
 
 // import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import useUser from '@/hooks/useUser';
 
-const NewPost = ({ user }: { user: User }) => {
+const NewPost = () => {
   // const { data } = useSession();
   // const user = data?.user;
 
@@ -57,7 +56,7 @@ const NewPost = ({ user }: { user: User }) => {
         </p>
       )}
       <div className="flex items-center mb-5">
-        <Avatar user={user} />
+        <Avatar user={userProfile!} />
         <span className="ml-3">{userProfile?.userName}</span>
       </div>
       <FileUpload

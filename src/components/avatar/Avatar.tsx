@@ -1,7 +1,8 @@
 'use client';
 
 import InstagramBorder from '@/components/border/InstagramBorder';
-import { SimpleUser, SupaUserProfile, User } from '@/types/user';
+// import { SimpleUser, SupaUserProfile, User } from '@/types/user';
+import { SupaUserProfile } from '@/types/user';
 import Link from 'next/link';
 import { memo } from 'react';
 
@@ -59,10 +60,11 @@ const Avatar = memo(function Avatar({
    * Border, username 등 경우의 수를 전부 대응해줄 수는 없기에.
    * */
   return isLink ? (
-    <Link
+    <div>
+      {/* <Link
       className="w-fit"
-      href={`/users/${user.userName ?? ('name' in user && user.name)}`}
-    >
+      href={`/users/${user?.userName ?? ('name' in user && user.name)}`}
+    > */}
       {border ? (
         <InstagramBorder>
           <ImageContent />
@@ -70,7 +72,8 @@ const Avatar = memo(function Avatar({
       ) : (
         <ImageContent />
       )}
-    </Link>
+      {/* </Link> */}
+    </div>
   ) : (
     <ImageContent />
   );

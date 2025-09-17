@@ -55,12 +55,7 @@ export default async function RootLayout({
           <GlobalNav />
         </div>
         <main className="w-full h-[calc(100%-64px)] flex justify-center">
-          <SWRConfigContext
-            user={user}
-            profile={profile}
-          >
-            {children}
-          </SWRConfigContext>
+          <SWRConfigContext>{children}</SWRConfigContext>
         </main>
         {/* </AuthContext> */}
         <div id="portal" />
