@@ -18,7 +18,7 @@ const CommentItem = ({ comment: { body }, user }: CommentItemProps) => {
         size="xs"
       />
       <p className="flex items-center ml-1">
-        <span className="font-bold mr-2">{user?.userName || ''}</span>
+        <span className="font-bold mr-2">{user?.userName}</span>
         {body}
       </p>
     </li>

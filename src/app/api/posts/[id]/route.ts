@@ -30,8 +30,6 @@ export async function PUT(request: NextRequest) {
   }
 
   const { postId, comment } = await request.json();
-  console.log('route comment', comment);
-  console.log('route postId', postId);
 
   if (!postId || !comment || !Object.keys(comment).length) {
     return new Response('Bad Request', { status: 400 });
