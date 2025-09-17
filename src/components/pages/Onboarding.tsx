@@ -35,9 +35,8 @@ export default function Onboarding() {
     setIsLoading(true);
     try {
       await updateUserProfile({
-        id: user?.id || '',
         userName: nickname.trim(),
-        avatarUrl: profileImage,
+        avatarFile: profileImage,
       });
       router.push('/');
     } catch (error) {
@@ -49,9 +48,8 @@ export default function Onboarding() {
 
   const handleSkip = () => {
     updateUserProfile({
-      id: user?.id || '',
       userName: '',
-      avatarUrl: null,
+      avatarFile: null,
     });
   };
 

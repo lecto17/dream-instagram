@@ -12,7 +12,7 @@ export default function useUser() {
   const { data: user, isLoading, mutate } = useSWR<SupaUserProfile>('/api/me');
   const { mutate: globalMutate } = useSWRConfig();
 
-  const updateUserProfile = async (data: OnboardingUserProfile) => {
+  const updateUserProfile = async (data: Omit<OnboardingUserProfile, 'id'>) => {
     return await fetch('/api/me', {
       method: 'PUT',
       body: JSON.stringify(data),

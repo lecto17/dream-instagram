@@ -8,7 +8,7 @@ export type SupaUserProfile = {
 export type OnboardingUserProfile = {
   id: string;
   userName: string;
-  avatarUrl: File | null;
+  avatarFile: File | null;
 };
 
 export type User = {

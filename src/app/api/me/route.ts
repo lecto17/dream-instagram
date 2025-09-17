@@ -40,16 +40,16 @@ export async function PUT(req: NextRequest) {
   //   .then(NextResponse.json)
   //   .catch((err) => new Response(JSON.stringify(err), { status: 500 }));
 
-  const { id, userName, avatarUrl } = await req.json();
-
   /**
    * TODO
    * 이미지 s3 업로드 url 받아오기
    */
 
-  console.log('[PUT PUT]');
-  console.log(id, userName, avatarUrl);
+  const user = await getAuthenticatedUser();
+  if (!user) return new Response('UnAthenticated Error');
 
-  await updateUserProfile(id, userName, avatarUrl);
+  const { userName, avatarFile } = await req.json();
+
+  await updateUserProfile(user.id, userName, avatarFile);
   return new Response(JSON.stringify({ message: 'success' }), { status: 200 });
 }

@@ -9,4 +9,5 @@ reviews:
   auto_review:
     enabled: true
     drafts: false
-  base_branches: dev
+  base_branches:
+    - dev

@@ -25,8 +25,7 @@ export const updateUserProfile = async (
     .from('user_profiles')
     .update({
       user_name: userName,
-      avatar_url:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgpGCq88yZBiO8pMw46Cw_-xbdoFkDgK4yqg&s',
+      avatar_url: avatarUrl,
     })
     .eq('id', id);
 
