@@ -14,10 +14,71 @@ const openSans = Open_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Tell your Voice',
-    template: 'Tell your Voice | %s',
+    default: 'Share your Voice',
+    template: 'Share your Voice | %s',
   },
   description: "Listen your neighbor's story",
+  keywords: [
+    'instagram',
+    'social media',
+    'story',
+    'voice',
+    'community',
+    'sharing',
+  ],
+  authors: [{ name: 'hnoo' }],
+  creator: 'hnoo',
+  publisher: 'hnoo',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+  ),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    url: '/',
+    title: 'Share your Voice',
+    description: "Listen your neighbor's story",
+    siteName: 'Share your Voice',
+    images: [
+      {
+        url: '/images/og-default.jpg',
+        width: 1200,
+        height: 630,
+        alt: "Share your Voice - Listen your neighbor's story",
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Share your Voice',
+    description: "Listen your neighbor's story",
+    images: ['/images/og-default.jpg'],
+    creator: '@hnoo',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+    // yandex: 'your-yandex-verification-code',
+    // yahoo: 'your-yahoo-verification-code',
+  },
 };
 
 // 현재(nextjs 15버전) viewport는 아래와 같은 방식으로 넣을 수 있는데, 기본적으로 setting이 되는 사항이여서,
@@ -52,7 +113,7 @@ export default async function RootLayout({
       <body className={`${openSans.className} w-full h-full bg-neutral-50`}>
         {/* <AuthContext> */}
         <div className="max-w-screen-xl mx-auto h-16">
-          <GlobalNav />
+          <GlobalNav user={profile} />
         </div>
         <main className="w-full h-[calc(100%-64px)] flex justify-center">
           <SWRConfigContext>{children}</SWRConfigContext>

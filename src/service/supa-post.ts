@@ -10,7 +10,8 @@ export const getPosts = async (date: string) => {
     .from('posts_enriched')
     .select('*')
     .gte('created_at', `${date}T00:00:00.000Z`)
-    .lte('created_at', `${date}T23:59:59.999Z`);
+    .lte('created_at', `${date}T23:59:59.999Z`)
+    .order('created_at', { ascending: false });
 
   if (error) throw error;
 

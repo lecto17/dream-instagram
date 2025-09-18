@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ export default function Onboarding() {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { user, updateUserProfile } = useUser();
 
@@ -46,13 +47,6 @@ export default function Onboarding() {
     }
   };
 
-  const handleSkip = () => {
-    updateUserProfile({
-      userName: '',
-      avatarFile: null,
-    });
-  };
-
   return (
     <div className="min-h-full bg-gray-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
@@ -68,7 +62,10 @@ export default function Onboarding() {
           {/* 프로필 이미지 업로드 */}
           <div className="flex flex-col items-center space-y-4">
             <div className="relative">
-              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+              <div
+                className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden cursor-pointer"
+                onClick={() => inputRef.current?.click()}
+              >
                 {previewUrl ? (
                   <Image
                     src={previewUrl}
@@ -119,6 +116,7 @@ export default function Onboarding() {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
+                ref={inputRef}
               />
             </div>
 
@@ -149,21 +147,13 @@ export default function Onboarding() {
           </div>
 
           {/* 버튼들 */}
-          <div className="flex flex-col space-y-3">
+          <div className="flex">
             <button
               type="submit"
               disabled={!nickname.trim() || isLoading}
               className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isLoading ? '처리 중...' : '완료'}
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSkip}
-              className="w-full text-gray-500 py-2 px-4 rounded-md hover:text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              나중에 설정하기
             </button>
           </div>
         </form>

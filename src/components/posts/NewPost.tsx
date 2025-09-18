@@ -52,12 +52,14 @@ const NewPost = () => {
       )}
       {error && (
         <p className="w-full h-full bg-red-300 p-4 font-bold text-center mb-5">
-          asdf
+          {error}
         </p>
       )}
-      <div className="flex items-center mb-5">
+      <div className="flex w-full items-center mb-2 sm:mb-5">
         <Avatar user={userProfile!} />
-        <span className="ml-3">{userProfile?.userName}</span>
+        <p className="ml-3 text-md">
+          <span className="text-gray-600">{userProfile?.userName}</span>
+        </p>
       </div>
       <FileUpload
         file={file}
@@ -65,7 +67,7 @@ const NewPost = () => {
       />
       <textarea
         className="w-full border px-4 py-2 my-5 min-h-32 outline-none text-sm resize-none"
-        placeholder="write a message..."
+        placeholder="게시글의 내용을 입력해주세요 🎈"
         ref={textAreaRef}
       />
       <PublishButton onClick={handleClickPublish} />

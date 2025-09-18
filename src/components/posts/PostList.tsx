@@ -26,7 +26,7 @@ const PostList = () => {
   // }
 
   return (
-    <ul className="flex flex-col items-center h-full min-h-full overflow-y-auto p-5 space-y-10">
+    <ul className="flex flex-col items-center h-full min-h-full overflow-y-auto p-5 space-y-10 pb-32">
       {posts != null && posts.length > 0 ? (
         posts.map((post, idx) => (
           <li key={post.id}>

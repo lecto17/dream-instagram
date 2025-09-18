@@ -2,6 +2,7 @@
 import DateList from '../date/DateList';
 import PostList from '../posts/PostList';
 import AvatarLocalNav from '../navigation/AvatarLocalNav';
+import InfoPanel from '../ui/InfoPanel';
 import useUser from '@/hooks/useUser';
 import useSWR from 'swr';
 
@@ -19,13 +20,14 @@ export default function Home() {
 
   return (
     <section className="w-full h-full flex flex-col sm:flex-row max-w-[850px]">
-      <div className="w-full h-full flex flex-col basis-3/4 overflow-hidden bg-gray-100">
+      <div className="w-full h-full flex flex-col sm:basis-3/4 overflow-hidden bg-gray-100">
         {/* <StoryList /> */}
         <DateList />
         <PostList />
       </div>
-      <div className="hidden sm:block basis-1/4 ml:8">
+      <div className="hidden sm:block h-full bg-gray-100 basis-1/4 ml:8 border-l border-gray-200">
         <AvatarLocalNav />
+        <InfoPanel />
       </div>
     </section>
   );
