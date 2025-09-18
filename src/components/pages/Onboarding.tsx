@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ export default function Onboarding() {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { user, updateUserProfile } = useUser();
 
@@ -46,13 +47,6 @@ export default function Onboarding() {
     }
   };
 
-  const handleSkip = () => {
-    updateUserProfile({
-      userName: '',
-      avatarFile: null,
-    });
-  };
-
   return (
     <div className="min-h-full bg-gray-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
@@ -68,7 +62,10 @@ export default function Onboarding() {
           {/* 프로필 이미지 업로드 */}
           <div className="flex flex-col items-center space-y-4">
             <div className="relative">
-              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+              <div
+                className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden cursor-pointer"
+                onClick={() => inputRef.current?.click()}
+              >
                 {previewUrl ? (
                   <Image
                     src={previewUrl}
@@ -119,6 +116,7 @@ export default function Onboarding() {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
+                ref={inputRef}
               />
             </div>
 
