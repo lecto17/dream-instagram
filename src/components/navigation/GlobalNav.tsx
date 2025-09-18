@@ -111,7 +111,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
         href="/"
         className="text-xl font-semibold md:text-3xl"
       >
-        Instagram
+        Our Voice
       </Link>
       <div className="flex items-center space-x-2">
         <ul className="flex gap-4 items-center pl-4 h-10 mr-5">
