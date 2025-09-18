@@ -55,9 +55,11 @@ const NewPost = () => {
           {error}
         </p>
       )}
-      <div className="flex items-center mb-5">
+      <div className="flex w-full items-center mb-2 sm:mb-5">
         <Avatar user={userProfile!} />
-        <span className="ml-3">{userProfile?.userName}</span>
+        <p className="ml-3 text-md">
+          <span className="text-gray-600">{userProfile?.userName}</span>
+        </p>
       </div>
       <FileUpload
         file={file}

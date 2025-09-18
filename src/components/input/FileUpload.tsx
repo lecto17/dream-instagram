@@ -53,7 +53,7 @@ const FileUpload = ({ file, onChange }: Props) => {
 
   return (
     <section
-      className={`flex w-full border-2 border-blue-200 border-dashed p-5 max-h-[300px] relative overflow-hidden ${
+      className={`flex w-full border-2 border-blue-200 border-dashed p-5 max-h-[280px] relative overflow-hidden ${
         isDragging ? 'bg-sky-300 bg-opacity-15' : ''
       }`}
       ref={dragRef}
@@ -73,7 +73,10 @@ const FileUpload = ({ file, onChange }: Props) => {
           className="w-full"
           size={250}
         />
-        <label htmlFor="fileUpload">
+        <label
+          htmlFor="fileUpload"
+          className="text-sm text-gray-400"
+        >
           이미지를 드래그 앤 드롭하거나 클릭하여 업로드해주세요 📤
         </label>
       </div>
