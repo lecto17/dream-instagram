@@ -14,7 +14,9 @@ export default function useUser() {
   const updateUserProfile = async (data: Omit<OnboardingUserProfile, 'id'>) => {
     const formData = new FormData();
     formData.append('userName', data.userName);
-    formData.append('avatarFile', data.avatarFile as File);
+    if (data.avatarFile) {
+      formData.append('avatarFile', data.avatarFile as File);
+    }
 
     return await fetch('/api/me', {
       method: 'PUT',

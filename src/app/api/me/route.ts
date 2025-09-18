@@ -50,11 +50,15 @@ export async function PUT(req: NextRequest) {
   const userName = formData.get('userName') as string;
   const avatarFile = formData.get('avatarFile') as File;
 
-  const { url } = await uploadFileToS3({
-    file: avatarFile,
-    fileName: avatarFile.name,
-  });
+  let fileUrl;
+  if (avatarFile) {
+    const { url } = await uploadFileToS3({
+      file: avatarFile,
+      fileName: avatarFile.name,
+    });
+    fileUrl = url;
+  }
 
-  await updateUserProfile(user.id, userName, url);
+  await updateUserProfile(user.id, userName, fileUrl);
   return new Response(JSON.stringify({ message: 'success' }), { status: 200 });
 }
