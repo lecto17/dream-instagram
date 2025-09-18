@@ -50,7 +50,7 @@ export default async function Image() {
             lineHeight: 1.4,
           }}
         >
-          Listen your neighbor's story
+          Listen your neighbor&apos;s story
         </div>
 
         {/* 장식적 요소들 */}
@@ -116,7 +116,7 @@ export default async function Image() {
             fontWeight: '500',
           }}
         >
-          dream-instagram.com
+          our-deep-voice.vercel.app
         </div>
       </div>
     ),
