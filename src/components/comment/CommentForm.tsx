@@ -24,6 +24,9 @@ const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
 
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
+    // 공백의 경우 early return 하여 UX 개선
+    if (value.trim() === '') return;
+
     onSubmit(
       {
         body: value,
@@ -42,7 +45,8 @@ const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
     >
       <input
         type="text"
-        placeholder="Add a comment..."
+        placeholder="댓글을 달아보세요🙂"
+        aria-label="댓글 입력"
         className="w-full py-2 pr-4 outline-none text-sm"
         value={value}
         onChange={handleChangeValue}
@@ -51,9 +55,9 @@ const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
         type="submit"
         value="게시"
         className={`py-1 px-2 font-bold hover:text-black rounded-md text-sm cursor-pointer transition-all duration-300 ${
-          value.length ? 'text-sky-400' : 'text-gray-400'
+          value.trim().length ? 'text-sky-400' : 'text-gray-400'
         }`}
-        disabled={!value}
+        disabled={!value.trim()}
       />
     </form>
   );

@@ -11,6 +11,8 @@ import { RiSearchLine } from 'react-icons/ri';
 import { RiSearchFill } from 'react-icons/ri';
 
 import InstagramBorder from '@/components/border/InstagramBorder';
+import Avatar from '@/components/avatar/Avatar';
+import { SupaUserProfile } from '@/types/user';
 // import { useSession, signIn, signOut } from 'next-auth/react';
 // import Avatar from '@/components/avatar/Avatar';
 // import { createClient } from '@/lib/supabaseBrowserClient';
@@ -29,12 +31,12 @@ const MENUS: MENU[] = [
     ActiveIcon: () => <AiFillHome />,
     name: 'home icon',
   },
-  {
-    url: '/search',
-    Icon: () => <RiSearchLine />,
-    ActiveIcon: () => <RiSearchFill />,
-    name: 'search users icon',
-  },
+  // {
+  //   url: '/search',
+  //   Icon: () => <RiSearchLine />,
+  //   ActiveIcon: () => <RiSearchFill />,
+  //   name: 'search users icon',
+  // },
   {
     url: '/new',
     Icon: () => <BsPlusSquare />,
@@ -43,7 +45,7 @@ const MENUS: MENU[] = [
   },
 ];
 
-const GlobalNav = () => {
+const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
   const pathName = usePathname();
   // const user = createClient().auth.getUser();
 
@@ -65,28 +67,28 @@ const GlobalNav = () => {
     return url === pathName ? <ActiveIcon /> : <Icon />;
   };
 
-  const getCompnentWhenLogined = () => {
-    // if (user) {
-    //   return (
-    //     <>
-    //       <Avatar
-    //         user={user}
-    //         size="small"
-    //       />
-    //       <InstagramBorder
-    //         rounded={'rounded-md'}
-    //         padding="p-[2px]"
-    //       >
-    //         <button
-    //           className="min-w-[80px]"
-    //           onClick={handleClickIsLogined}
-    //         >
-    //           logout
-    //         </button>
-    //       </InstagramBorder>
-    //     </>
-    //   );
-    // }
+  const getCompnentWhenLoggedIn = () => {
+    if (user) {
+      return (
+        <>
+          <Avatar
+            user={user}
+            size="small"
+          />
+          <InstagramBorder
+            rounded={'rounded-md'}
+            padding="p-[2px]"
+          >
+            <button
+              className="min-w-[80px]"
+              onClick={handleClickIsLogined}
+            >
+              logout
+            </button>
+          </InstagramBorder>
+        </>
+      );
+    }
 
     return (
       <InstagramBorder
@@ -109,7 +111,7 @@ const GlobalNav = () => {
         href="/"
         className="text-xl font-semibold md:text-3xl"
       >
-        Instagram
+        Our Voice
       </Link>
       <div className="flex items-center space-x-2">
         <ul className="flex gap-4 items-center pl-4 h-10 mr-5">
@@ -120,7 +122,7 @@ const GlobalNav = () => {
             >
               <Link
                 href={menu.url}
-                aria-label={menu.url}
+                aria-label={menu.name}
               >
                 {getMenuIcon(menu)}
               </Link>
@@ -128,7 +130,7 @@ const GlobalNav = () => {
             </li>
           ))}
         </ul>
-        {getCompnentWhenLogined()}
+        {getCompnentWhenLoggedIn()}
       </div>
     </section>
   );
