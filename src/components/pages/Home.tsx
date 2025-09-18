@@ -2,6 +2,7 @@
 import DateList from '../date/DateList';
 import PostList from '../posts/PostList';
 import AvatarLocalNav from '../navigation/AvatarLocalNav';
+import InfoPanel from '../ui/InfoPanel';
 import useUser from '@/hooks/useUser';
 import useSWR from 'swr';
 
@@ -24,8 +25,9 @@ export default function Home() {
         <DateList />
         <PostList />
       </div>
-      <div className="hidden sm:block basis-1/4 ml:8">
+      <div className="hidden sm:block h-full bg-gray-100 basis-1/4 ml:8 border-l border-gray-200">
         <AvatarLocalNav />
+        <InfoPanel />
       </div>
     </section>
   );
