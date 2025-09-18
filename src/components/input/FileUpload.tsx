@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useDragAndDrop } from "@/hooks/useDragAndDrop";
-import { transferImageToWebP } from "@/utils/utils";
-import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { useDragAndDrop } from '@/hooks/useDragAndDrop';
+import { transferImageToWebP } from '@/utils/utils';
+import Image from 'next/image';
+import { ChangeEvent, useRef, useState } from 'react';
+import { IoCloudUploadOutline } from 'react-icons/io5';
 
 type Props = {
   file?: File;
@@ -53,7 +53,9 @@ const FileUpload = ({ file, onChange }: Props) => {
 
   return (
     <section
-      className={`flex w-full border-2 border-blue-200 border-dashed p-5 max-h-[300px] relative overflow-hidden ${isDragging ? "bg-sky-300 bg-opacity-15" : ""}`}
+      className={`flex w-full border-2 border-blue-200 border-dashed p-5 max-h-[300px] relative overflow-hidden ${
+        isDragging ? 'bg-sky-300 bg-opacity-15' : ''
+      }`}
       ref={dragRef}
     >
       <input
@@ -67,9 +69,12 @@ const FileUpload = ({ file, onChange }: Props) => {
         className="w-full flex flex-col justify-center items-center"
         onClick={handleClick}
       >
-        <IoCloudUploadOutline className="w-full" size={250} />
+        <IoCloudUploadOutline
+          className="w-full"
+          size={250}
+        />
         <label htmlFor="fileUpload">
-          Drag and Drop your image here or click
+          이미지를 드래그 앤 드롭하거나 클릭하여 업로드해주세요 📤
         </label>
       </div>
       {file && (

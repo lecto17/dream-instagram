@@ -9,7 +9,7 @@ const CommentCount = ({ countOfComments, onClick }: Props) => {
         className="font-semibold text-sm text-sky-400 cursor-pointer"
         onClick={onClick}
       >
-        view all <b>{countOfComments}</b> comments
+        <b>{countOfComments}</b> 개의 댓글 보기
       </span>
     )
   );

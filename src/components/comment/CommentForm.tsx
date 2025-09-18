@@ -42,7 +42,7 @@ const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
     >
       <input
         type="text"
-        placeholder="Add a comment..."
+        placeholder="댓글을 달아보세요🙂"
         className="w-full py-2 pr-4 outline-none text-sm"
         value={value}
         onChange={handleChangeValue}
