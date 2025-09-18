@@ -49,12 +49,13 @@ const FileUpload = ({ file, onChange }: Props) => {
 
   const handleClickClose = () => {
     onChange(undefined);
+    setUploaded(undefined);
   };
 
   return (
     <section
       className={`flex w-full border-2 border-blue-200 border-dashed p-5 max-h-[280px] relative overflow-hidden ${
-        isDragging ? 'bg-sky-300 bg-opacity-15' : ''
+        isDragging ? 'bg-sky-300/15' : ''
       }`}
       ref={dragRef}
     >
@@ -63,6 +64,7 @@ const FileUpload = ({ file, onChange }: Props) => {
         id="fileUpload"
         onChange={handleChange}
         ref={inputRef}
+        accept="image/*"
         hidden
       />
       <div

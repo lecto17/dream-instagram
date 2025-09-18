@@ -56,7 +56,11 @@ const NewPost = () => {
         </p>
       )}
       <div className="flex w-full items-center mb-2 sm:mb-5">
-        <Avatar user={userProfile!} />
+        {userProfile ? (
+          <Avatar user={userProfile} />
+        ) : (
+          <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse" />
+        )}
         <p className="ml-3 text-md">
           <span className="text-gray-600">{userProfile?.userName}</span>
         </p>

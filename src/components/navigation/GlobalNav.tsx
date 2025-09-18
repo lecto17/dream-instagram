@@ -67,7 +67,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
     return url === pathName ? <ActiveIcon /> : <Icon />;
   };
 
-  const getCompnentWhenLogined = () => {
+  const getCompnentWhenLoggedIn = () => {
     if (user) {
       return (
         <>
@@ -122,7 +122,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
             >
               <Link
                 href={menu.url}
-                aria-label={menu.url}
+                aria-label={menu.name}
               >
                 {getMenuIcon(menu)}
               </Link>
@@ -130,7 +130,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
             </li>
           ))}
         </ul>
-        {getCompnentWhenLogined()}
+        {getCompnentWhenLoggedIn()}
       </div>
     </section>
   );

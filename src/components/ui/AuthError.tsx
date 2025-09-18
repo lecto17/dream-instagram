@@ -1,37 +1,45 @@
 'use client';
 
+import { createClient } from '@/lib/supabaseBrowserClient';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const useAuthErrorReset = () => {
-  // 모든 쿠키를 지우는 함수
-  const clearAllCookies = () => {
+  // 인증 관련 상태만 안전하게 초기화
+  const resetAuthState = async () => {
+    try {
+      await createClient().auth.signOut();
+    } catch (_) {}
     // 현재 도메인의 모든 쿠키 가져오기
     const cookies = document.cookie.split(';');
-
     cookies.forEach((cookie) => {
       const eqPos = cookie.indexOf('=');
       const name =
         eqPos > -1 ? cookie.substring(0, eqPos).trim() : cookie.trim();
-
-      // 쿠키 지우기 (과거 날짜로 설정)
-      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
-      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
+      // 인증 관련 쿠키만 제거 (예: supabase/next-auth)
+      if (/^(sb-|supabase|next-auth)/.test(name)) {
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
+      }
     });
-
-    // localStorage와 sessionStorage도 지우기
-    localStorage.clear();
-    sessionStorage.clear();
+    // 인증 관련 스토리지만 정리
+    try {
+      localStorage.removeItem('sb-auth-token');
+    } catch {}
+    try {
+      sessionStorage.clear();
+    } catch {}
   };
-
   // 컴포넌트가 마운트될 때 쿠키 지우기
   useEffect(() => {
-    clearAllCookies();
+    resetAuthState();
   }, []);
 };
 
 const AuthError = () => {
   useAuthErrorReset();
+  const router = useRouter();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -64,13 +72,15 @@ const AuthError = () => {
         {/* 액션 버튼들 */}
         <div className="space-y-3">
           <button
-            onClick={() => (window.location.href = '/auth/login')}
+            type="button"
+            onClick={() => router.push('/auth/login')}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
           >
             다시 로그인하기
           </button>
           <button
-            onClick={() => (window.location.href = '/')}
+            type="button"
+            onClick={() => router.push('/')}
             className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200"
           >
             홈으로 돌아가기
