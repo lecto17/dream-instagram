@@ -5,7 +5,6 @@ import CommentItem from '@/components/comment/CommentItem';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
 // import ActionBar from '@/components/ui/ActionBar';
 import useComment from '@/hooks/useComment';
-import useUser from '@/hooks/useUser';
 import { SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useCallback } from 'react';
@@ -68,9 +67,9 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
             <ul className="comments-wrapper max-h-[128px] sm:max-h-[448px] flex flex-col space-y-1 overflow-y-auto">
               {comments != null &&
                 comments.length > 0 &&
-                comments.map((comment, idx) => (
+                comments.map((comment) => (
                   <CommentItem
-                    key={`${comment.id}-${idx}`}
+                    key={comment.id}
                     comment={comment}
                     user={{
                       userName: comment.userName,

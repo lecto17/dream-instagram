@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
@@ -13,7 +13,7 @@ export default function Onboarding() {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { user, updateUserProfile } = useUser();
+  const { updateUserProfile } = useUser();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

@@ -1,14 +1,9 @@
-'use client';
 import DateList from '../date/DateList';
 import PostList from '../posts/PostList';
 import AvatarLocalNav from '../navigation/AvatarLocalNav';
 import InfoPanel from '../ui/InfoPanel';
-import useUser from '@/hooks/useUser';
-import useSWR from 'swr';
 
 export default function Home() {
-  const { user } = useUser();
-
   // // SWR로 프로필 정보 가져오기 (캐시에서 즉시 로드)
   // const { data: profile, isLoading: profileLoading } = useSWR(
   //   user?.id ? `/api/profile/${user.id}` : null,
@@ -25,7 +20,7 @@ export default function Home() {
         <DateList />
         <PostList />
       </div>
-      <div className="hidden sm:block h-full bg-gray-100 basis-1/4 ml:8 border-l border-gray-200">
+      <div className="hidden sm:block h-full bg-gray-100 basis-1/4 ml-8 border-l border-gray-200">
         <AvatarLocalNav />
         <InfoPanel />
       </div>

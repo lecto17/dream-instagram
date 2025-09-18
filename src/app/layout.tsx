@@ -8,14 +8,14 @@ import { getAuthenticatedUser } from '@/actions/action';
 import { getMyProfile } from '@/service/supa-user';
 
 const openSans = Open_Sans({
-  variable: '--font-geist-mono',
+  variable: '--font-open-sans',
   subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: {
     default: 'Share your Voice',
-    template: 'Share your Voice | %s',
+    template: '%s | Share your Voice',
   },
   description: "Listen your neighbor's story",
   keywords: [
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? undefined,
     // yandex: 'your-yandex-verification-code',
     // yahoo: 'your-yahoo-verification-code',
   },
