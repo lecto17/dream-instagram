@@ -149,21 +149,13 @@ export default function Onboarding() {
           </div>
 
           {/* 버튼들 */}
-          <div className="flex flex-col space-y-3">
+          <div className="flex">
             <button
               type="submit"
               disabled={!nickname.trim() || isLoading}
               className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isLoading ? '처리 중...' : '완료'}
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSkip}
-              className="w-full text-gray-500 py-2 px-4 rounded-md hover:text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              나중에 설정하기
             </button>
           </div>
         </form>
