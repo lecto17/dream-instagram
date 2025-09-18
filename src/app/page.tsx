@@ -1,12 +1,22 @@
 import { redirect } from 'next/navigation';
 import { getDateYYYYMMDDWithDash, isValidDate } from '@/utils/utils';
 import Home from '@/components/pages/Home';
+import { getAuthenticatedUser } from '@/actions/action';
+import { getMyProfile } from '@/service/supa-user';
 
 type HomePageProps = {
   searchParams: Promise<{ date: string }>;
 };
 
 export default async function HomePage({ searchParams }: HomePageProps) {
+  const user = await getAuthenticatedUser();
+  if (!user) return redirect('/auth/login');
+
+  const profile = await getMyProfile(user.id);
+  if (profile == null || profile?.userName == null) {
+    return redirect('/onboarding');
+  }
+
   // URL에서 date 파라미터 가져오기
   const { date: dateParam } = await searchParams;
 
