@@ -20,9 +20,6 @@ const SWRConfigContext = ({ children, fallback, user, profile }: Props) => {
     ...(profile && user && { [`/api/profile/${user.id}`]: profile }),
   };
 
-  console.log('[SWRConfigContext SWRConfigContext]');
-  console.log(initialData);
-
   return (
     <SWRConfig
       value={{

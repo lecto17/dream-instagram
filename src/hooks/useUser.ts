@@ -12,9 +12,15 @@ export default function useUser() {
   // const { mutate: globalMutate } = useSWRConfig();
 
   const updateUserProfile = async (data: Omit<OnboardingUserProfile, 'id'>) => {
+    const formData = new FormData();
+    formData.append('userName', data.userName);
+    if (data.avatarFile) {
+      formData.append('avatarFile', data.avatarFile as File);
+    }
+
     return await fetch('/api/me', {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: formData,
     }).then((res) => res.json());
   };
 

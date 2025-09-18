@@ -17,7 +17,7 @@ export const getMyProfile = async (
 export const updateUserProfile = async (
   id: string,
   userName: string,
-  avatarUrl: File | null,
+  avatarUrl?: string,
 ) => {
   const client = await serverSupabase();
   const { error } = await client

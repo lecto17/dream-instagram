@@ -2,14 +2,19 @@
 // import { signIn, providerMap } from '/auth';
 // import { AuthError } from 'next-auth';
 // import InstagramBorder from '@/components/border/InstagramBorder';
+import { getAuthenticatedUser } from '@/actions/action';
 import InstagramBorder from '@/components/border/InstagramBorder';
 import SignIn from '@/components/sign-in/SignIn';
+import { redirect } from 'next/navigation';
 
 // type Props = Promise<{
 //   searchParams: { callbackUrl: string | undefined };
 // }>;
 
 export default async function SignInPage() {
+  const user = await getAuthenticatedUser();
+  if (user != null) return redirect('/');
+
   // export default async function SignInPage({ searchParams }: { searchParams: Props }) {
   // Dynamic APIs are
   // The `params` and `searchParams` props that get provided to pages, layouts, metadata APIs, and route handlers.

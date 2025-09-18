@@ -4,6 +4,7 @@ import {
 } from '@/actions/action';
 import { NextRequest, NextResponse } from 'next/server';
 import { getMyProfile, updateUserProfile } from '@/service/supa-user';
+import { uploadFileToS3 } from '@/service/s3-upload';
 
 // export async function GET() {
 //   const user = await validateSession();
@@ -44,8 +45,20 @@ export async function PUT(req: NextRequest) {
   const user = await getAuthenticatedUser();
   if (!user) return new Response('UnAthenticated Error');
 
-  const { userName, avatarFile } = await req.json();
+  // const { userName, avatarFile } = await req.json();
+  const formData = await req.formData();
+  const userName = formData.get('userName') as string;
+  const avatarFile = formData.get('avatarFile') as File;
 
-  await updateUserProfile(user.id, userName, avatarFile);
+  let fileUrl;
+  if (avatarFile) {
+    const { url } = await uploadFileToS3({
+      file: avatarFile,
+      fileName: avatarFile.name,
+    });
+    fileUrl = url;
+  }
+
+  await updateUserProfile(user.id, userName, fileUrl);
   return new Response(JSON.stringify({ message: 'success' }), { status: 200 });
 }
