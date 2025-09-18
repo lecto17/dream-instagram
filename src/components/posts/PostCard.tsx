@@ -43,7 +43,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   } = post;
 
   return (
-    <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3 min-w-[468px]">
+    <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3 min-w-[320px] sm:min-w-[468px]">
       <div className="flex w-fit items-center mb-3">
         <PostUserAvatar
           user={{
@@ -56,7 +56,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       {imageKey && (
         <img
-          className="max-w-[468px] object-cover aspect-square hover:cursor-pointer"
+          className="max:w-[320px] sm:max-w-[468px] object-cover aspect-square hover:cursor-pointer"
           src={imageKey}
           width={468}
           height={565}
@@ -91,11 +91,13 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
           {likes?.length ?? 0}
           {likes?.length > 1 ? ' likes' : ' like'}
         </p> */}
-        <p className="flex items-center mb-5">
+        <p className="flex items-center mb-3 sm:mb-5">
           {/* <span className="font-bold mr-2">{username}</span> */}
           {caption}
         </p>
-        <p className="mb-5 text-gray-400 text-sm  ">{parseDate(createdAt)}</p>
+        <p className="mb-1 sm:mb-5 text-gray-400 text-sm">
+          {parseDate(createdAt)}
+        </p>
         <CommentCount
           countOfComments={comments}
           onClick={showPostModal}
