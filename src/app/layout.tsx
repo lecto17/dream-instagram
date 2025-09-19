@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: 'Share your Voice',
     images: [
       {
-        url: '/images/og-default.jpg',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: "Share your Voice - Listen your neighbor's story",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Share your Voice',
     description: "Listen your neighbor's story",
-    images: ['/images/og-default.jpg'],
+    images: ['/opengraph-image'],
     creator: '@hnoo',
   },
   robots: {
