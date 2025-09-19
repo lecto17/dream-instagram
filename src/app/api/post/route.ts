@@ -4,6 +4,7 @@ import { getAuthenticatedUser } from '@/actions/action';
 import { addPost } from '@/service/supa-post';
 import { uploadFileToS3 } from '@/service/s3-upload';
 import { NextRequest, NextResponse } from 'next/server';
+import { getDateYYYYMMDDWithDash } from '@/utils/utils';
 
 export async function POST(req: NextRequest) {
   const user = await getAuthenticatedUser();
@@ -30,7 +31,6 @@ export async function POST(req: NextRequest) {
     authorId: user.id,
     caption: text,
     imageKey: publicUrl,
-    createdAt: new Date().toISOString(),
   };
 
   return addPost(param)

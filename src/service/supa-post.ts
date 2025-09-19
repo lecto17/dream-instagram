@@ -9,8 +9,8 @@ export const getPosts = async (date: string) => {
   const { data: posts, error } = await client
     .from('posts_enriched')
     .select('*')
-    .gte('created_at', `${date}T00:00:00.000Z`)
-    .lte('created_at', `${date}T23:59:59.999Z`)
+    .gte('created_at', `${date}T00:00:00.000`)
+    .lte('created_at', `${date}T23:59:59.999`)
     .order('created_at', { ascending: false });
 
   if (error) throw error;
@@ -58,17 +58,19 @@ export const getPostComments = async (id: string) => {
 };
 
 export const addPost = async (
-  post: Omit<SupaPost, 'comments' | 'id' | 'updatedAt' | 'author'>,
+  post: Omit<
+    SupaPost,
+    'comments' | 'id' | 'createdAt' | 'updatedAt' | 'author'
+  >,
 ) => {
   const client = await serverSupabase();
-  const { authorId, caption, imageKey, createdAt } = post;
+  const { authorId, caption, imageKey } = post;
   const { data, error } = await client
     .from('posts')
     .insert({
       author_id: authorId,
       caption,
       image_key: imageKey,
-      created_at: createdAt,
     })
     .select()
     .single();
