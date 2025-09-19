@@ -79,7 +79,7 @@ const FileUpload = ({ file, onChange }: Props) => {
           htmlFor="fileUpload"
           className="text-sm text-gray-400"
         >
-          이미지를 드래그 앤 드롭하거나 클릭하여 업로드해주세요 📤
+          이미지 업로드 (선택 사항)📤
         </label>
       </div>
       {file && (

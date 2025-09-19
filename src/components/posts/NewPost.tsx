@@ -44,7 +44,7 @@ const NewPost = () => {
   };
 
   return (
-    <div className="flex flex-col p-4 items-center">
+    <div className="w-fullflex h-full flex-col p-4 items-center relative">
       {loading && (
         <div className="absolute z-20 inset-0 w-full h-full bg-sky-400/20">
           <Loading />
