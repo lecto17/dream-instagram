@@ -1,77 +1,9 @@
-'use client';
+import useMood from '@/hooks/useMood';
+import React from 'react';
+import { MOOD_OPTIONS } from '@/constants/mood';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-
-const MOOD_OPTIONS = [
-  {
-    id: 'sunny',
-    emoji: '☀️',
-    weather: '맑고 화창한 여름',
-    description: '상쾌하고 활기찬',
-    value: 'sunny',
-  },
-  {
-    id: 'autumn',
-    emoji: '🍂',
-    weather: '선선한 가을',
-    description: '차분하고 여유로운',
-    value: 'autumn',
-  },
-  {
-    id: 'rainy',
-    emoji: '🌧',
-    weather: '장마철 비 오는 날',
-    description: '조금 축 처지고 무거운',
-    value: 'rainy',
-  },
-  {
-    id: 'winter',
-    emoji: '❄️',
-    weather: '겨울밤 눈 내리는 날',
-    description: '고요하고 외로운',
-    value: 'winter',
-  },
-  {
-    id: 'spring',
-    emoji: '🌸🌦',
-    weather: '변덕스러운 봄날',
-    description: '들떴지만 불안정한',
-    value: 'spring',
-  },
-];
-
-const useMoodVote = () => {
-  const router = useRouter();
-  const [selectedMood, setSelectedMood] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedMood) return;
-
-    setIsLoading(true);
-    try {
-      // TODO: API 호출로 기분 데이터 저장
-      console.log('Selected mood:', selectedMood);
-
-      // 임시로 홈으로 이동
-      setTimeout(() => {
-        router.push('/');
-      }, 1000);
-    } catch (error) {
-      console.error('Mood selection failed:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return { handleSubmit, selectedMood, setSelectedMood, isLoading };
-};
-
-const Mood = () => {
-  const { handleSubmit, selectedMood, setSelectedMood, isLoading } =
-    useMoodVote();
+const MoodSurvey = () => {
+  const { handleSubmit, selectedMood, setSelectedMood, isLoading } = useMood();
 
   return (
     <div className="min-h-full bg-gray-50 flex flex-col">
@@ -111,7 +43,7 @@ const Mood = () => {
                     className="sr-only"
                   />
                   <div className="flex items-center space-x-3 sm:space-x-4">
-                    <div className="text-2xl sm:text-3xl flex-shrink-0">
+                    <div className="min-w-[60px] text-2xl sm:text-3xl flex-shrink-0 flex justify-center items-center">
                       {option.emoji}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -155,4 +87,4 @@ const Mood = () => {
   );
 };
 
-export default Mood;
+export default MoodSurvey;
