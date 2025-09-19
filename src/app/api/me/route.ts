@@ -2,7 +2,7 @@ import {
   getAuthenticatedUser,
   // validateSession
 } from '@/actions/action';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { getMyProfile, updateUserProfile } from '@/service/supa-user';
 import { uploadFileToS3 } from '@/service/s3-upload';
 
