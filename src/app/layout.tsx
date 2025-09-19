@@ -112,7 +112,7 @@ export default async function RootLayout({
       </head>
       <body className={`${openSans.className} w-full h-full bg-neutral-50`}>
         {/* <AuthContext> */}
-        <div className="max-w-screen-xl mx-auto h-16">
+        <div className="max-w-screen-lg mx-auto h-16">
           <GlobalNav user={profile} />
         </div>
         <main className="w-full h-[calc(100%-64px)] flex justify-center">
