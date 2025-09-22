@@ -17,7 +17,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (user != null) {
-      setNickname(user.userName);
+      setNickname(user.userName || '');
       setPreviewUrl(user.avatarUrl || '');
     }
   }, [user]);
