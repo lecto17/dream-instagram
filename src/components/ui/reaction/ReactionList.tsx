@@ -27,7 +27,6 @@ const ReactionList = ({
   return (
     <div className="flex items-center space-x-2 text-sm">
       {sortedReactions.map(({ emoji, count, reactedByMe }) => {
-        console.log('reactedByMe', reactedByMe);
         return (
           <button
             key={emoji}

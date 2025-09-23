@@ -14,6 +14,8 @@ import { parseDate } from '@/utils/utils';
 import { useState } from 'react';
 import ReactionSelector from '../ui/reaction/ReactionSelector';
 import ReactionList from '../ui/reaction/ReactionList';
+import usePosts from '@/hooks/usePosts';
+import { useSearchParams } from 'next/navigation';
 
 interface PostCardProps {
   post: SupaPost;
@@ -21,18 +23,15 @@ interface PostCardProps {
   priority?: boolean;
   // addCommentOnPost: (comment: Comment, postId: string) => void;
   addCommentOnPost: (comment: SupaComment, postId: string) => void;
-  toggleReactionOnPost: (postId: string, reaction: string) => void;
 }
 
 const location = 'Incheon, Korea';
 
-const PostCard = ({
-  post,
-  priority,
-  addCommentOnPost,
-  toggleReactionOnPost,
-}: PostCardProps) => {
+const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
+  const pathParams = useSearchParams();
+  const date = pathParams.get('date');
+  const { toggleReactionOnPost } = usePosts(date || '');
 
   const showPostModal = () => {
     setShowable(true);
@@ -80,22 +79,12 @@ const PostCard = ({
               key={id}
               post={post}
             />
-            {/* <PostDetail
-              key={id}
-              id={id}
-              createdAt={createdAt}
-              imageKey={imageKey}
-              likes={[]}
-              text={caption}
-              userImage={''}
-              username={authorId}
-            /> */}
           </PostModal>
         </ModalPortal>
       )}
       {/* <ActionBar post={post} /> */}
       <ReactionSelector
-        onReaction={toggleReactionOnPost}
+        onReactionClick={toggleReactionOnPost}
         postId={post.id}
       />
       <div>

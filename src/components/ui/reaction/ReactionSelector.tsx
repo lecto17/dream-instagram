@@ -4,11 +4,14 @@ import { VscReactions } from 'react-icons/vsc';
 import { REACTION_BAR_ITEMS } from '@/types/reaction';
 
 type ReactionSelectorProps = {
-  onReaction: (postId: string, reaction: string) => void;
+  onReactionClick: (postId: string, reaction: string) => void;
   postId: string;
 };
 
-const ReactionSelector = ({ onReaction, postId }: ReactionSelectorProps) => {
+const ReactionSelector = ({
+  onReactionClick,
+  postId,
+}: ReactionSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     setIsOpen(!isOpen);
@@ -18,8 +21,7 @@ const ReactionSelector = ({ onReaction, postId }: ReactionSelectorProps) => {
   useClickOutside(containerRef, () => setIsOpen(false));
 
   const handleReaction = (reaction: string) => {
-    console.log('Selected reaction:', reaction, 'for post:', postId);
-    onReaction(postId, reaction);
+    onReactionClick(postId, reaction);
     setIsOpen(false); // 리액션 선택 후 드롭다운 닫기
   };
 

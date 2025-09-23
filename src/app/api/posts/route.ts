@@ -23,19 +23,20 @@ export async function GET(request: NextRequest) {
   const formattedData = data.map((post) => {
     return {
       ...post,
-      reactions: post.reactions.map(
-        (reaction: {
-          emoji: string;
-          count: number;
-          reactionUserIdList: string[];
-        }) => {
-          return {
-            emoji: reaction.emoji,
-            count: reaction.count,
-            reactedByMe: reaction.reactionUserIdList.includes(user.id),
-          };
-        },
-      ),
+      reactions:
+        post.reactions?.map(
+          (reaction: {
+            emoji: string;
+            count: number;
+            reactionUserIdList: string[];
+          }) => {
+            return {
+              emoji: reaction.emoji,
+              count: reaction.count,
+              reactedByMe: reaction.reactionUserIdList.includes(user.id),
+            };
+          },
+        ) || [],
     };
   });
 

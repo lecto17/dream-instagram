@@ -1,65 +1,23 @@
 import { useCacheKeyContext } from '@/context/CacheKeyContext';
-// import { Comment, SimplePost, SupaComment, SupaPost } from '@/types/post';
 import { SupaComment, SupaPost } from '@/types/post';
 import { getDateYYYYMMDDWithDash } from '@/utils/utils';
 import { useCallback } from 'react';
 import useSWR from 'swr';
+import useUser from './useUser';
 
 export default function usePosts(date?: string) {
+  console.log('usePosts Tlqkf', date);
   const { postsKey } = useCacheKeyContext();
   const today = getDateYYYYMMDDWithDash().replaceAll('-', '');
 
-  const {
-    data: posts,
-    isLoading,
-    error,
-    mutate,
-    // } = useSWR<SimplePost[]>(postsKey);
-  } = useSWR<SupaPost[]>(`${postsKey}?date=${date || today}`);
+  const key = `${postsKey}?date=${date || today}`;
 
-  // const { mutate: globalMutate } = useSWRConfig();
-
-  // const updatePostLike = async (id: string, like: boolean) => {
-  //   return await fetch('/api/likes', {
-  //     method: 'PUT',
-  //     body: JSON.stringify({ id, like }),
-  //   }).then((res) => res.json());
-  // };
-
-  // const setLike = useCallback(
-  //   (post: SimplePost, username: string, like: boolean) => {
-  //     const newPost = {
-  //       ...post,
-  //       likes: like
-  //         ? post.likes?.length
-  //           ? [...post.likes, username]
-  //           : [username]
-  //         : post.likes.filter((uname) => uname !== username),
-  //     };
-
-  //     const newPosts = posts?.map((postEl) =>
-  //       post.id === postEl.id ? newPost : postEl,
-  //     );
-
-  //     mutate(updatePostLike(post.id, like), {
-  //       optimisticData: newPosts, // newPosts로 optimistic하게 UI 변경
-  //       populateCache: false, // default: updatePostLike(mutate의 첫번째 인자)의 결과값으로 mutate함. updatePostLike에서 필요한 데이터를 가져오는 상태 X 기에, false
-  //       revalidate: false, // default: 첫번째 인자 실행이 완료되면 다시금 data를 call하는데, 필요없기에 false
-  //       rollbackOnError: true, // network 와 같은 에러 상황이 발생할 경우, UI rollback.(=true일 경우)
-  //     });
-  //     // .then(() => {
-  //     //   console.log("global mutate");
-  //     //   return globalMutate(`/api/users/${post.username}/${tab}`, null, {
-  //     //     revalidate: true,
-  //     //   });
-  //     // });
-  //   },
-  //   [posts, mutate],
-  // );
+  const { data: posts, isLoading, error, mutate } = useSWR<SupaPost[]>(key);
 
   const addPost = async (text: string, file?: File) => {
     const formData = new FormData();
     formData.append('text', text);
+
     if (file) {
       formData.append('file', file);
       formData.append('fileName', file.name);
@@ -123,6 +81,143 @@ export default function usePosts(date?: string) {
     [posts, mutate, upsertCommentOnPost],
   );
 
+  const toggleReactionOnPost = useCallback(
+    async (postId: string, emoji: string) => {
+      let newReactions,
+        addFlag = false;
+
+      // Optimistic update: UI를 먼저 업데이트
+      const optimisticPosts = posts?.map((post) => {
+        if (post.id === postId) {
+          const existingReaction = post.reactions.find(
+            (r: { emoji: string }) => r.emoji === emoji,
+          );
+
+          if (
+            existingReaction?.reactedByMe &&
+            existingReaction.emoji === emoji
+          ) {
+            // 이미 있으면 제거
+            newReactions = post.reactions.map((reaction) => {
+              if (reaction.emoji === emoji) {
+                return {
+                  ...reaction,
+                  count: reaction.count - 1 === 0 ? 0 : reaction.count - 1,
+                  reactedByMe: false,
+                };
+              }
+              return reaction;
+            });
+          } else {
+            // 없으면 추가
+            addFlag = true;
+
+            console.log('post.reactions: ', post.reactions);
+
+            if (post.reactions.length === 0) {
+              newReactions = [
+                {
+                  emoji,
+                  count: 1,
+                  reactedByMe: true,
+                },
+              ];
+            } else {
+              let added = false;
+              newReactions = post.reactions.map((_reaction, index) => {
+                if (_reaction.emoji === emoji) {
+                  added = true;
+                  return {
+                    ..._reaction,
+                    count: _reaction.count + 1,
+                    reactedByMe: true,
+                  };
+                }
+
+                return _reaction;
+              });
+
+              if (!added) {
+                newReactions = [
+                  ...newReactions,
+                  {
+                    emoji,
+                    count: 1,
+                    reactedByMe: true,
+                  },
+                ];
+              }
+            }
+          }
+          return {
+            ...post,
+            reactions: newReactions,
+          };
+        }
+        return post;
+      });
+
+      // Optimistic update 적용
+      mutate(optimisticPosts, { revalidate: false });
+
+      try {
+        let result;
+        if (addFlag) {
+          result = await fetch(`/api/posts/${postId}/reaction`, {
+            method: 'POST',
+            body: JSON.stringify({
+              postId,
+              emoji,
+            }),
+          }).then((res) => res.json());
+        } else {
+          result = await fetch(
+            `/api/posts/${postId}/reaction/${encodeURIComponent(emoji)}`,
+            {
+              method: 'DELETE',
+            },
+          ).then((res) => res.json());
+        }
+      } catch (error) {
+        console.error('Failed to toggle reaction:', error);
+        // 에러 발생 시 원래 상태로 롤백
+        mutate(posts, { revalidate: true });
+        throw error;
+      }
+    },
+    [posts, mutate, key],
+  );
+
+  const removeReactionOnPost = useCallback(
+    (postId: string, reaction: string) => {
+      return fetch(`/api/posts/${postId}`, {
+        method: 'DELETE',
+        body: JSON.stringify({ postId, reaction }),
+      }).then((res) => res.json());
+    },
+    [],
+  );
+
+  const addReactionOnComment = useCallback(
+    (commentId: string, reaction: string) => {
+      return fetch(`/api/comments/${commentId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ commentId, reaction }),
+      }).then((res) => res.json());
+    },
+    [],
+  );
+
+  const removeReactionOnComment = useCallback(
+    (commentId: string, reaction: string) => {
+      return fetch(`/api/comments/${commentId}`, {
+        method: 'DELETE',
+        body: JSON.stringify({ commentId, reaction }),
+      }).then((res) => res.json());
+    },
+    [],
+  );
+
   // const addCommentOnPost = useCallback(
   //   async (comment: Comment, postId: string) => {
   //     let newPosts;
@@ -154,5 +249,15 @@ export default function usePosts(date?: string) {
   // );
 
   // return { posts, isLoading, error, setLike, addPost, addCommentOnPost };
-  return { posts, isLoading, error, addPost, addCommentOnPost };
+  return {
+    posts,
+    isLoading,
+    error,
+    addPost,
+    addCommentOnPost,
+    toggleReactionOnPost,
+    removeReactionOnPost,
+    addReactionOnComment,
+    removeReactionOnComment,
+  };
 }
