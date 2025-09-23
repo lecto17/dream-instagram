@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; emoji: string } },
+  { params }: { params: Promise<{ id: string; emoji: string }> },
 ) {
-  const { id, emoji } = params;
+  const { id, emoji } = await params;
   const decodedEmoji = decodeURIComponent(emoji);
 
   const user = await getAuthenticatedUser();
