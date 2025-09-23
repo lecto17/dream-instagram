@@ -12,6 +12,8 @@ import useUser from '@/hooks/useUser';
 import { SupaComment, SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useState } from 'react';
+import ReactionSelector from '../ui/reaction/ReactionSelector';
+import ReactionList from '../ui/reaction/ReactionList';
 
 interface PostCardProps {
   post: SupaPost;
@@ -19,13 +21,18 @@ interface PostCardProps {
   priority?: boolean;
   // addCommentOnPost: (comment: Comment, postId: string) => void;
   addCommentOnPost: (comment: SupaComment, postId: string) => void;
+  toggleReactionOnPost: (postId: string, reaction: string) => void;
 }
 
 const location = 'Incheon, Korea';
 
-const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
+const PostCard = ({
+  post,
+  priority,
+  addCommentOnPost,
+  toggleReactionOnPost,
+}: PostCardProps) => {
   const [showable, setShowable] = useState(false);
-  const { user: userProfile } = useUser();
 
   const showPostModal = () => {
     setShowable(true);
@@ -40,6 +47,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
     caption,
     comments,
     author: { userName, avatarUrl },
+    reactions,
   } = post;
 
   return (
@@ -86,15 +94,17 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
         </ModalPortal>
       )}
       {/* <ActionBar post={post} /> */}
+      <ReactionSelector
+        onReaction={toggleReactionOnPost}
+        postId={post.id}
+      />
       <div>
-        {/* <p>
-          {likes?.length ?? 0}
-          {likes?.length > 1 ? ' likes' : ' like'}
-        </p> */}
-        <p className="flex items-center mb-3 sm:mb-5">
-          {/* <span className="font-bold mr-2">{username}</span> */}
-          {caption}
-        </p>
+        <p className="flex items-center mb-3 sm:mb-5">{caption}</p>
+        <ReactionList
+          postId={post.id}
+          reactions={reactions}
+          onReactionClick={toggleReactionOnPost}
+        />
         <p className="mb-1 sm:mb-5 text-gray-400 text-sm">
           {parseDate(createdAt)}
         </p>
