@@ -1,3 +1,4 @@
+import { ReactionStats, TransformedReactionStats } from '@/types/reaction';
 import { SimpleUser, SupaUserProfile, User } from '@/types/user';
 
 export type SupaPost = {
@@ -6,9 +7,14 @@ export type SupaPost = {
   caption: string;
   imageKey: string;
   createdAt: string;
-  updatedAt: string;
+  updatedAt: string | null;
   comments: number;
   author: Pick<SupaUserProfile, 'avatarUrl' | 'userName' | 'id'>;
+  reactions: TransformedReactionStats[];
+};
+
+export type RawSupaPost = Omit<SupaPost, 'reactions'> & {
+  reactions: ReactionStats[];
 };
 
 export type SupaComment = {
