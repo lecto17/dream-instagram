@@ -101,13 +101,13 @@ export const addComment = async (
 export const addReactionOnPost = async (
   postId: string,
   userId: string,
-  reaction: string,
+  emoji: string,
 ) => {
   const client = await serverSupabase();
   const { error } = await client.from('post_reactions').insert({
     post_id: postId,
     user_id: userId,
-    emoji: reaction,
+    emoji,
   });
 
   if (error) throw error;
@@ -116,9 +116,27 @@ export const addReactionOnPost = async (
     .from('post_reactions')
     .select('*')
     .eq('post_id', postId)
-    .eq('emoji', reaction);
+    .eq('emoji', emoji);
 
   if (selectError) throw selectError;
 
   return data;
+};
+
+export const deleteReactionOnPost = async (
+  postId: string,
+  userId: string,
+  emoji: string,
+) => {
+  const client = await serverSupabase();
+  const { error } = await client
+    .from('post_reactions')
+    .delete()
+    .eq('post_id', postId)
+    .eq('emoji', emoji)
+    .eq('user_id', userId);
+
+  if (error) throw error;
+
+  return true;
 };
