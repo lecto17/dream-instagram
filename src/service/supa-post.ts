@@ -1,4 +1,4 @@
-import { SupaComment, SupaPost } from '@/types/post';
+import { RawSupaPost, SupaComment, SupaPost } from '@/types/post';
 import { objectMapper } from '@/utils/mapper';
 import { serverSupabase } from '@/lib/supabaseServerClient';
 
@@ -43,7 +43,7 @@ export const getPosts = async (date: string) => {
   // );
 
   const transformedData = postsWithCommentCount?.map(objectMapper);
-  return transformedData;
+  return transformedData as RawSupaPost[];
 };
 
 export const getPostComments = async (id: string) => {
@@ -95,5 +95,30 @@ export const addComment = async (
     .select()
     .single();
   if (error) throw error;
+  return data;
+};
+
+export const addReactionOnPost = async (
+  postId: string,
+  userId: string,
+  reaction: string,
+) => {
+  const client = await serverSupabase();
+  const { error } = await client.from('post_reactions').insert({
+    post_id: postId,
+    user_id: userId,
+    emoji: reaction,
+  });
+
+  if (error) throw error;
+
+  const { data, error: selectError } = await client
+    .from('post_reactions')
+    .select('*')
+    .eq('post_id', postId)
+    .eq('emoji', reaction);
+
+  if (selectError) throw selectError;
+
   return data;
 };
