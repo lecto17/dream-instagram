@@ -1,14 +1,14 @@
-import { addReactionOnPost } from '@/service/supa-post';
+import { addReactionOnPost, deleteReactionOnPost } from '@/service/supa-post';
 import { getAuthenticatedUser } from '@/actions/action';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function PUT(request: NextRequest) {
-  const { postId, reaction } = await request.json();
+export async function POST(request: NextRequest) {
+  const { postId, emoji } = await request.json();
   const user = await getAuthenticatedUser();
   if (!user) {
     return new Response('Authenticated Error');
   }
-  return await addReactionOnPost(postId, user.id, reaction)
+  return await addReactionOnPost(postId, user.id, emoji)
     .then((el) =>
       NextResponse.json({
         emoji: el[0].emoji,
