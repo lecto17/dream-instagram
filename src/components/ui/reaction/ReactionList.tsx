@@ -1,36 +1,36 @@
 import { TransformedReactionStats } from '@/types/reaction';
 
 type ReactionListProps = {
-  postId: string;
+  postOrCommentId: string;
   reactions: TransformedReactionStats[];
-  onReactionClick: (postId: string, reaction: string) => void;
+  onReactionClick: (postOrCommentId: string, reaction: string) => void;
   showCount?: boolean;
   maxDisplay?: number; // 최대 표시할 리액션 개수
 };
 
 const ReactionList = ({
-  postId,
+  postOrCommentId,
   reactions,
   onReactionClick,
   showCount = true,
   maxDisplay = 10,
 }: ReactionListProps) => {
   const sortedReactions = reactions
-    .filter((reaction) => reaction.count > 0)
-    .sort((reactionA, reactionB) => reactionB.count - reactionA.count)
+    ?.filter((reaction) => reaction.count > 0)
+    ?.sort((reactionA, reactionB) => reactionB.count - reactionA.count)
     .slice(0, maxDisplay);
 
-  if (sortedReactions.length === 0) {
+  if (sortedReactions?.length === 0) {
     return null;
   }
 
   return (
     <div className="flex items-center space-x-2 text-sm">
-      {sortedReactions.map(({ emoji, count, reactedByMe }) => {
+      {sortedReactions?.map(({ emoji, count, reactedByMe }) => {
         return (
           <button
             key={emoji}
-            onClick={() => onReactionClick(postId, emoji)}
+            onClick={() => onReactionClick(postOrCommentId, emoji)}
             className={`flex items-center space-x-1 rounded-full px-2 py-0.5 transition-colors cursor-pointer ${
               reactedByMe
                 ? 'bg-blue-300 text-white'
@@ -38,7 +38,7 @@ const ReactionList = ({
             }`}
             disabled={!onReactionClick}
           >
-            <span className="text-base">{emoji}</span>
+            <span className="text-sm sm:text-base">{emoji}</span>
             {showCount && count > 0 && (
               <span className="text-gray-600 font-medium">{count}</span>
             )}
