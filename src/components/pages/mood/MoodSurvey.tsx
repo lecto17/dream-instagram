@@ -1,3 +1,5 @@
+'use client';
+
 import useMood from '@/hooks/useMood';
 import React from 'react';
 import { MOOD_OPTIONS } from '@/constants/mood';
@@ -29,7 +31,7 @@ const MoodSurvey = () => {
                 <label
                   key={option.id}
                   className={`block p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
-                    selectedMood === option.value
+                    selectedMood === option.id
                       ? 'border-blue-500 bg-blue-50 shadow-md'
                       : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                   }`}
@@ -37,8 +39,8 @@ const MoodSurvey = () => {
                   <input
                     type="radio"
                     name="mood"
-                    value={option.value}
-                    checked={selectedMood === option.value}
+                    value={option.id}
+                    checked={selectedMood === option.id}
                     onChange={(e) => setSelectedMood(e.target.value)}
                     className="sr-only"
                   />
@@ -48,7 +50,7 @@ const MoodSurvey = () => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-medium text-gray-900 text-sm sm:text-base leading-tight">
-                        {option.weather}
+                        {option.mood}
                       </div>
                       <div className="text-xs sm:text-sm text-gray-600 leading-tight mt-1">
                         {option.description}
@@ -56,12 +58,12 @@ const MoodSurvey = () => {
                     </div>
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${
-                        selectedMood === option.value
+                        selectedMood === option.id
                           ? 'border-blue-500 bg-blue-500'
                           : 'border-gray-300'
                       }`}
                     >
-                      {selectedMood === option.value && (
+                      {selectedMood === option.id && (
                         <div className="w-full h-full rounded-full bg-white scale-50"></div>
                       )}
                     </div>

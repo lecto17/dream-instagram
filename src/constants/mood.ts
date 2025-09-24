@@ -2,46 +2,46 @@ export const MOOD_OPTIONS = [
   {
     id: 'sunny',
     emoji: '☀️',
-    weather: '맑고 화창한 여름',
+    mood: '맑고 화창한 여름',
     description: '상쾌하고 활기찬',
-    value: 'sunny',
+    value: 1,
     color: 'from-yellow-400 to-orange-500',
   },
   {
     id: 'autumn',
     emoji: '🍂',
-    weather: '선선한 가을',
+    mood: '선선한 가을',
     description: '차분하고 여유로운',
-    value: 'autumn',
+    value: 2,
     color: 'from-orange-400 to-red-500',
   },
   {
     id: 'rainy',
     emoji: '🌧',
-    weather: '장마철 비 오는 날',
+    mood: '장마철 비 오는 날',
     description: '조금 축 처지고 무거운',
-    value: 'rainy',
+    value: 3,
     color: 'from-gray-400 to-blue-500',
   },
   {
     id: 'winter',
     emoji: '❄️',
-    weather: '겨울밤 눈 내리는 날',
+    mood: '겨울밤 눈 내리는 날',
     description: '고요하고 외로운',
-    value: 'winter',
+    value: 4,
     color: 'from-blue-300 to-blue-600',
   },
   {
     id: 'spring',
     emoji: '🌸🌦',
-    weather: '변덕스러운 봄날',
+    mood: '변덕스러운 봄날',
     description: '들떴지만 불안정한',
-    value: 'spring',
+    value: 5,
     color: 'from-pink-300 to-purple-400',
   },
 ] as const;
 
-export type MoodType = (typeof MOOD_OPTIONS)[number]['value'];
+export type MoodType = (typeof MOOD_OPTIONS)[number]['id'];
 
 /**
  * 기분 타입에 따른 그라데이션 배경색을 반환합니다.
@@ -59,3 +59,11 @@ export const getMoodGradient = (moodType: MoodType): string => {
 
   return gradients[moodType] || gradients.sunny;
 };
+
+export const moodMapper = new Map([
+  ['sunny', 1],
+  ['autumn', 2],
+  ['rainy', 3],
+  ['winter', 4],
+  ['spring', 5],
+]);
