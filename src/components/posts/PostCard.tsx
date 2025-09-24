@@ -12,12 +12,14 @@ import useUser from '@/hooks/useUser';
 import { SupaComment, SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useState } from 'react';
+import ReactionSelector from '../ui/reaction/ReactionSelector';
+import ReactionList from '../ui/reaction/ReactionList';
+import usePosts from '@/hooks/usePosts';
+import { useSearchParams } from 'next/navigation';
 
 interface PostCardProps {
   post: SupaPost;
-  // post: SimplePost;
   priority?: boolean;
-  // addCommentOnPost: (comment: Comment, postId: string) => void;
   addCommentOnPost: (comment: SupaComment, postId: string) => void;
 }
 
@@ -25,7 +27,9 @@ const location = 'Incheon, Korea';
 
 const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
-  const { user: userProfile } = useUser();
+  const pathParams = useSearchParams();
+  const date = pathParams.get('date');
+  const { toggleReactionOnPost } = usePosts(date || '');
 
   const showPostModal = () => {
     setShowable(true);
@@ -40,6 +44,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
     caption,
     comments,
     author: { userName, avatarUrl },
+    reactions,
   } = post;
 
   return (
@@ -72,29 +77,21 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
               key={id}
               post={post}
             />
-            {/* <PostDetail
-              key={id}
-              id={id}
-              createdAt={createdAt}
-              imageKey={imageKey}
-              likes={[]}
-              text={caption}
-              userImage={''}
-              username={authorId}
-            /> */}
           </PostModal>
         </ModalPortal>
       )}
       {/* <ActionBar post={post} /> */}
+      <ReactionSelector
+        onReactionClick={toggleReactionOnPost}
+        postOrCommentId={post.id}
+      />
       <div>
-        {/* <p>
-          {likes?.length ?? 0}
-          {likes?.length > 1 ? ' likes' : ' like'}
-        </p> */}
-        <p className="flex items-center mb-3 sm:mb-5">
-          {/* <span className="font-bold mr-2">{username}</span> */}
-          {caption}
-        </p>
+        <p className="flex items-center mb-3 sm:mb-5">{caption}</p>
+        <ReactionList
+          postOrCommentId={post.id}
+          reactions={reactions}
+          onReactionClick={toggleReactionOnPost}
+        />
         <p className="mb-1 sm:mb-5 text-gray-400 text-sm">
           {parseDate(createdAt)}
         </p>

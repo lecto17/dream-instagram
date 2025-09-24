@@ -1,7 +1,6 @@
-// import { validateSession } from "@/actions/action";
-// import { addComment, getPostComments, updateComment } from '@/service/post';
 import { getAuthenticatedUser } from '@/actions/action';
 import { addComment, getPostComments } from '@/service/supa-post';
+import { ReactionStats } from '@/types/reaction';
 import { NextRequest, NextResponse } from 'next/server';
 
 type Context = {
@@ -17,8 +16,22 @@ export async function GET(
 
   const { id } = await params;
   const comments = await getPostComments(id);
+  const formattedComments = comments.map((comment) => {
+    return {
+      ...comment,
+      reactions:
+        (comment.reactions as ReactionStats[])?.map(
+          (reaction: ReactionStats) => {
+            return {
+              ...reaction,
+              reactedByMe: reaction.reactionUserIdList?.includes(user.id),
+            };
+          },
+        ) || [],
+    };
+  });
 
-  return new Response(JSON.stringify(comments), { status: 200 });
+  return new Response(JSON.stringify(formattedComments), { status: 200 });
 }
 
 export async function PUT(request: NextRequest) {

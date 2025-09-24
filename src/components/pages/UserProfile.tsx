@@ -1,11 +1,11 @@
 'use client';
-
+import React, { useEffect } from 'react';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
 
-export default function Onboarding() {
+const UserProfile = () => {
   const router = useRouter();
   const [nickname, setNickname] = useState('');
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -13,7 +13,14 @@ export default function Onboarding() {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { updateUserProfile } = useUser();
+  const { user, updateUserProfile } = useUser();
+
+  useEffect(() => {
+    if (user != null) {
+      setNickname(user.userName || '');
+      setPreviewUrl(user.avatarUrl || '');
+    }
+  }, [user]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -39,7 +46,7 @@ export default function Onboarding() {
         userName: nickname.trim(),
         avatarFile: profileImage,
       });
-      router.push('/');
+      router.push('/onboarding/complete');
     } catch (error) {
       console.error('Onboarding failed:', error);
     } finally {
@@ -48,9 +55,9 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-full bg-gray-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <div className="text-center mb-8">
+    <div className="min-h-full bg-gray-50 flex items-center justify-center p-2">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-4 sm:p-6">
+        <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">프로필 설정</h1>
           <p className="text-gray-600">닉네임과 프로필 이미지를 설정해주세요</p>
         </div>
@@ -160,4 +167,6 @@ export default function Onboarding() {
       </div>
     </div>
   );
-}
+};
+
+export default UserProfile;

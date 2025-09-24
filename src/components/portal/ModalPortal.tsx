@@ -1,14 +1,15 @@
-import { createPortal } from "react-dom";
+import { createPortal } from 'react-dom';
+import type { ReactNode } from 'react';
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 const ModalPortal = ({ children }: Props) => {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     return null;
   }
 
-  const portal = document.getElementById("portal");
+  const portal = document.getElementById('portal');
   return createPortal(children, portal!);
 };
 

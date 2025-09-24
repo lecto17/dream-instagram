@@ -1,108 +1,122 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import React, { ReactElement } from 'react';
-import { AiOutlineHome } from 'react-icons/ai';
-import { AiFillHome } from 'react-icons/ai';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { ReactElement, useState } from 'react';
 import { BsPlusSquare } from 'react-icons/bs';
-import { BsPlusSquareFill } from 'react-icons/bs';
-import { RiSearchLine } from 'react-icons/ri';
-import { RiSearchFill } from 'react-icons/ri';
 
-import InstagramBorder from '@/components/border/InstagramBorder';
 import Avatar from '@/components/avatar/Avatar';
 import { SupaUserProfile } from '@/types/user';
-// import { useSession, signIn, signOut } from 'next-auth/react';
-// import Avatar from '@/components/avatar/Avatar';
-// import { createClient } from '@/lib/supabaseBrowserClient';
+import Dropdown from '../dropdown/Dropdown';
+import { FaSignOutAlt, FaVoteYea } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 
 interface MENU {
-  url: string;
-  name: string;
-  Icon: () => ReactElement;
-  ActiveIcon: () => ReactElement;
+  name: 'post' | 'profile';
+  Icon: (data?: unknown) => ReactElement;
 }
 
 const MENUS: MENU[] = [
   {
-    url: '/',
-    Icon: () => <AiOutlineHome />,
-    ActiveIcon: () => <AiFillHome />,
-    name: 'home icon',
-  },
-  // {
-  //   url: '/search',
-  //   Icon: () => <RiSearchLine />,
-  //   ActiveIcon: () => <RiSearchFill />,
-  //   name: 'search users icon',
-  // },
-  {
-    url: '/new',
     Icon: () => <BsPlusSquare />,
-    ActiveIcon: () => <BsPlusSquareFill />,
-    name: 'post new article icon',
+    name: 'post',
+  },
+  {
+    Icon: (data?: unknown) => (
+      <Avatar
+        user={data as SupaUserProfile}
+        size="small"
+      />
+    ),
+    name: 'profile',
   },
 ];
 
 const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
-  const pathName = usePathname();
-  // const user = createClient().auth.getUser();
+  const router = useRouter();
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   // const { data: session } = useSession();
   // const user = session?.user;
-  // const client = createClient();
+  // const user = createClient().auth.getUser();
 
-  const handleClickIsLogined = () => {
-    // if (user) {
-    //   signOut();
-    //   return;
-    // }
-    // signIn('google', {
-    //   redirectTo: pathName === '/auth/login' ? '/' : pathName,
-    // });
+  const triggerDropdown = (type: 'post' | 'profile') => {
+    setActiveDropdown((prev) => (prev === type ? null : type));
   };
 
-  const getMenuIcon = ({ url, Icon, ActiveIcon }: MENU) => {
-    return url === pathName ? <ActiveIcon /> : <Icon />;
-  };
-
-  const getCompnentWhenLoggedIn = () => {
-    if (user) {
+  const getDropdownMenu = (type: 'post' | 'profile') => {
+    if (activeDropdown === 'post' && type === 'post') {
       return (
-        <>
-          <Avatar
-            user={user}
-            size="small"
+        <div className="absolute top-full right-0">
+          <Dropdown
+            options={[
+              {
+                label: (
+                  <div className="flex items-center gap-2">
+                    <FaVoteYea />
+                    <span>게시글</span>
+                  </div>
+                ),
+                value: 'post',
+                onClick: () => {
+                  setActiveDropdown(null);
+                  router.push('/post');
+                },
+              },
+              {
+                label: (
+                  <div className="flex items-center gap-2">
+                    <FaVoteYea />
+                    <span>무드</span>
+                  </div>
+                ),
+                value: 'vote',
+                onClick: () => {
+                  setActiveDropdown(null);
+                  router.push('/mood');
+                },
+              },
+            ]}
           />
-          <InstagramBorder
-            rounded={'rounded-md'}
-            padding="p-[2px]"
-          >
-            <button
-              className="min-w-[80px]"
-              onClick={handleClickIsLogined}
-            >
-              logout
-            </button>
-          </InstagramBorder>
-        </>
+        </div>
       );
+    } else if (activeDropdown === 'profile' && type === 'profile') {
+      return (
+        <div className="absolute top-full right-0">
+          <Dropdown
+            options={[
+              {
+                label: (
+                  <div className="flex items-center gap-2">
+                    <FaUser />
+                    <span>프로필</span>
+                  </div>
+                ),
+                value: 'profile',
+                onClick: () => {
+                  setActiveDropdown(null);
+                  router.push('/profile');
+                },
+              },
+              {
+                label: (
+                  <div className="flex items-center gap-2">
+                    <FaSignOutAlt />
+                    <span className="text-red-500">로그아웃</span>
+                  </div>
+                ),
+                value: 'logout',
+                onClick: () => {
+                  setActiveDropdown(null);
+                },
+              },
+            ]}
+          />
+        </div>
+      );
+    } else {
+      return null;
     }
-
-    return (
-      <InstagramBorder
-        rounded={'rounded-md'}
-        padding="p-[2px]"
-      >
-        <button
-          className="min-w-[80px]"
-          onClick={handleClickIsLogined}
-        >
-          login
-        </button>
-      </InstagramBorder>
-    );
   };
 
   return (
@@ -110,27 +124,28 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
       <Link
         href="/"
         className="text-xl font-semibold md:text-3xl"
+        onClick={() => setActiveDropdown(null)}
       >
         Our Voice
       </Link>
-      <div className="flex items-center space-x-2">
-        <ul className="flex gap-4 items-center pl-4 h-10 mr-5">
+      <div className="flex items-center space-x-4">
+        <ul className="flex gap-4 items-center">
           {MENUS.map((menu) => (
             <li
-              key={menu.url}
-              className="text-3xl"
+              key={menu.name}
+              className="text-3xl relative"
             >
-              <Link
-                href={menu.url}
+              <div
                 aria-label={menu.name}
+                onClick={() => triggerDropdown(menu.name)}
               >
-                {getMenuIcon(menu)}
-              </Link>
+                {menu.Icon(user)}
+              </div>
               <span className="sr-only">{menu.name}</span>
+              {getDropdownMenu(menu.name)}
             </li>
           ))}
         </ul>
-        {getCompnentWhenLoggedIn()}
       </div>
     </section>
   );

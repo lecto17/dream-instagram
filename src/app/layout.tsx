@@ -6,6 +6,7 @@ import GlobalNav from '@/components/navigation/GlobalNav';
 import SWRConfigContext from '@/context/SWRConfigContext';
 import { getAuthenticatedUser } from '@/actions/action';
 import { getMyProfile } from '@/service/supa-user';
+import type { ReactNode } from 'react';
 
 const openSans = Open_Sans({
   variable: '--font-open-sans',
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
     siteName: 'Share your Voice',
     images: [
       {
-        url: '/images/og-default.jpg',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: "Share your Voice - Listen your neighbor's story",
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Share your Voice',
     description: "Listen your neighbor's story",
-    images: ['/images/og-default.jpg'],
+    images: ['/opengraph-image'],
     creator: '@hnoo',
   },
   robots: {
@@ -95,7 +96,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   // 전역적으로 사용자 정보와 프로필 정보 가져오기
   const user = await getAuthenticatedUser();
@@ -112,7 +113,7 @@ export default async function RootLayout({
       </head>
       <body className={`${openSans.className} w-full h-full bg-neutral-50`}>
         {/* <AuthContext> */}
-        <div className="max-w-screen-xl mx-auto h-16">
+        <div className="max-w-screen-lg mx-auto h-16">
           <GlobalNav user={profile} />
         </div>
         <main className="w-full h-[calc(100%-64px)] flex justify-center">
