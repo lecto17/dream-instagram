@@ -3,7 +3,6 @@ import { SupaComment, SupaPost } from '@/types/post';
 import { getDateYYYYMMDDWithDash } from '@/utils/utils';
 import { useCallback } from 'react';
 import useSWR from 'swr';
-import useUser from './useUser';
 
 export default function usePosts(date?: string) {
   const { postsKey } = useCacheKeyContext();
@@ -39,16 +38,6 @@ export default function usePosts(date?: string) {
     },
     [],
   );
-
-  // const upsertCommentOnPost = useCallback(
-  //   (postId: string, comment: Comment) => {
-  //     return fetch(`/api/posts/${postId}`, {
-  //       method: 'PUT',
-  //       body: JSON.stringify({ postId, comment }),
-  //     }).then((res) => res.json());
-  //   },
-  //   [],
-  // );
 
   const addCommentOnPost = useCallback(
     async (comment: SupaComment, postId: string) => {
@@ -111,8 +100,6 @@ export default function usePosts(date?: string) {
             // 없으면 추가
             addFlag = true;
 
-            console.log('post.reactions: ', post.reactions);
-
             if (post.reactions.length === 0) {
               newReactions = [
                 {
@@ -123,7 +110,7 @@ export default function usePosts(date?: string) {
               ];
             } else {
               let added = false;
-              newReactions = post.reactions.map((_reaction, index) => {
+              newReactions = post.reactions.map((_reaction) => {
                 if (_reaction.emoji === emoji) {
                   added = true;
                   return {
@@ -187,67 +174,6 @@ export default function usePosts(date?: string) {
     [posts, mutate, key],
   );
 
-  const removeReactionOnPost = useCallback(
-    (postId: string, reaction: string) => {
-      return fetch(`/api/posts/${postId}`, {
-        method: 'DELETE',
-        body: JSON.stringify({ postId, reaction }),
-      }).then((res) => res.json());
-    },
-    [],
-  );
-
-  const addReactionOnComment = useCallback(
-    (commentId: string, reaction: string) => {
-      return fetch(`/api/comments/${commentId}`, {
-        method: 'PUT',
-        body: JSON.stringify({ commentId, reaction }),
-      }).then((res) => res.json());
-    },
-    [],
-  );
-
-  const removeReactionOnComment = useCallback(
-    (commentId: string, reaction: string) => {
-      return fetch(`/api/comments/${commentId}`, {
-        method: 'DELETE',
-        body: JSON.stringify({ commentId, reaction }),
-      }).then((res) => res.json());
-    },
-    [],
-  );
-
-  // const addCommentOnPost = useCallback(
-  //   async (comment: Comment, postId: string) => {
-  //     let newPosts;
-  //     if (comment?.id) {
-  //       // newPosts = comments?.map(({ id, ...rest }) =>
-  //       //   id === comment.id
-  //       //     ? { id, ...rest, comment: comment.comment }
-  //       //     : { id, ...rest }
-  //       // );
-  //     } else {
-  //       newPosts = posts?.map((el) => {
-  //         if (postId === el.id) {
-  //           return {
-  //             ...el,
-  //             comments: el.comments + 1,
-  //           };
-  //         } else return el;
-  //       });
-  //     }
-
-  //     mutate(upsertCommentOnPost(postId, comment), {
-  //       optimisticData: newPosts,
-  //       populateCache: false,
-  //       revalidate: false,
-  //       rollbackOnError: true,
-  //     });
-  //   },
-  //   [posts, mutate, upsertCommentOnPost],
-  // );
-
-  // return { posts, isLoading, error, setLike, addPost, addCommentOnPost };
   return {
     posts,
     isLoading,
@@ -255,8 +181,5 @@ export default function usePosts(date?: string) {
     addPost,
     addCommentOnPost,
     toggleReactionOnPost,
-    removeReactionOnPost,
-    addReactionOnComment,
-    removeReactionOnComment,
   };
 }
