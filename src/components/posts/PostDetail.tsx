@@ -9,16 +9,6 @@ import { SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useCallback } from 'react';
 
-// type PostDetailProps = {
-//   id: string;
-//   createdAt: string;
-//   image: string;
-//   likes: string[];
-//   text: string;
-//   userImage: string;
-//   username: string;
-// };
-
 const PostDetail = ({ post }: { post: SupaPost }) => {
   const {
     id,
@@ -27,7 +17,7 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
     caption,
     author: { userName, avatarUrl },
   } = post;
-  const { comments, setComment } = useComment(id);
+  const { comments, setComment, toggleReactionOnComment } = useComment(id);
 
   const suppressEventBubbling = useCallback((e: React.MouseEvent<Element>) => {
     e.stopPropagation();
@@ -35,7 +25,6 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
 
   return (
     <article
-      // className="w-[1000px] h-[700px] flex bg-white"
       className="flex flex-col items-center justify-center pt-[10px] overflow-hidden w-[350px] min-h-[500px] bg-white lg:w-[1000px] lg:h-[700px] lg:flex-row lg:pt-0"
       onClick={suppressEventBubbling}
     >
@@ -75,29 +64,15 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
                       userName: comment.userName,
                       avatarUrl: comment.avatarUrl,
                     }}
+                    postId={id}
+                    reactions={comment.reactions}
+                    onReactionClick={toggleReactionOnComment}
                   />
                 ))}
             </ul>
           </div>
           <div className="flex flex-col">
             <div className="hidden sm:flex p-3 text-base">
-              {/* <ActionBar
-                post={{
-                  id,
-                  username,
-                  userImage,
-                  image,
-                  text,
-                  likes,
-                  createdAt,
-                  comments: comments?.length || 0,
-                }}
-              /> */}
-
-              {/* <p className="font-semibold">
-                {likes?.length ?? 0}
-                {likes?.length > 1 ? ' likes' : ' like'}
-              </p> */}
               <p className="text-neutral-400">{parseDate(createdAt)}</p>
             </div>
             <CommentForm
