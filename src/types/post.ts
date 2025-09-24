@@ -22,6 +22,7 @@ export type SupaComment = {
   avatarUrl: string | null;
   userName: string;
   id?: string;
+  reactions: TransformedReactionStats[];
 };
 
 export type Post = {
