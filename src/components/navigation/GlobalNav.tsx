@@ -24,7 +24,7 @@ const MENUS: MENU[] = [
   {
     Icon: (data?: unknown) => (
       <Avatar
-        user={data as SupaUserProfile | null}
+        user={data as SupaUserProfile}
         size="small"
       />
     ),

@@ -58,10 +58,7 @@ export const getPostComments = async (id: string) => {
 };
 
 export const addPost = async (
-  post: Omit<
-    SupaPost,
-    'comments' | 'id' | 'createdAt' | 'updatedAt' | 'author'
-  >,
+  post: Pick<SupaPost, 'authorId' | 'caption' | 'imageKey'>,
 ) => {
   const client = await serverSupabase();
   const { authorId, caption, imageKey } = post;

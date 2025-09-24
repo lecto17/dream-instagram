@@ -6,7 +6,6 @@ import useSWR from 'swr';
 import useUser from './useUser';
 
 export default function usePosts(date?: string) {
-  console.log('usePosts Tlqkf', date);
   const { postsKey } = useCacheKeyContext();
   const today = getDateYYYYMMDDWithDash().replaceAll('-', '');
 
