@@ -19,9 +19,7 @@ import { useSearchParams } from 'next/navigation';
 
 interface PostCardProps {
   post: SupaPost;
-  // post: SimplePost;
   priority?: boolean;
-  // addCommentOnPost: (comment: Comment, postId: string) => void;
   addCommentOnPost: (comment: SupaComment, postId: string) => void;
 }
 
@@ -85,12 +83,12 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
       {/* <ActionBar post={post} /> */}
       <ReactionSelector
         onReactionClick={toggleReactionOnPost}
-        postId={post.id}
+        postOrCommentId={post.id}
       />
       <div>
         <p className="flex items-center mb-3 sm:mb-5">{caption}</p>
         <ReactionList
-          postId={post.id}
+          postOrCommentId={post.id}
           reactions={reactions}
           onReactionClick={toggleReactionOnPost}
         />

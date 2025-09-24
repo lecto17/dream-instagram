@@ -5,15 +5,15 @@ import { REACTION_BAR_ITEMS } from '@/types/reaction';
 
 type ReactionSelectorProps = {
   onReactionClick: (postId: string, reaction: string) => void;
-  postId: string;
+  postOrCommentId: string;
 };
 
 const ReactionSelector = ({
   onReactionClick,
-  postId,
+  postOrCommentId,
 }: ReactionSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const handleOpen = () => {
+  const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
 
@@ -21,17 +21,17 @@ const ReactionSelector = ({
   useClickOutside(containerRef, () => setIsOpen(false));
 
   const handleReaction = (reaction: string) => {
-    onReactionClick(postId, reaction);
+    onReactionClick(postOrCommentId, reaction);
     setIsOpen(false); // 리액션 선택 후 드롭다운 닫기
   };
 
   return (
     <div
       ref={containerRef}
-      className="flex w-full py-2 relative"
+      className="flex py-2 relative"
     >
       <VscReactions
-        onClick={handleOpen}
+        onClick={toggleOpen}
         size={24}
         className="cursor-pointer w-fit"
       />
