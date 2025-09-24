@@ -1,12 +1,13 @@
 import Avatar, { AvatarSize } from '@/components/avatar/Avatar';
 import { SupaUserProfile } from '@/types/user';
+import type { ReactNode } from 'react';
 
 type Props = {
   user: SupaUserProfile;
   avatarSize?: AvatarSize;
   location?: string;
   noLocation?: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const PostUserAvatar = ({

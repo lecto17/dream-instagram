@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import type { ReactNode } from 'react';
 
 type PostModal = {
-  children: React.ReactNode;
+  children: ReactNode;
   onClose: () => void;
 };
 
@@ -16,11 +17,11 @@ const PostModal = ({ children, onClose }: PostModal) => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === 'Escape') onClose();
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
   return (

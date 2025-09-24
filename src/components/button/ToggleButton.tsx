@@ -1,10 +1,11 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   toggled: boolean;
   onToggle: (toggled: boolean) => void;
-  onIcon: React.ReactNode;
-  offIcon: React.ReactNode;
+  onIcon: ReactNode;
+  offIcon: ReactNode;
   ariaLabel?: string;
 };
 
@@ -19,7 +20,10 @@ const ToggleButton = ({
     onToggle(!toggled);
   }, [onToggle, toggled]);
   return (
-    <button onClick={handleToggle} aria-label={ariaLabel ?? "toggle button"}>
+    <button
+      onClick={handleToggle}
+      aria-label={ariaLabel ?? 'toggle button'}
+    >
       {toggled ? onIcon : offIcon}
     </button>
   );

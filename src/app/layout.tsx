@@ -6,6 +6,7 @@ import GlobalNav from '@/components/navigation/GlobalNav';
 import SWRConfigContext from '@/context/SWRConfigContext';
 import { getAuthenticatedUser } from '@/actions/action';
 import { getMyProfile } from '@/service/supa-user';
+import type { ReactNode } from 'react';
 
 const openSans = Open_Sans({
   variable: '--font-open-sans',
@@ -95,7 +96,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   // 전역적으로 사용자 정보와 프로필 정보 가져오기
   const user = await getAuthenticatedUser();

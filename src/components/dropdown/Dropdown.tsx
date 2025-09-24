@@ -1,6 +1,8 @@
+import type { ReactNode } from 'react';
+
 type DropdownProps = {
   options: {
-    label: React.ReactNode;
+    label: ReactNode;
     value: string;
     onClick?: (data?: unknown) => void;
   }[];

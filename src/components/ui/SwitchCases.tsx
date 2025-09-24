@@ -1,10 +1,12 @@
+import type { ReactNode } from 'react';
+
 type SwitchCasesProps = {
   step: number;
   cases: {
-    [key: string]: React.ReactNode;
+    [key: string]: ReactNode;
   };
-  defaultCase?: React.ReactNode;
-  fallbackCase?: React.ReactNode;
+  defaultCase?: ReactNode;
+  fallbackCase?: ReactNode;
 };
 
 const SwitchCases = ({
