@@ -1,4 +1,4 @@
-import { SupaComment, SupaPost } from '@/types/post';
+import { RawSupaPost, SupaComment, SupaPost } from '@/types/post';
 import { objectMapper } from '@/utils/mapper';
 import { serverSupabase } from '@/lib/supabaseServerClient';
 
@@ -43,7 +43,7 @@ export const getPosts = async (date: string) => {
   // );
 
   const transformedData = postsWithCommentCount?.map(objectMapper);
-  return transformedData;
+  return transformedData as RawSupaPost[];
 };
 
 export const getPostComments = async (id: string) => {
@@ -58,10 +58,7 @@ export const getPostComments = async (id: string) => {
 };
 
 export const addPost = async (
-  post: Omit<
-    SupaPost,
-    'comments' | 'id' | 'createdAt' | 'updatedAt' | 'author'
-  >,
+  post: Pick<SupaPost, 'authorId' | 'caption' | 'imageKey'>,
 ) => {
   const client = await serverSupabase();
   const { authorId, caption, imageKey } = post;
@@ -96,4 +93,47 @@ export const addComment = async (
     .single();
   if (error) throw error;
   return data;
+};
+
+export const addReactionOnPost = async (
+  postId: string,
+  userId: string,
+  emoji: string,
+) => {
+  const client = await serverSupabase();
+  const { error } = await client.from('post_reactions').insert({
+    post_id: postId,
+    user_id: userId,
+    emoji,
+  });
+
+  if (error) throw error;
+
+  const { data, error: selectError } = await client
+    .from('post_reactions')
+    .select('*')
+    .eq('post_id', postId)
+    .eq('emoji', emoji);
+
+  if (selectError) throw selectError;
+
+  return data;
+};
+
+export const deleteReactionOnPost = async (
+  postId: string,
+  userId: string,
+  emoji: string,
+) => {
+  const client = await serverSupabase();
+  const { error } = await client
+    .from('post_reactions')
+    .delete()
+    .eq('post_id', postId)
+    .eq('emoji', emoji)
+    .eq('user_id', userId);
+
+  if (error) throw error;
+
+  return true;
 };

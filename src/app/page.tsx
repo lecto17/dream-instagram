@@ -14,7 +14,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   const profile = await getMyProfile(user.id);
   if (profile == null || profile?.userName == null) {
-    return redirect('/onboarding');
+    return redirect('/onboarding?step=1');
   }
 
   // URL에서 date 파라미터 가져오기

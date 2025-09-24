@@ -3,9 +3,10 @@
 import { SupaUserProfile } from '@/types/user';
 import { User } from '@supabase/supabase-js';
 import { SWRConfig } from 'swr';
+import type { ReactNode } from 'react';
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   fallback?: Record<string, unknown>;
   user?: User;
   profile?: SupaUserProfile;

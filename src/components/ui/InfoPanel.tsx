@@ -10,8 +10,8 @@ export default function InfoPanel() {
             className="text-blue-600 hover:text-blue-800 underline"
           >
             hnookim8201@gmail.com
-          </a>{' '}
-          이메일로 문의 부탁드립니다.
+          </a>
+          로 문의 부탁드립니다.
         </p>
       </div>
     </article>

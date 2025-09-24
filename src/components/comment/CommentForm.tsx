@@ -12,8 +12,6 @@ type CommentFormProps = {
 };
 
 const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
-  // const { data } = useSession();
-  // const user = data?.user;
   const { user: userProfile } = useUser();
   const [value, setValue] = useState('');
 
@@ -32,6 +30,7 @@ const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
         body: value,
         userName: userProfile?.userName || '',
         avatarUrl: userProfile?.avatarUrl || '',
+        reactions: [],
       },
       postId,
     );

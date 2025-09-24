@@ -15,14 +15,24 @@ import { revalidatePath } from 'next/cache';
 //   return user;
 // };
 
-export const getAuthenticatedUser = async () => {
-  const supabase = await serverSupabase();
+export const getAuthenticatedUser = async (token?: string) => {
+  const supabase = await serverSupabase(token);
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   return user;
+};
+
+export const getAuthenticatedUserSession = async () => {
+  const supabase = await serverSupabase();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  return session;
 };
 
 export const login = async (formData: FormData) => {
