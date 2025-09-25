@@ -35,7 +35,6 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
     setShowable(true);
   };
 
-  // const { id, createdAt, image, likes, text, userImage, username, comments } = post;
   const {
     id,
     createdAt,

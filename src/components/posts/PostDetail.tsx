@@ -25,13 +25,13 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
 
   return (
     <article
-      className="flex flex-col items-center justify-center pt-[10px] overflow-hidden w-[350px] min-h-[500px] bg-white lg:w-[1000px] lg:h-[700px] lg:flex-row lg:pt-0"
+      className="flex flex-col items-center justify-center pt-[10px] overflow-hidden w-[350px] min-h-[500px] bg-white sm:w-[75%] sm:h-[90%] sm:flex-row sm:pt-0"
       onClick={suppressEventBubbling}
     >
       <div className="flex justify-center h-3/5 w-[90%] sm:w-full sm:h-full sm:basis-3/5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          className="w-[90%] sm:w-full max-h-[800px] object-cover hover:cursor-pointer md:h-full lg:object-cover"
+          className="w-[90%] sm:w-full object-cover hover:cursor-pointer sm:h-full sm:object-cover"
           src={imageKey}
           alt={`photo by ${userName}`}
           fetchPriority={'auto'}
@@ -53,7 +53,7 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
               </PostUserAvatar>
             </div>
 
-            <ul className="comments-wrapper max-h-[128px] sm:max-h-[448px] flex flex-col space-y-1 overflow-y-auto">
+            <ul className="comments-wrapper hidden sm:flex max-h-[128px] sm:max-h-[448px] flex-col space-y-1 overflow-y-auto">
               {comments != null &&
                 comments.length > 0 &&
                 comments.map((comment) => (
@@ -71,8 +71,8 @@ const PostDetail = ({ post }: { post: SupaPost }) => {
                 ))}
             </ul>
           </div>
-          <div className="flex flex-col">
-            <div className="hidden sm:flex p-3 text-base">
+          <div className="hidden sm:flex flex-col">
+            <div className="flex p-3 text-base">
               <p className="text-neutral-400">{parseDate(createdAt)}</p>
             </div>
             <CommentForm
