@@ -75,6 +75,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
             <PostDetail
               key={id}
               post={post}
+              onReactionClick={toggleReactionOnPost}
             />
           </PostModal>
         </ModalPortal>
@@ -92,7 +93,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
         <p className="flex items-center whitespace-pre-line mb-2 sm:mb-3">
           {caption}
         </p>
-        <p className="mb-1 sm:mb-5 text-gray-400 text-sm">
+        <p className="mb-2 sm:mb-5 text-gray-400 text-sm">
           {parseDate(createdAt)}
         </p>
         <CommentCount
