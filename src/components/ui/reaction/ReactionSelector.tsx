@@ -28,7 +28,7 @@ const ReactionSelector = ({
   return (
     <div
       ref={containerRef}
-      className="flex py-2 relative"
+      className="flex relative"
     >
       <VscReactions
         onClick={toggleOpen}
@@ -37,7 +37,7 @@ const ReactionSelector = ({
       />
 
       <ul
-        className={`flex absolute left-0 top-[90%] bg-white space-x-2 rounded-md shadow-md px-2 ${
+        className={`flex absolute left-7 bottom-0 bg-white space-x-2 rounded-md shadow-md px-2 ${
           isOpen ? 'block' : 'hidden'
         }`}
       >

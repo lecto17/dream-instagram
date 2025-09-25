@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <section className="w-full h-full flex flex-col sm:flex-row max-w-[850px]">
-      <div className="w-full h-full flex flex-col sm:basis-3/4 overflow-hidden bg-gray-100">
+      <div className="w-full h-full flex flex-col sm:basis-3/4 overflow-hidden bg-gray-100 relative">
         {/* <StoryList /> */}
         <DateList />
         <PostList />

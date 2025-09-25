@@ -43,7 +43,7 @@ const MoodResult = ({ moodData, myMood, totalCounts }: MoodResultProps) => {
           </div>
 
           {/* 내 기분 표시 */}
-          {myMood && (
+          {/* {myMood && (
             <div className="mb-4 p-3 bg-blue-50 border-2 border-blue-200 rounded-lg">
               <div className="flex items-center space-x-2">
                 <div className="text-xl">
@@ -63,13 +63,13 @@ const MoodResult = ({ moodData, myMood, totalCounts }: MoodResultProps) => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* 통계 결과 */}
           <div className="space-y-2 sm:space-y-3 mb-4">
             {MOOD_OPTIONS.map((option) => {
               const count = moodResults[option.id] || 0;
-              console.log('option.id: ', option.id, ', count: ', count);
+              const isMyMood = myMood === option.id;
 
               const percentage =
                 (totalCounts || 0) > 0
@@ -79,17 +79,31 @@ const MoodResult = ({ moodData, myMood, totalCounts }: MoodResultProps) => {
               return (
                 <div
                   key={option.id}
-                  className={`p-2 sm:p-3 border-2 rounded-lg bg-gray-50 border-gray-200`}
+                  className={`p-2 sm:p-3 border-2 rounded-lg ${
+                    isMyMood
+                      ? 'border-blue-200 bg-blue-50'
+                      : 'border-gray-200 bg-gray-50'
+                  }`}
                 >
                   <div className="flex items-center space-x-2 sm:space-x-3 mb-2">
                     <div className="text-xl sm:text-2xl flex-shrink-0">
                       {option.emoji}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-gray-900 text-xs sm:text-sm leading-tight">
-                        {option.mood}
+                      <div
+                        className={`font-medium text-sm leading-tight ${
+                          isMyMood
+                            ? 'text-blue-900 leading-tight'
+                            : 'text-gray-900'
+                        }`}
+                      >
+                        나의 기분: {option.mood}
                       </div>
-                      <div className="text-xs text-gray-600 leading-tight">
+                      <div
+                        className={`text-xs leading-tight ${
+                          isMyMood ? 'text-blue-700' : 'text-gray-600'
+                        }`}
+                      >
                         {option.description}
                       </div>
                     </div>

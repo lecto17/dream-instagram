@@ -1,15 +1,15 @@
 import useSWR, { useSWRConfig } from 'swr';
 import { SupaComment } from '@/types/post';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 export default function useComment(postId: string) {
   const {
     data: comments,
     isLoading,
     mutate,
-    // } = useSWR<Comment[]>(`/api/posts/${postId}`);
   } = useSWR<SupaComment[]>(`/api/posts/${postId}`);
-
+  const [showBottomCommentSection, setShowBottomCommentSection] =
+    useState(false);
   const { mutate: globalMutate } = useSWRConfig();
 
   // usePosts의 updatePostLike에는 useCallback을 감싸주지 않음.
@@ -159,5 +159,16 @@ export default function useComment(postId: string) {
     }
   };
 
-  return { comments, isLoading, setComment, toggleReactionOnComment };
+  const toggleBottomCommentSection = useCallback(() => {
+    setShowBottomCommentSection(!showBottomCommentSection);
+  }, [showBottomCommentSection]);
+
+  return {
+    comments,
+    isLoading,
+    setComment,
+    toggleReactionOnComment,
+    toggleBottomCommentSection,
+    showBottomCommentSection,
+  };
 }

@@ -7,7 +7,7 @@ const CommentCount = ({ countOfComments, onClick }: Props) => {
     countOfComments !== 0 && (
       <button
         type="button"
-        className="font-semibold text-sm text-sky-400 cursor-pointer"
+        className="font-semibold text-base text-sky-400 cursor-pointer"
         onClick={onClick}
         aria-label="댓글 보기"
       >

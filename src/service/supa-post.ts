@@ -21,7 +21,7 @@ export const getPosts = async (date: string) => {
         .from('comments')
         .select('*')
         .eq('post_id', post.id);
-      return { ...post, comments: comments?.length || 0 };
+      return { ...post, commentCount: comments?.length || 0 };
     }),
   );
 

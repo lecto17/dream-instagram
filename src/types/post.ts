@@ -8,7 +8,7 @@ export type SupaPost = {
   imageKey: string;
   createdAt: string;
   updatedAt: string | null;
-  comments: number;
+  commentCount: number;
   author: Pick<SupaUserProfile, 'avatarUrl' | 'userName' | 'id'>;
   reactions: TransformedReactionStats[];
 };
@@ -23,6 +23,7 @@ export type SupaComment = {
   userName: string;
   id?: string;
   reactions: TransformedReactionStats[];
+  createdAt?: string;
 };
 
 export type Post = {
