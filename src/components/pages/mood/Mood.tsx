@@ -3,13 +3,10 @@ import { MoodType } from '@/constants/mood';
 import { redirect } from 'next/navigation';
 
 type MoodProps = {
-  myMood?: MoodType | null;
-  moodData?: {
-    [key in MoodType]: number;
-  };
+  myMood: MoodType | null;
 };
 
-const Mood = ({ myMood, moodData }: MoodProps) => {
+const Mood = ({ myMood }: MoodProps) => {
   if (myMood != null) {
     redirect('/mood/response');
   }

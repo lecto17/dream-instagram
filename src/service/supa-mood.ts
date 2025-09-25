@@ -1,12 +1,14 @@
 import { serverSupabase } from '@/lib/supabaseServerClient';
 import { MOOD } from '@/types/mood';
 
-export const getMyMood = async (userId: string) => {
+export const getMyMood = async (userId: string, date: string) => {
   const client = await serverSupabase();
   const { data, error } = await client
     .from('moods')
     .select('*')
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .gte('created_at', `${date}T00:00:00.000`)
+    .lte('created_at', `${date}T23:59:59.999`);
 
   if (error) throw error;
   return data;
