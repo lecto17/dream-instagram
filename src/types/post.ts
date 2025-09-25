@@ -23,7 +23,7 @@ export type SupaComment = {
   userName: string;
   id?: string;
   reactions: TransformedReactionStats[];
-  createdAt: string;
+  createdAt?: string;
 };
 
 export type Post = {

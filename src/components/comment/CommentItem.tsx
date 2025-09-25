@@ -41,7 +41,7 @@ const CommentItem = ({
                 </span>
                 <span className="text-xs text-gray-400">•</span>
                 <span className="text-xs text-gray-500">
-                  {parseDate(createdAt)}
+                  {parseDate(createdAt || '')}
                 </span>
               </div>
               <p className="text-gray-800 text-sm leading-relaxed break-words">
