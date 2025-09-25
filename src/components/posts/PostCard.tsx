@@ -79,18 +79,19 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
           </PostModal>
         </ModalPortal>
       )}
-      {/* <ActionBar post={post} /> */}
       <ReactionSelector
         onReactionClick={toggleReactionOnPost}
         postOrCommentId={post.id}
       />
-      <div>
-        <p className="flex items-center mb-3 sm:mb-5">{caption}</p>
-        <ReactionList
-          postOrCommentId={post.id}
-          reactions={reactions}
-          onReactionClick={toggleReactionOnPost}
-        />
+      <ReactionList
+        postOrCommentId={post.id}
+        reactions={reactions}
+        onReactionClick={toggleReactionOnPost}
+      />
+      <div className="py-2">
+        <p className="flex items-center whitespace-pre-line mb-2 sm:mb-3">
+          {caption}
+        </p>
         <p className="mb-1 sm:mb-5 text-gray-400 text-sm">
           {parseDate(createdAt)}
         </p>
