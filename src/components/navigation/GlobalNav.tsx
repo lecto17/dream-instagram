@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { BsPlusSquare } from 'react-icons/bs';
 
 import Avatar from '@/components/avatar/Avatar';
@@ -10,6 +10,7 @@ import { SupaUserProfile } from '@/types/user';
 import Dropdown from '../dropdown/Dropdown';
 import { FaSignOutAlt, FaVoteYea } from 'react-icons/fa';
 import { FaUser } from 'react-icons/fa';
+import { createClient } from '@/lib/supabaseBrowserClient';
 
 interface MENU {
   name: 'post' | 'profile';
@@ -36,12 +37,15 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
   const router = useRouter();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  // const { data: session } = useSession();
-  // const user = session?.user;
-  // const user = createClient().auth.getUser();
-
   const triggerDropdown = (type: 'post' | 'profile') => {
     setActiveDropdown((prev) => (prev === type ? null : type));
+  };
+
+  const handleLogout = async () => {
+    setActiveDropdown(null);
+    await createClient().auth.signOut();
+    // 로그아웃 후 페이지 새로고침하여 서버 상태 동기화
+    window.location.href = '/';
   };
 
   const getDropdownMenu = (type: 'post' | 'profile') => {
@@ -106,9 +110,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
                   </div>
                 ),
                 value: 'logout',
-                onClick: () => {
-                  setActiveDropdown(null);
-                },
+                onClick: handleLogout,
               },
             ]}
           />
@@ -128,25 +130,27 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
       >
         Our Voice
       </Link>
-      <div className="flex items-center space-x-4">
-        <ul className="flex gap-4 items-center">
-          {MENUS.map((menu) => (
-            <li
-              key={menu.name}
-              className="text-3xl relative"
-            >
-              <div
-                aria-label={menu.name}
-                onClick={() => triggerDropdown(menu.name)}
+      {user && (
+        <div className="flex items-center space-x-4">
+          <ul className="flex gap-4 items-center">
+            {MENUS.map((menu) => (
+              <li
+                key={menu.name}
+                className="text-3xl relative"
               >
-                {menu.Icon(user)}
-              </div>
-              <span className="sr-only">{menu.name}</span>
-              {getDropdownMenu(menu.name)}
-            </li>
-          ))}
-        </ul>
-      </div>
+                <div
+                  aria-label={menu.name}
+                  onClick={() => triggerDropdown(menu.name)}
+                >
+                  {menu.Icon(user)}
+                </div>
+                <span className="sr-only">{menu.name}</span>
+                {getDropdownMenu(menu.name)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   );
 };
