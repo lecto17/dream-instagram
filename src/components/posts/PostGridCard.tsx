@@ -35,7 +35,7 @@ const PostGridCard = ({ post }: Props) => {
         alt={userProfile?.userName + "'s article"}
         className="aspect-square object-cover"
       />
-      {showable && (
+      {/* {showable && (
         <ModalPortal>
           <PostModal onClose={() => setShowable(false)}>
             <PostDetail
@@ -44,7 +44,7 @@ const PostGridCard = ({ post }: Props) => {
             />
           </PostModal>
         </ModalPortal>
-      )}
+      )} */}
     </li>
   );
 };

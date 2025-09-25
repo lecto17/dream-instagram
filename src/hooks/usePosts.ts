@@ -53,7 +53,7 @@ export default function usePosts(date?: string) {
           if (postId === el.id) {
             return {
               ...el,
-              comments: el.comments + 1,
+              commentCount: el.commentCount + 1,
             };
           } else return el;
         });

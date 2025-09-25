@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import './globals.css';
 import GlobalNav from '@/components/navigation/GlobalNav';
-// import AuthContext from '@/context/AuthContext';
 import SWRConfigContext from '@/context/SWRConfigContext';
 import { getAuthenticatedUser } from '@/actions/action';
 import { getMyProfile } from '@/service/supa-user';

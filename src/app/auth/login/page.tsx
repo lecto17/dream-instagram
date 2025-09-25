@@ -25,12 +25,13 @@ export default async function SignInPage() {
   // const callbackUrl = params?.searchParams?.callbackUrl || '';
 
   return (
-    <section className="mt-[25%] flex justify-center">
+    <section className="w-full h-full flex justify-center">
       {/* <InstagramBorder className="w-fit p-2 text-2xl font-semibold"> */}
 
-      <SignIn />
+      <div className="w-full h-full min-h-full bg-gray-50 flex items-center justify-center p-4">
+        <SignIn />
 
-      {/* {Object.values(providerMap).map((provider) => (
+        {/* {Object.values(providerMap).map((provider) => (
           <form
             className="p-[2px]"
             key={provider.id}
@@ -64,7 +65,8 @@ export default async function SignInPage() {
             </button>
           </form>
         ))} */}
-      {/* </InstagramBorder> */}
+        {/* </InstagramBorder> */}
+      </div>
     </section>
   );
 }
