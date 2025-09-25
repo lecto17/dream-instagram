@@ -28,7 +28,7 @@ const ReactionSelector = ({
   return (
     <div
       ref={containerRef}
-      className="flex py-2 relative"
+      className="flex relative"
     >
       <VscReactions
         onClick={toggleOpen}

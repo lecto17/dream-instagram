@@ -6,9 +6,6 @@ import PostModal from '@/components/modal/PostModal';
 import ModalPortal from '@/components/portal/ModalPortal';
 import PostDetail from '@/components/posts/PostDetail';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
-// import ActionBar from '@/components/ui/ActionBar';
-import useUser from '@/hooks/useUser';
-// import { Comment, SimplePost, SupaComment, SupaPost } from '@/types/post';
 import { SupaComment, SupaPost } from '@/types/post';
 import { parseDate } from '@/utils/utils';
 import { useState } from 'react';
@@ -16,6 +13,8 @@ import ReactionSelector from '../ui/reaction/ReactionSelector';
 import ReactionList from '../ui/reaction/ReactionList';
 import usePosts from '@/hooks/usePosts';
 import { useSearchParams } from 'next/navigation';
+import useComment from '@/hooks/useComment';
+import CommentBottomSheet from '../comment/CommentBottomSheet';
 
 interface PostCardProps {
   post: SupaPost;
@@ -30,6 +29,12 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   const pathParams = useSearchParams();
   const date = pathParams.get('date');
   const { toggleReactionOnPost } = usePosts(date || '');
+  const {
+    comments,
+    showBottomCommentSection,
+    toggleBottomCommentSection,
+    toggleReactionOnComment,
+  } = useComment(post.id);
 
   const showPostModal = () => {
     setShowable(true);
@@ -41,7 +46,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
     imageKey,
     authorId,
     caption,
-    comments,
+    commentCount,
     author: { userName, avatarUrl },
     reactions,
   } = post;
@@ -97,14 +102,22 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
           {parseDate(createdAt)}
         </p>
         <CommentCount
-          countOfComments={comments}
-          onClick={showPostModal}
+          countOfComments={commentCount}
+          onClick={toggleBottomCommentSection}
         />
         <CommentForm
           postId={post.id}
           onSubmit={addCommentOnPost}
         />
       </div>
+      {showBottomCommentSection && (
+        <CommentBottomSheet
+          open={showBottomCommentSection}
+          onClose={toggleBottomCommentSection}
+          comments={comments || []}
+          toggleReactionOnComment={toggleReactionOnComment}
+        />
+      )}
     </article>
   );
 };

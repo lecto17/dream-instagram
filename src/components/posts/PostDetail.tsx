@@ -80,7 +80,6 @@ const PostDetail = ({
                     userName: comment.userName,
                     avatarUrl: comment.avatarUrl,
                   }}
-                  postId={id}
                   reactions={comment.reactions}
                   onReactionClick={toggleReactionOnComment}
                 />
