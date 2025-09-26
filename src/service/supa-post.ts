@@ -2,13 +2,14 @@ import { RawSupaPost, SupaComment, SupaPost } from '@/types/post';
 import { objectMapper } from '@/utils/mapper';
 import { serverSupabase } from '@/lib/supabaseServerClient';
 
-export const getPosts = async (date: string) => {
+export const getPosts = async (date: string, channelId?: string) => {
   const client = await serverSupabase();
 
   // posts 테이블과 users 테이블로 만든 뷰에서 게시글 조회
   const { data: posts, error } = await client
     .from('posts_enriched')
     .select('*')
+    .eq('channel_id', channelId)
     .gte('created_at', `${date}T00:00:00.000`)
     .lte('created_at', `${date}T23:59:59.999`)
     .order('created_at', { ascending: false });
@@ -46,12 +47,13 @@ export const getPosts = async (date: string) => {
   return transformedData as RawSupaPost[];
 };
 
-export const getPostComments = async (id: string) => {
+export const getPostComments = async (id: string, channelId?: string) => {
   const client = await serverSupabase();
   const { data, error } = await client
     .from('comments_enriched')
     .select('*')
-    .eq('post_id', id);
+    .eq('post_id', id)
+    .eq('channel_id', channelId);
 
   if (error) throw error;
   return data.map(objectMapper);
