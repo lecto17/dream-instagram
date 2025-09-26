@@ -3,12 +3,12 @@
 import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 
-type PostModal = {
+type ModalContainer = {
   children: ReactNode;
   onClose: () => void;
 };
 
-const PostModal = ({ children, onClose }: PostModal) => {
+const ModalContainer = ({ children, onClose }: ModalContainer) => {
   const handleClickOuter = (e: React.MouseEvent<HTMLElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -34,4 +34,4 @@ const PostModal = ({ children, onClose }: PostModal) => {
   );
 };
 
-export default PostModal;
+export default ModalContainer;

@@ -1,4 +1,4 @@
-import PostModal from '@/components/modal/PostModal';
+import PostModal from '@/components/modal/ModalContainer';
 import ModalPortal from '@/components/portal/ModalPortal';
 import PostDetail from '@/components/posts/PostDetail';
 import useUser from '@/hooks/useUser';

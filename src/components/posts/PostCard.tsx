@@ -2,7 +2,7 @@
 
 import CommentCount from '@/components/comment/CommentCount';
 import CommentForm from '@/components/comment/CommentForm';
-import PostModal from '@/components/modal/PostModal';
+import ModalContainer from '@/components/modal/ModalContainer';
 import ModalPortal from '@/components/portal/ModalPortal';
 import PostDetail from '@/components/posts/PostDetail';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
@@ -76,13 +76,13 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
       )}
       {showable && (
         <ModalPortal>
-          <PostModal onClose={() => setShowable(false)}>
+          <ModalContainer onClose={() => setShowable(false)}>
             <PostDetail
               key={id}
               post={post}
               onReactionClick={toggleReactionOnPost}
             />
-          </PostModal>
+          </ModalContainer>
         </ModalPortal>
       )}
       <ReactionSelector
