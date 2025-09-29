@@ -6,9 +6,11 @@ import {
   UserProfile,
 } from '@/types/user';
 
-export default function useUser() {
+export default function useUser(channelId: string) {
   // const { data: user, isLoading, mutate } = useSWR<DetailUser>("/api/me");
-  const { data: user, isLoading } = useSWR<SupaUserProfile>('/api/me');
+  const { data: user, isLoading } = useSWR<SupaUserProfile>(
+    `/api/me?channelId=${channelId}`,
+  );
   // const { mutate: globalMutate } = useSWRConfig();
 
   const updateUserProfile = async (data: Omit<OnboardingUserProfile, 'id'>) => {
@@ -18,7 +20,7 @@ export default function useUser() {
       formData.append('avatarFile', data.avatarFile as File);
     }
 
-    return await fetch('/api/me', {
+    return await fetch(`/api/me?channelId=${channelId}`, {
       method: 'PUT',
       body: formData,
     }).then((res) => res.json());

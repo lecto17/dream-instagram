@@ -4,17 +4,19 @@ import { getDateYYYYMMDDWithDash } from '@/utils/utils';
 import { useCallback } from 'react';
 import useSWR from 'swr';
 
-export default function usePosts(date?: string) {
+export default function usePosts(channelId: string, date?: string) {
   const { postsKey } = useCacheKeyContext();
   const today = getDateYYYYMMDDWithDash().replaceAll('-', '');
 
-  const key = `${postsKey}?date=${date || today}`;
+  const key = `${postsKey}?channelId=${channelId}&date=${date || today}`;
 
   const { data: posts, isLoading, error, mutate } = useSWR<SupaPost[]>(key);
 
   const addPost = async (text: string, file?: File) => {
     const formData = new FormData();
+
     formData.append('text', text);
+    formData.append('channelId', channelId);
 
     if (file) {
       formData.append('file', file);
@@ -33,7 +35,7 @@ export default function usePosts(date?: string) {
     (postId: string, comment: SupaComment) => {
       return fetch(`/api/posts/${postId}`, {
         method: 'PUT',
-        body: JSON.stringify({ postId, comment }),
+        body: JSON.stringify({ postId, comment, channelId }),
       }).then((res) => res.json());
     },
     [],

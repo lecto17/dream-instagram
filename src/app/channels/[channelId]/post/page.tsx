@@ -8,13 +8,19 @@ export const metadata: Metadata = {
   description: 'Create a new post',
 };
 
-const page = async () => {
+const page = async ({ params }: { params: Promise<{ channelId: string }> }) => {
   const user = await getAuthenticatedUser();
   if (user == null) return redirect('/auth/login');
 
+  const { channelId } = await params;
+
+  if (channelId == null) {
+    return redirect('/');
+  }
+
   return (
     <section className="w-full max-w-[850px]">
-      <NewPost />
+      <NewPost channelId={channelId} />
     </section>
   );
 };

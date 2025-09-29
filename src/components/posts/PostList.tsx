@@ -7,11 +7,11 @@ import { useSearchParams } from 'next/navigation';
 import { getDateYYYYMMDDWithDash } from '@/utils/utils';
 // import RecommendUsers from "@/components/user/RecommendUsers";
 
-const PostList = () => {
+const PostList = ({ channelId }: { channelId: string }) => {
   const date =
     useSearchParams().get('date') ||
     getDateYYYYMMDDWithDash().replaceAll('-', '');
-  const { posts, isLoading, addCommentOnPost } = usePosts(date);
+  const { posts, isLoading, addCommentOnPost } = usePosts(channelId, date);
 
   if (isLoading) {
     return (

@@ -6,15 +6,11 @@ import FileUpload from '@/components/input/FileUpload';
 import Loading from '@/components/loading/Loading';
 import usePosts from '@/hooks/usePosts';
 
-// import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import useUser from '@/hooks/useUser';
 
-const NewPost = () => {
-  // const { data } = useSession();
-  // const user = data?.user;
-
+const NewPost = ({ channelId }: { channelId: string }) => {
   const router = useRouter();
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -22,9 +18,11 @@ const NewPost = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
 
-  const { addPost } = usePosts();
+  const { addPost } = usePosts(channelId);
 
-  const { user: userProfile } = useUser();
+  const { user: userProfile } = useUser(channelId);
+
+  const prefixUrl = `/channels/${channelId}`;
 
   // if (!user) {
   //   router.push('/auth/login');
@@ -38,7 +36,7 @@ const NewPost = () => {
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.toString());
     } finally {
-      router.push('/');
+      router.push(`${prefixUrl}/post`);
       setLoading(false);
     }
   };

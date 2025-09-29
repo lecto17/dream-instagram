@@ -2,10 +2,14 @@
 import React, { useEffect } from 'react';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
-import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
+import useUser from '@/hooks/useUser';
 
-const UserProfile = () => {
+type UserProfileProps = {
+  channelId: string;
+};
+
+const UserProfile = ({ channelId }: UserProfileProps) => {
   const router = useRouter();
   const [nickname, setNickname] = useState('');
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -13,7 +17,7 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { user, updateUserProfile } = useUser();
+  const { user, updateUserProfile } = useUser(channelId);
 
   useEffect(() => {
     if (user != null) {
@@ -46,7 +50,7 @@ const UserProfile = () => {
         userName: nickname.trim(),
         avatarFile: profileImage,
       });
-      router.push('/onboarding/complete');
+      router.push(`/channels/${channelId}/onboarding/complete`);
     } catch (error) {
       console.error('Onboarding failed:', error);
     } finally {

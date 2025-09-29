@@ -3,6 +3,7 @@ import useUser from '@/hooks/useUser';
 import { SupaComment } from '@/types/post';
 // import { useSession } from "next-auth/react";
 import { useCallback, useState } from 'react';
+import { useParams } from 'next/navigation';
 
 type CommentFormProps = {
   postId: string;
@@ -12,7 +13,9 @@ type CommentFormProps = {
 };
 
 const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
-  const { user: userProfile } = useUser();
+  const { channelId }: { channelId: string } = useParams();
+
+  const { user: userProfile } = useUser(channelId);
   const [value, setValue] = useState('');
 
   const handleChangeValue = useCallback((e: React.ChangeEvent) => {
@@ -31,6 +34,7 @@ const CommentForm = ({ postId, formStyle, onSubmit }: CommentFormProps) => {
         userName: userProfile?.userName || '',
         avatarUrl: userProfile?.avatarUrl || '',
         reactions: [],
+        channelId,
       },
       postId,
     );

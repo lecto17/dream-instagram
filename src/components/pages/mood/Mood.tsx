@@ -4,13 +4,14 @@ import { redirect } from 'next/navigation';
 
 type MoodProps = {
   myMood: MoodType | null;
+  channelId: string;
 };
 
-const Mood = ({ myMood }: MoodProps) => {
+const Mood = ({ myMood, channelId }: MoodProps) => {
   if (myMood != null) {
-    redirect('/mood/response');
+    redirect(`/channels/${channelId}/mood/response`);
   }
-  return <MoodSurvey />;
+  return <MoodSurvey channelId={channelId} />;
 };
 
 export default Mood;

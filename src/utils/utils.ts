@@ -44,3 +44,10 @@ export const isValidDate = (dateString: string): boolean => {
 
   return true;
 };
+
+export const getKeyByValue = (map: Map<string, number>, value: number) => {
+  for (const [key, val] of map.entries()) {
+    if (val === value) return key;
+  }
+  return null; // 없을 경우
+};

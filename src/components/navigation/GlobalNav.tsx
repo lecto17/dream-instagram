@@ -33,9 +33,17 @@ const MENUS: MENU[] = [
   },
 ];
 
-const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
+const GlobalNav = ({
+  user,
+  channelId,
+}: {
+  user: SupaUserProfile | null;
+  channelId: string;
+}) => {
   const router = useRouter();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const prefixUrl = `/channels/${channelId}`;
 
   const triggerDropdown = (type: 'post' | 'profile') => {
     setActiveDropdown((prev) => (prev === type ? null : type));
@@ -45,7 +53,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
     setActiveDropdown(null);
     await createClient().auth.signOut();
     // 로그아웃 후 페이지 새로고침하여 서버 상태 동기화
-    window.location.href = '/';
+    window.location.href = `${prefixUrl}/auth/login`;
   };
 
   const getDropdownMenu = (type: 'post' | 'profile') => {
@@ -64,7 +72,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
                 value: 'post',
                 onClick: () => {
                   setActiveDropdown(null);
-                  router.push('/post');
+                  router.push(`${prefixUrl}/post`);
                 },
               },
               {
@@ -77,7 +85,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
                 value: 'vote',
                 onClick: () => {
                   setActiveDropdown(null);
-                  router.push('/mood');
+                  router.push(`${prefixUrl}/mood`);
                 },
               },
             ]}
@@ -99,7 +107,7 @@ const GlobalNav = ({ user }: { user: SupaUserProfile | null }) => {
                 value: 'profile',
                 onClick: () => {
                   setActiveDropdown(null);
-                  router.push('/profile');
+                  router.push(`${prefixUrl}/profile`);
                 },
               },
               {

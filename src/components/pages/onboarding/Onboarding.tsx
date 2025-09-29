@@ -2,37 +2,38 @@
 
 import UserProfile from '../UserProfile';
 import SwitchCases from '../../ui/SwitchCases';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import ServiceGuidelines from './ServiceGuidelines';
 import OnboardingComplete from './OnboardingComplete';
-import useUser from '@/hooks/useUser';
 
 const TOTAL_STEPS = 2; // 전체 step 수
 
-export default function Onboarding() {
+export default function Onboarding({ channelId }: { channelId: string }) {
   const router = useRouter();
-  const params = useSearchParams();
-  const step = Number(params.get('step'));
-  const { user } = useUser();
+  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    if (!step) {
-      router.push(`/onboarding?step=1`);
-    }
-  }, [step]);
+  const step = Number(searchParams.get('step'));
+
+  const prefixUrl = `/channels/${channelId}/onboarding`;
+
+  // useEffect(() => {
+  //   if (!step) {
+  //     router.push(`${prefixUrl}?step=1`);
+  //   }
+  // }, [step]);
 
   const handlePrevious = () => {
     if (step > 1) {
       const newStep = step - 1;
-      router.push(`/onboarding?step=${newStep}`);
+      router.push(`${prefixUrl}?step=${newStep}`);
     }
   };
 
   const handleNext = () => {
     if (step < TOTAL_STEPS) {
       const newStep = step + 1;
-      router.push(`/onboarding?step=${newStep}`);
+      router.push(`${prefixUrl}?step=${newStep}`);
     }
   };
 
@@ -67,7 +68,7 @@ export default function Onboarding() {
           step={step}
           cases={{
             1: <ServiceGuidelines />,
-            2: <UserProfile />,
+            2: <UserProfile channelId={channelId} />,
             3: <OnboardingComplete />,
           }}
         />
@@ -102,7 +103,7 @@ export default function Onboarding() {
           <button
             key={index + 1}
             onClick={() => {
-              router.push(`/onboarding?step=${index + 1}`);
+              router.push(`${prefixUrl}?step=${index + 1}`);
             }}
             className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-colors ${
               step === index + 1

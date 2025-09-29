@@ -42,15 +42,15 @@ export async function PUT(request: NextRequest) {
     return new Response('Authenticated Error');
   }
 
-  const { postId, comment } = await request.json();
+  const { postId, comment, channelId } = await request.json();
 
-  if (!postId || !comment || !Object.keys(comment).length) {
+  if (!postId || !channelId || !comment || !Object.keys(comment).length) {
     return new Response('Bad Request', { status: 400 });
   }
 
   const req = comment?.id ? addComment : addComment;
 
-  return req(postId, user.id, comment)
+  return req(postId, channelId, user.id, comment)
     .then(NextResponse.json)
     .catch((err) => new Response(JSON.stringify(err), { status: 500 }));
 }

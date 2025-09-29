@@ -2,6 +2,7 @@ import { ReactionStats, TransformedReactionStats } from '@/types/reaction';
 import { SimpleUser, SupaUserProfile, User } from '@/types/user';
 
 export type SupaPost = {
+  channelId: string;
   id: string;
   authorId: string;
   caption: string;
@@ -18,6 +19,7 @@ export type RawSupaPost = Omit<SupaPost, 'reactions'> & {
 };
 
 export type SupaComment = {
+  channelId: string;
   body: string;
   avatarUrl: string | null;
   userName: string;

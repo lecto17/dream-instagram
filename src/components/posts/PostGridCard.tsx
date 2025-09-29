@@ -1,4 +1,4 @@
-import PostModal from '@/components/modal/PostModal';
+import PostModal from '@/components/modal/ModalContainer';
 import ModalPortal from '@/components/portal/ModalPortal';
 import PostDetail from '@/components/posts/PostDetail';
 import useUser from '@/hooks/useUser';
@@ -14,7 +14,7 @@ type Props = {
 const PostGridCard = ({ post }: Props) => {
   const [showable, setShowable] = useState(false);
   const user = createClient().auth.getUser();
-  const { user: userProfile } = useUser();
+  const { user: userProfile } = useUser('123');
 
   const handleLClickPost = () => {
     if (user == null) {
