@@ -4,7 +4,7 @@ import { useChannelHomeManageAction } from '@/hooks/useChannelHomeManageAction';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-const page = () => {
+const CheckPasswordPage = () => {
   const { handleCheckPassword, handleParticipateChannel } =
     useChannelHomeManageAction({});
 
@@ -39,4 +39,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CheckPasswordPage;

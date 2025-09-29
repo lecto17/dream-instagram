@@ -7,6 +7,16 @@ import {
 import bcrypt from 'bcrypt';
 import { objectMapper } from '@/utils/mapper';
 
+type PrivateChannelWithMembers = {
+  id: string;
+  name: string;
+  description: string;
+  is_private: boolean;
+  created_at: string;
+  password_hash: string | null;
+  channel_members: Array<{ user_id: string }>;
+};
+
 // 모든 채널 목록 조회
 export async function getAllChannels(userId?: string): Promise<Channel[]> {
   const supabase = await serverSupabase();
@@ -33,7 +43,7 @@ export async function getAllChannels(userId?: string): Promise<Channel[]> {
     }
 
     // private 채널 조회 (사용자가 멤버인 채널만)
-    let privateChannels: any[] = [];
+    let privateChannels: PrivateChannelWithMembers[] = [];
     if (userId) {
       const { data: privateChannelsData, error: privateChannelsError } =
         await supabase

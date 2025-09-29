@@ -3,18 +3,20 @@ import Loading from '@/components/loading/Loading';
 import usePosts from '@/hooks/usePosts';
 
 const PostGrid = () => {
-  const { posts, isLoading } = usePosts();
+  return <div>PostGrid</div>;
 
-  if (isLoading) return <Loading />;
+  // const { posts, isLoading } = usePosts();
 
-  return (
-    <section className="flex flex-col">
-      <ul className="w-full mx-auto grid gap-2 grid-cols-3">
-        {/* {posts?.map((post) => <PostGridCard key={post.id} post={post} />)} */}
-      </ul>
-      {(!posts?.length || !posts) && <div>No-data</div>}
-    </section>
-  );
+  // if (isLoading) return <Loading />;
+
+  // return (
+  //   <section className="flex flex-col">
+  //     <ul className="w-full mx-auto grid gap-2 grid-cols-3">
+  //       {/* {posts?.map((post) => <PostGridCard key={post.id} post={post} />)} */}
+  //     </ul>
+  //     {(!posts?.length || !posts) && <div>No-data</div>}
+  //   </section>
+  // );
 };
 
 export default PostGrid;

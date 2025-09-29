@@ -30,10 +30,7 @@ export async function GET(req: NextRequest) {
   return new Response(JSON.stringify(profile), { status: 200 });
 }
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: Promise<{ channelId: string }> },
-) {
+export async function PUT(req: NextRequest) {
   // export async function PUT(req: NextRequest) {
   // const user = await validateSession();
   // if (!user) {

@@ -19,6 +19,7 @@ export type RawSupaPost = Omit<SupaPost, 'reactions'> & {
 };
 
 export type SupaComment = {
+  channelId: string;
   body: string;
   avatarUrl: string | null;
   userName: string;

@@ -12,7 +12,7 @@ import { useState } from 'react';
 import ReactionSelector from '../ui/reaction/ReactionSelector';
 import ReactionList from '../ui/reaction/ReactionList';
 import usePosts from '@/hooks/usePosts';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import useComment from '@/hooks/useComment';
 import CommentBottomSheet from '../comment/CommentBottomSheet';
 
@@ -28,7 +28,11 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
   const pathParams = useSearchParams();
   const date = pathParams.get('date');
-  const { toggleReactionOnPost } = usePosts(date || '');
+
+  const { channelId } = useParams();
+
+  const { toggleReactionOnPost } = usePosts(channelId as string, date || '');
+
   const {
     comments,
     showBottomCommentSection,

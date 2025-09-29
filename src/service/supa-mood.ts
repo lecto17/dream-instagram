@@ -19,16 +19,20 @@ export const getMyMood = async (
   return data;
 };
 
-export const addMyMood = async (mood: number, userId: string) => {
+export const addMyMood = async (
+  mood: number,
+  channelId: string,
+  userId: string,
+) => {
   const client = await serverSupabase();
   const { data, error } = await client
     .from('moods')
-    .insert({ mood, user_id: userId });
+    .insert({ mood, user_id: userId, channel_id: channelId });
   if (error) throw error;
   return data;
 };
 
-export const getMoodStatistics = async (userId: string) => {
+export const getMoodStatistics = async (userId: string, channelId: string) => {
   const client = await serverSupabase();
   // 오늘 날짜 (Asia/Seoul 타임존 기준)
   const today = new Date();
@@ -51,7 +55,8 @@ export const getMoodStatistics = async (userId: string) => {
       .from('moods')
       .select('*')
       .gte('created_at', startOfDay.toISOString())
-      .lt('created_at', endOfDay.toISOString());
+      .lt('created_at', endOfDay.toISOString())
+      .eq('channel_id', channelId);
 
   if (error) throw error;
   if (data == null || data.length === 0)

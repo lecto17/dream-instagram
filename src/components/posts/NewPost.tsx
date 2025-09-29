@@ -13,11 +13,6 @@ import useUser from '@/hooks/useUser';
 const NewPost = ({ channelId }: { channelId: string }) => {
   const router = useRouter();
 
-  if (channelId == null) {
-    router.push('/');
-    return;
-  }
-
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [file, setFile] = useState<File | undefined>();
   const [loading, setLoading] = useState(false);

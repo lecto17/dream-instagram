@@ -7,7 +7,14 @@ export async function POST(request: NextRequest) {
   const user = await getAuthenticatedUser();
   if (!user) return new Response('UnAuthenticated Error');
 
-  const { mood } = await request.json();
+  const { mood, channelId } = await request.json();
+
+  console.log('mood route channelId', channelId);
+
+  if (channelId == null) {
+    return new Response('ChannelId is required', { status: 400 });
+  }
+
   // TODO: Mood Mapper는 추후 관리자 페이지에서 동적으로 수정할 수 있도록 변경할 것
   const moodValue = moodMapper.get(mood) || 0;
 
@@ -15,6 +22,6 @@ export async function POST(request: NextRequest) {
     return new Response('Invalid mood', { status: 400 });
   }
 
-  const moodData = await addMyMood(moodValue, user.id);
+  const moodData = await addMyMood(moodValue, channelId, user.id);
   return new Response(JSON.stringify(moodData), { status: 200 });
 }

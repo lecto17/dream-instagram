@@ -54,8 +54,8 @@ export const getPostComments = async (id: string, channelId?: string) => {
   const { data, error } = await client
     .from('comments_enriched')
     .select('*')
-    .eq('post_id', id)
-    .eq('channel_id', channelId);
+    .eq('post_id', id);
+  // .eq('channel_id', channelId);
 
   if (error) throw error;
   return data.map(objectMapper);
@@ -82,6 +82,7 @@ export const addPost = async (
 
 export const addComment = async (
   postId: string,
+  channelId: string,
   userId: string,
   comment: SupaComment,
 ) => {
@@ -90,6 +91,7 @@ export const addComment = async (
     .from('comments')
     .insert({
       post_id: postId,
+      channel_id: channelId,
       author_id: userId,
       body: comment.body,
       created_at: new Date().toISOString(),

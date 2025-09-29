@@ -38,7 +38,7 @@ const CheckPasswordModal = ({
             </h2>
             {channelName && (
               <p className="text-gray-600">
-                <span className="font-medium">"{channelName}"</span> 채널에
+                <span className="font-medium">{`"${channelName}"`}</span> 채널에
                 참여하려면 비밀번호를 입력하세요.
               </p>
             )}

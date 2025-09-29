@@ -35,7 +35,7 @@ export default function usePosts(channelId: string, date?: string) {
     (postId: string, comment: SupaComment) => {
       return fetch(`/api/posts/${postId}`, {
         method: 'PUT',
-        body: JSON.stringify({ postId, comment }),
+        body: JSON.stringify({ postId, comment, channelId }),
       }).then((res) => res.json());
     },
     [],

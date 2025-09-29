@@ -3,12 +3,12 @@ import { getMyMood } from '@/service/supa-mood';
 import { getAuthenticatedUser, getValidationOnChannel } from '@/actions/action';
 import { redirect } from 'next/navigation';
 import { getDateYYYYMMDDWithDash } from '@/utils/utils';
-import { NextRequest } from 'next/server';
 
-const MoodPage = async (
-  req: NextRequest,
-  { params }: { params: Promise<{ channelId: string }> },
-) => {
+const MoodPage = async ({
+  params,
+}: {
+  params: Promise<{ channelId: string }>;
+}) => {
   const user = await getAuthenticatedUser();
   if (!user) return redirect('/auth/login');
 
@@ -21,7 +21,12 @@ const MoodPage = async (
   const data = await getMyMood(channelId, user.id, date);
   const myMood = data?.length > 0 ? data[0] : null;
 
-  return <Mood myMood={myMood} />;
+  return (
+    <Mood
+      channelId={channelId}
+      myMood={myMood}
+    />
+  );
 };
 
 export default MoodPage;
