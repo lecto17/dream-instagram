@@ -2,7 +2,7 @@
 
 import CommentCount from '@/components/comment/CommentCount';
 import CommentForm from '@/components/comment/CommentForm';
-import PostModal from '@/components/modal/PostModal';
+import ModalContainer from '@/components/modal/ModalContainer';
 import ModalPortal from '@/components/portal/ModalPortal';
 import PostDetail from '@/components/posts/PostDetail';
 import PostUserAvatar from '@/components/posts/PostUserAvatar';
@@ -12,7 +12,7 @@ import { useState } from 'react';
 import ReactionSelector from '../ui/reaction/ReactionSelector';
 import ReactionList from '../ui/reaction/ReactionList';
 import usePosts from '@/hooks/usePosts';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import useComment from '@/hooks/useComment';
 import CommentBottomSheet from '../comment/CommentBottomSheet';
 
@@ -28,7 +28,11 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
   const pathParams = useSearchParams();
   const date = pathParams.get('date');
-  const { toggleReactionOnPost } = usePosts(date || '');
+
+  const { channelId } = useParams();
+
+  const { toggleReactionOnPost } = usePosts(channelId as string, date || '');
+
   const {
     comments,
     showBottomCommentSection,
@@ -76,13 +80,13 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
       )}
       {showable && (
         <ModalPortal>
-          <PostModal onClose={() => setShowable(false)}>
+          <ModalContainer onClose={() => setShowable(false)}>
             <PostDetail
               key={id}
               post={post}
               onReactionClick={toggleReactionOnPost}
             />
-          </PostModal>
+          </ModalContainer>
         </ModalPortal>
       )}
       <ReactionSelector

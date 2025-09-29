@@ -14,11 +14,19 @@ import { uploadFileToS3 } from '@/service/s3-upload';
 //   return new Response(JSON.stringify(data), { status: 200 });
 // }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const user = await getAuthenticatedUser();
   if (!user) return new Response('UnAthenticated Error');
 
-  const profile = await getMyProfile(user.id);
+  // Query parameter에서 channelId 추출
+  const { searchParams } = new URL(req.url);
+  const channelId = searchParams.get('channelId');
+
+  if (!channelId) {
+    return new Response('ChannelId is required', { status: 400 });
+  }
+
+  const profile = await getMyProfile(user.id, channelId);
   return new Response(JSON.stringify(profile), { status: 200 });
 }
 
@@ -45,6 +53,13 @@ export async function PUT(req: NextRequest) {
   const user = await getAuthenticatedUser();
   if (!user) return new Response('UnAthenticated Error');
 
+  const { searchParams } = new URL(req.url);
+  const channelId = searchParams.get('channelId');
+
+  if (channelId == null) {
+    return new Response('ChannelId is required', { status: 400 });
+  }
+
   // const { userName, avatarFile } = await req.json();
   const formData = await req.formData();
   const userName = formData.get('userName') as string;
@@ -59,6 +74,6 @@ export async function PUT(req: NextRequest) {
     fileUrl = url;
   }
 
-  await updateUserProfile(user.id, userName, fileUrl);
+  await updateUserProfile(user.id, channelId, userName, fileUrl);
   return new Response(JSON.stringify({ message: 'success' }), { status: 200 });
 }

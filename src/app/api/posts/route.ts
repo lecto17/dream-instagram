@@ -19,7 +19,11 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const date = searchParams.get('date') || getDateYYYYMMDDWithDash();
-  const data = await getPosts(date);
+  const channelId = searchParams.get('channelId');
+
+  if (!channelId) return new Response('channelId is required', { status: 400 });
+
+  const data = await getPosts(date, channelId);
   const formattedData = data.map((post) => {
     return {
       ...post,

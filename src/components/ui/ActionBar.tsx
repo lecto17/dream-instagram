@@ -13,7 +13,7 @@ type Props = {
 const ActionBar = ({ post }: Props) => {
   // const { setLike } = usePosts();
   // const { user, setBookMarked } = useUser();
-  const { user } = useUser();
+  const { user } = useUser('123');
 
   const liked = user?.userName ? post.likes?.includes(user.userName) : false;
   // const bookmarked = user?.bookmarks?.length

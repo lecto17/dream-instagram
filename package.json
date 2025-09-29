@@ -13,6 +13,7 @@
     "@aws-sdk/s3-request-presigner": "^3.888.0",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.57.4",
+    "bcrypt": "^6.0.0",
     "browser-image-compression": "^2.0.2",
     "framer-motion": "^12.23.15",
     "next": "15.1.7",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

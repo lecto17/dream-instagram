@@ -4,7 +4,7 @@ import useMood from '@/hooks/useMood';
 import React from 'react';
 import { MOOD_OPTIONS } from '@/constants/mood';
 
-const MoodSurvey = () => {
+const MoodSurvey = ({ channelId }: { channelId: string }) => {
   const { handleSubmit, selectedMood, setSelectedMood, isLoading } = useMood();
 
   return (
@@ -22,7 +22,7 @@ const MoodSurvey = () => {
           </div>
 
           <form
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e, channelId)}
             className="space-y-3 sm:space-y-4"
           >
             {/* 기분 선택 라디오 그룹 */}
