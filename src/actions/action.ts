@@ -2,6 +2,7 @@
 import { serverSupabase } from '@/lib/supabaseServerClient';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { isUserJoinedChannel, isValidChannel } from '@/service/supa-channel';
 
 // export const validateSession = async (): Promise<User | undefined> => {
 //   'use server';
@@ -70,4 +71,27 @@ export const signup = async (formData: FormData) => {
   }
   revalidatePath('/', 'layout');
   redirect('/');
+};
+
+export const getValidationOnChannel = async (
+  channelId: string,
+  userId: string,
+) => {
+  // 채널 ID null인 경우 채널 목록으로 redirect
+  if (channelId == null) {
+    return redirect('/channels');
+  }
+
+  // 채널 유효성 검사
+  const validChannel = await isValidChannel(channelId);
+  if (validChannel == null) {
+    return redirect('/channels');
+  }
+
+  // 채널 참여 여부 확인
+  const isJoined = await isUserJoinedChannel(channelId, userId);
+  // 비밀번호가 필요한 채널에 user가 처음 접속하는 경우
+  if (validChannel.needsPassword && !isJoined) {
+    return redirect(`/channels/${channelId}/check-password`);
+  }
 };

@@ -1,12 +1,15 @@
 import { redirect } from 'next/navigation';
-import { getAuthenticatedUser } from '@/actions/action';
-import { isUserJoinedChannel, isValidChannel } from '@/service/supa-channel';
+import { getAuthenticatedUser, getValidationOnChannel } from '@/actions/action';
+import { getMyProfile } from '@/service/supa-user';
+import { getDateYYYYMMDDWithDash, isValidDate } from '@/utils/utils';
+import Home from '@/components/pages/Home';
 
 type Props = {
   params: Promise<{ channelId: string }>;
+  searchParams: Promise<{ date: string }>;
 };
 
-const page = async ({ params }: Props) => {
+const page = async ({ params, searchParams }: Props) => {
   const user = await getAuthenticatedUser();
   if (!user) {
     return redirect('/auth/login');
@@ -14,24 +17,28 @@ const page = async ({ params }: Props) => {
 
   const { channelId } = await params;
 
-  if (channelId == null) {
-    return redirect('/channels');
+  await getValidationOnChannel(channelId, user.id);
+
+  const profile = await getMyProfile(user.id, channelId);
+  if (profile == null || profile?.userName == null) {
+    return redirect(`/channels/${channelId}/onboarding?step=1`);
   }
 
-  // 채널 ID 유효성 검사
-  const validChannel = await isValidChannel(channelId);
-  if (validChannel == null) {
-    return redirect('/channels');
+  // URL에서 date 파라미터 가져오기
+  const { date: dateParam } = await searchParams;
+
+  // date 파라미터가 없거나 유효하지 않으면 오늘 날짜로 리다이렉트
+  if (!dateParam || !isValidDate(dateParam)) {
+    const today = getDateYYYYMMDDWithDash().replaceAll('-', '');
+    return redirect(`?date=${today}`);
   }
 
-  // 사용자 채널 참여 여부 확인
-  const isJoined = await isUserJoinedChannel(channelId, user.id);
+  /**
+   * TODO
+   * 오늘 날짜에 해당하는 게시글 SSR 처리
+   */
 
-  if (validChannel.needsPassword && !isJoined) {
-    return redirect(`/channels/${channelId}/check-password`);
-  }
-
-  return <div>{channelId} page</div>;
+  return <Home channelId={channelId} />;
 };
 
 export default page;

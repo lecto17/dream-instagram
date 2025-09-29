@@ -59,7 +59,6 @@ export async function DELETE(
     }
 
     const { channelId } = await params;
-    console.log('DELETE ROUTE Handler: ', channelId);
 
     if (!channelId) {
       return NextResponse.json(

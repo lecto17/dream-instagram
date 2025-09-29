@@ -15,8 +15,8 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
 
   const handleCheckPassword = async (password: string, channelId?: string) => {
     const targetChannelId = channelId || activeChannelId;
-    console.log('targetChannelId: ', targetChannelId);
     if (targetChannelId === null) return;
+
     try {
       const response = await fetch(
         `/api/channels/${targetChannelId}/check-password`,

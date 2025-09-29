@@ -3,7 +3,7 @@ import PostList from '../posts/PostList';
 import AvatarLocalNav from '../navigation/AvatarLocalNav';
 import InfoPanel from '../ui/InfoPanel';
 
-export default function Home() {
+export default function Home({ channelId }: { channelId: string }) {
   // // SWR로 프로필 정보 가져오기 (캐시에서 즉시 로드)
   // const { data: profile, isLoading: profileLoading } = useSWR(
   //   user?.id ? `/api/profile/${user.id}` : null,
@@ -13,15 +13,19 @@ export default function Home() {
   //   return <div>로딩 중...</div>;
   // }
 
+  if (channelId == null) {
+    return <div>ChannelId is required</div>;
+  }
+
   return (
     <section className="w-full h-full flex flex-col sm:flex-row max-w-[850px]">
       <div className="w-full h-full flex flex-col sm:basis-3/4 overflow-hidden bg-gray-100 relative">
         {/* <StoryList /> */}
         <DateList />
-        <PostList />
+        <PostList channelId={channelId} />
       </div>
       <div className="hidden sm:block h-full bg-gray-100 basis-1/4 ml-8 border-l border-gray-200">
-        <AvatarLocalNav />
+        <AvatarLocalNav channelId={channelId} />
         <InfoPanel />
       </div>
     </section>

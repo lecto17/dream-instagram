@@ -5,11 +5,13 @@ import { getAllChannels } from '@/service/supa-channel';
 
 const page = async () => {
   const user = await getAuthenticatedUser();
+
   if (!user) {
     return redirect('/auth/login');
   }
 
   const channels = await getAllChannels(user.id);
+
   return <ChannelHome channels={channels} />;
 };
 

@@ -50,17 +50,25 @@ export async function getAllChannels(userId?: string): Promise<Channel[]> {
 
       if (privateChannelsError) {
         console.error('Error fetching private channels:', privateChannelsError);
+        return [];
       } else {
         privateChannels = privateChannelsData || [];
       }
     }
 
     // 채널 통합
-    const channels = [...publicChannels, ...privateChannels].sort((a, b) =>
+    const channels = [
+      ...(publicChannels || []),
+      ...(privateChannels || []),
+    ].sort((a, b) =>
       a.created_at && b.created_at
         ? b.created_at.localeCompare(a.created_at)
         : 0,
     );
+
+    if (channels.length === 0) {
+      return [];
+    }
 
     // 중복 제거 (private 채널의 경우 channel_members 조인으로 인한 중복 발생 가능)
     // set, map은 상태 격리, 누수 방지 해줘야함. 안그러면 이전의 호출결과가 다음 호출에 영향을 미칠 수 있음.
@@ -68,6 +76,7 @@ export async function getAllChannels(userId?: string): Promise<Channel[]> {
       const seen = new Set();
       return (
         channels?.filter((channel) => {
+          if (!channel || !channel.id) return false; // null/undefined 체크 추가
           if (seen.has(channel.id)) return false;
           seen.add(channel.id);
           return true;
@@ -77,35 +86,39 @@ export async function getAllChannels(userId?: string): Promise<Channel[]> {
 
     // 각 채널의 멤버 수와 사용자 참여 여부 조회
     const channelsWithDetails = await Promise.all(
-      uniqueChannels.map(async (channel) => {
-        // 멤버 수 조회
-        const { count: memberCount } = await supabase
-          .from('channel_members')
-          .select('*', { count: 'exact', head: true })
-          .eq('channel_id', channel.id);
-
-        // 사용자 참여 여부 조회 (userId가 있는 경우)
-        let isJoined = false;
-        if (userId) {
-          const { data: membership } = await supabase
+      uniqueChannels
+        .filter((channel) => channel && channel.id) // null/undefined 체크 추가
+        .map(async (channel) => {
+          // 멤버 수 조회
+          const { count: memberCount } = await supabase
             .from('channel_members')
-            .select('*')
-            .eq('channel_id', channel.id)
-            .eq('user_id', userId)
-            .single();
+            .select('*', { count: 'exact', head: true })
+            .eq('channel_id', channel.id);
 
-          isJoined = !!membership;
-        }
+          // 사용자 참여 여부 조회 (userId가 있는 경우)
+          let isJoined = false;
+          if (userId) {
+            const { data: membership } = await supabase
+              .from('channel_members')
+              .select('*')
+              .eq('channel_id', channel.id)
+              .eq('user_id', userId)
+              .single();
 
-        const { passwordHash, ...rest } = [channel].map(objectMapper)[0];
+            isJoined = !!membership;
+          }
 
-        return {
-          ...rest,
-          memberCount: memberCount || 0,
-          isJoined,
-          needsPassword: !!passwordHash,
-        };
-      }),
+          const { passwordHash, ...rest } = channel
+            ? [channel].map(objectMapper)[0]
+            : {};
+
+          return {
+            ...rest,
+            memberCount: memberCount || 0,
+            isJoined,
+            needsPassword: !!passwordHash,
+          };
+        }),
     );
 
     return channelsWithDetails.map(objectMapper) as Channel[];
@@ -224,6 +237,10 @@ export async function leaveChannel(
 export async function isValidChannel(
   channelId: string,
 ): Promise<Channel | null> {
+  if (!channelId) {
+    return null;
+  }
+
   const supabase = await serverSupabase();
   const { data, error } = await supabase
     .from('channels')
@@ -234,7 +251,7 @@ export async function isValidChannel(
     throw error;
   }
 
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     return null;
   }
 
@@ -248,6 +265,10 @@ export async function isUserJoinedChannel(
   channelId: string,
   userId: string,
 ): Promise<boolean> {
+  if (!channelId || !userId) {
+    return false;
+  }
+
   const supabase = await serverSupabase();
   const { data: member, error: memberError } = await supabase
     .from('channel_members')
@@ -259,7 +280,7 @@ export async function isUserJoinedChannel(
     throw memberError;
   }
 
-  if (member.length === 0) {
+  if (!member || member.length === 0) {
     return false;
   }
 

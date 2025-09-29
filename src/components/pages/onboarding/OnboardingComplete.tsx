@@ -1,12 +1,18 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+
+type OnboardingCompleteProps = {
+  channelId: string;
+};
 
 const OnboardingComplete = () => {
   const router = useRouter();
+  const params = useParams();
+  const channelId = params.channelId as string;
 
   const handleComplete = () => {
-    router.push('/');
+    router.push(`/channels/${channelId}/`);
   };
 
   return (

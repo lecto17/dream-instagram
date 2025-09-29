@@ -20,8 +20,6 @@ const MoodResponsePage = async () => {
     },
   });
   const { moodCountsResult, myMood, totalCounts } = await data.json();
-  console.log('moodCountsResult', moodCountsResult);
-  console.log('myMood', myMood);
 
   if (myMood === null) return redirect('/mood');
 

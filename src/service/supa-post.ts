@@ -2,7 +2,7 @@ import { RawSupaPost, SupaComment, SupaPost } from '@/types/post';
 import { objectMapper } from '@/utils/mapper';
 import { serverSupabase } from '@/lib/supabaseServerClient';
 
-export const getPosts = async (date: string, channelId?: string) => {
+export const getPosts = async (date: string, channelId: string) => {
   const client = await serverSupabase();
 
   // posts 테이블과 users 테이블로 만든 뷰에서 게시글 조회
@@ -21,7 +21,9 @@ export const getPosts = async (date: string, channelId?: string) => {
       const { data: comments } = await client
         .from('comments')
         .select('*')
-        .eq('post_id', post.id);
+        .eq('post_id', post.id)
+        .eq('channel_id', channelId);
+
       return { ...post, commentCount: comments?.length || 0 };
     }),
   );
@@ -60,16 +62,17 @@ export const getPostComments = async (id: string, channelId?: string) => {
 };
 
 export const addPost = async (
-  post: Pick<SupaPost, 'authorId' | 'caption' | 'imageKey'>,
+  post: Pick<SupaPost, 'authorId' | 'caption' | 'imageKey' | 'channelId'>,
 ) => {
   const client = await serverSupabase();
-  const { authorId, caption, imageKey } = post;
+  const { authorId, caption, imageKey, channelId } = post;
   const { data, error } = await client
     .from('posts')
     .insert({
       author_id: authorId,
       caption,
       image_key: imageKey,
+      channel_id: channelId,
     })
     .select()
     .single();

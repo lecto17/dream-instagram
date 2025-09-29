@@ -1,11 +1,10 @@
 'use client';
 import Avatar from '@/components/avatar/Avatar';
 
-import { getNameByEmail } from '@/utils/utils';
 import useUser from '@/hooks/useUser';
 
-const AvatarLocalNav = () => {
-  const { user: userProfile } = useUser();
+const AvatarLocalNav = ({ channelId }: { channelId: string }) => {
+  const { user: userProfile } = useUser(channelId);
 
   return (
     <section className="flex flex-col py-5 items-center">
