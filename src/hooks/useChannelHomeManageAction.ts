@@ -15,7 +15,7 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
 
   const handleCheckPassword = async (password: string, channelId?: string) => {
     const targetChannelId = channelId || activeChannelId;
-    if (targetChannelId === null) return;
+    if (targetChannelId === null) return false;
 
     try {
       const response = await fetch(
@@ -28,10 +28,15 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
 
       if (response.status === 401) {
         alert('비밀번호가 일치하지 않습니다.');
-        return;
+        return false;
       }
 
-      return response.ok;
+      if (!response.ok) {
+        alert('비밀번호 확인에 실패하였습니다.');
+        return false;
+      }
+
+      return true;
     } catch (error) {
       console.error('Error checking password:', error);
       alert('비밀번호 확인 중 오류가 발생했습니다.');
