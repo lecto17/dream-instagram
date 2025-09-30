@@ -34,7 +34,6 @@ const layout = async ({
         <SWRConfigContext>{children}</SWRConfigContext>
       </main>
       {/* </AuthContext> */}
-      <div id="portal" />
     </>
   );
 };

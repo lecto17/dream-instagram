@@ -11,8 +11,6 @@ export default function useMood() {
     e.preventDefault();
     if (!selectedMood) return;
 
-    console.log('useMood handleSubmit channelId', channelId);
-
     setIsLoading(true);
     try {
       await fetch('/api/mood', {
@@ -23,6 +21,8 @@ export default function useMood() {
       });
     } catch (error) {
       console.error('Mood selection failed:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

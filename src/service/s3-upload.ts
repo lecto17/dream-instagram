@@ -36,10 +36,8 @@ export const uploadFileToS3 = async ({
     .replaceAll('-', '');
 
   const key = folder
-    ? `${folder}/${today}/${new Date().toISOString()}-${encodeURIComponent(
-        fileName,
-      )}`
-    : `${today}/${new Date().toISOString()}-${encodeURIComponent(fileName)}`;
+    ? `${folder}/${today}/${new Date().toISOString()}-${fileName}`
+    : `${today}/${new Date().toISOString()}-${fileName}`;
 
   const body = Buffer.from(await file.arrayBuffer());
 

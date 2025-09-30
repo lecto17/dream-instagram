@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const file = formData.get('file') as File;
   const text = formData.get('text') as string;
-  const fileName = formData.get('fileName') as string;
+  const fileName = (formData.get('fileName') as string) || 'no file name';
   const channelId = formData.get('channelId') as string;
 
   if (file != null) {

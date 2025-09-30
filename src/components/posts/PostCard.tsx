@@ -28,7 +28,6 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   const [showable, setShowable] = useState(false);
   const pathParams = useSearchParams();
   const date = pathParams.get('date');
-
   const { channelId } = useParams();
 
   const { toggleReactionOnPost } = usePosts(channelId as string, date || '');
@@ -56,7 +55,7 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
   } = post;
 
   return (
-    <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3 min-w-[320px] sm:min-w-[468px]">
+    <article className="border border-gray-200 shadow-md rounded-lg p-3 mb-3 w-[90%] min-w-[320px] sm:min-w-[468px]">
       <div className="flex w-fit items-center mb-3">
         <PostUserAvatar
           user={{
@@ -68,15 +67,17 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       {imageKey && (
-        <img
-          className="max:w-[320px] sm:max-w-[468px] object-cover aspect-square hover:cursor-pointer"
-          src={imageKey}
-          width={468}
-          height={565}
-          alt={`photo by ${authorId}`}
-          fetchPriority={priority ? 'high' : 'low'}
-          onClick={showPostModal}
-        />
+        <div className="w-full flex justify-center">
+          <img
+            className="max:w-[320px] sm:max-w-[468px] object-cover aspect-square hover:cursor-pointer"
+            src={imageKey}
+            width={468}
+            height={565}
+            alt={`photo by ${authorId}`}
+            fetchPriority={priority ? 'high' : 'low'}
+            onClick={showPostModal}
+          />
+        </div>
       )}
       {showable && (
         <ModalPortal>
@@ -89,17 +90,20 @@ const PostCard = ({ post, priority, addCommentOnPost }: PostCardProps) => {
           </ModalContainer>
         </ModalPortal>
       )}
-      <ReactionSelector
-        onReactionClick={toggleReactionOnPost}
-        postOrCommentId={post.id}
-      />
+      <div className="my-2">
+        <ReactionSelector
+          onReactionClick={toggleReactionOnPost}
+          postOrCommentId={post.id}
+        />
+      </div>
+
       <ReactionList
         postOrCommentId={post.id}
         reactions={reactions}
         onReactionClick={toggleReactionOnPost}
       />
       <div className="py-2">
-        <p className="flex items-center whitespace-pre-line mb-2 sm:mb-3">
+        <p className="flex items-center whitespace-pre-line mb-1 sm:mb-2">
           {caption}
         </p>
         <p className="mb-2 sm:mb-5 text-gray-400 text-sm">

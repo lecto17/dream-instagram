@@ -10,9 +10,15 @@ interface MoodResultProps {
   };
   myMood?: string;
   totalCounts?: number;
+  channelId: string;
 }
 
-const MoodResult = ({ moodData, myMood, totalCounts }: MoodResultProps) => {
+const MoodResult = ({
+  moodData,
+  myMood,
+  totalCounts,
+  channelId,
+}: MoodResultProps) => {
   const router = useRouter();
 
   // 임시 데이터 (실제로는 props로 받아올 데이터)
@@ -25,7 +31,7 @@ const MoodResult = ({ moodData, myMood, totalCounts }: MoodResultProps) => {
   };
 
   const handleGoHome = () => {
-    router.push('/');
+    router.push(`/channels/${channelId}`);
   };
 
   return (

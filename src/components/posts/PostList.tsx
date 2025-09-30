@@ -29,7 +29,10 @@ const PostList = ({ channelId }: { channelId: string }) => {
     <ul className="flex flex-col items-center h-full min-h-full overflow-y-auto p-5 space-y-10 pb-32">
       {posts != null && posts.length > 0 ? (
         posts.map((post, idx) => (
-          <li key={post.id}>
+          <li
+            key={post.id}
+            className="w-full flex justify-center"
+          >
             <PostCard
               key={post.id}
               post={post}

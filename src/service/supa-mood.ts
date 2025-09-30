@@ -7,13 +7,18 @@ export const getMyMood = async (
   date: string,
 ) => {
   const client = await serverSupabase();
+
+  // Asia/Seoul 자정 기준 경계 계산
+  const start = new Date(`${date}T00:00:00+09:00`);
+  const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+
   const { data, error } = await client
     .from('moods')
     .select('*')
     .eq('user_id', userId)
     .eq('channel_id', channelId)
-    .gte('created_at', `${date}T00:00:00.000`)
-    .lte('created_at', `${date}T23:59:59.999`);
+    .gte('created_at', start.toISOString())
+    .lte('created_at', end.toISOString());
 
   if (error) throw error;
   return data;
