@@ -83,7 +83,14 @@ const useCreatChannelModal = (
     }));
   };
 
-  return { modalRef, handleSubmit, handleInputChange, formData, isLoading };
+  return {
+    modalRef,
+    handleSubmit,
+    handleInputChange,
+    formData,
+    setFormData,
+    isLoading,
+  };
 };
 
 export default function CreateChannelModal({
@@ -91,8 +98,14 @@ export default function CreateChannelModal({
   onClose,
   onChannelCreated,
 }: CreateChannelModalProps) {
-  const { modalRef, handleSubmit, handleInputChange, formData, isLoading } =
-    useCreatChannelModal(onClose, onChannelCreated);
+  const {
+    modalRef,
+    handleSubmit,
+    handleInputChange,
+    formData,
+    setFormData,
+    isLoading,
+  } = useCreatChannelModal(onClose, onChannelCreated);
 
   if (!isOpen) return null;
 
@@ -133,8 +146,8 @@ export default function CreateChannelModal({
           className="p-4 space-y-4"
         >
           {/* 채널명 */}
-          <div className="flex w-full justify-between">
-            <div>
+          <div className="flex w-full min-h-32 justify-between gap-4">
+            <div className="flex-1 basis-1/2">
               <label
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -153,23 +166,51 @@ export default function CreateChannelModal({
                 required
               />
             </div>
-            <div>
-              <label
-                htmlFor="isPrivate"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+            <div className="flex-1 basis-1/2">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                 채널 공개 여부 *
               </label>
-              <input
-                type="checkbox"
-                id="isPrivate"
-                name="isPrivate"
-                value={formData.isPrivate ? 'true' : ''}
-                onChange={handleInputChange}
-                placeholder="채널명을 입력하세요"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                maxLength={50}
-              />
+              <div className="flex items-center justify-between bg-gray-100 rounded-lg p-1">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({ ...prev, isPrivate: false }))
+                  }
+                  className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
+                    !formData.isPrivate
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  공개
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({ ...prev, isPrivate: true }))
+                  }
+                  className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
+                    formData.isPrivate
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  비공개
+                </button>
+              </div>
+              <div className="mt-2 text-xs text-gray-500">
+                {formData.isPrivate ? (
+                  <span className="flex items-baseline">
+                    <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                    비공개 채널 - 채널 목록에 노출되지 않습니다.
+                  </span>
+                ) : (
+                  <span className="flex items-baseline">
+                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    공개 채널 - 채널 목록에 노출됩니다.
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
