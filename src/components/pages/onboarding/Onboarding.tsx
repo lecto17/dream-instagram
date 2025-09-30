@@ -2,8 +2,7 @@
 
 import UserProfile from '../UserProfile';
 import SwitchCases from '../../ui/SwitchCases';
-import { useSearchParams, useRouter, useParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import ServiceGuidelines from './ServiceGuidelines';
 import OnboardingComplete from './OnboardingComplete';
 
@@ -12,16 +11,8 @@ const TOTAL_STEPS = 2; // 전체 step 수
 export default function Onboarding({ channelId }: { channelId: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const step = Number(searchParams.get('step'));
-
   const prefixUrl = `/channels/${channelId}/onboarding`;
-
-  // useEffect(() => {
-  //   if (!step) {
-  //     router.push(`${prefixUrl}?step=1`);
-  //   }
-  // }, [step]);
 
   const handlePrevious = () => {
     if (step > 1) {

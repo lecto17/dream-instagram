@@ -1,5 +1,6 @@
 import { getAuthenticatedUser } from '@/actions/action';
 import Onboarding from '@/components/pages/onboarding/Onboarding';
+import { getMyProfile } from '@/service/supa-user';
 import { redirect } from 'next/navigation';
 
 export default async function OnboardingPage({
@@ -12,10 +13,10 @@ export default async function OnboardingPage({
 
   const { channelId } = await params;
 
-  // const profile = await getMyProfile(user.id, channelId);
-  // if (profile?.userName != null) {
-  //   return redirect('/');
-  // }
+  const profile = await getMyProfile(user.id, channelId);
+  if (profile?.userName != null) {
+    return redirect(`/channels/${channelId}/`);
+  }
 
   return <Onboarding channelId={channelId} />;
 }

@@ -74,11 +74,14 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
     e.preventDefault();
     e.stopPropagation();
     try {
-      if (action === 'PARTICIPATE' && joinedStatus) {
+      if (
+        (action === 'PARTICIPATE' && joinedStatus) ||
+        (action === 'PARTICIPATE' && !joinedStatus && !needsPassword)
+      ) {
         router.push(`/channels/${channelId}`);
       }
 
-      if (action === 'PARTICIPATE' && !joinedStatus) {
+      if (action === 'PARTICIPATE' && !joinedStatus && needsPassword) {
         setActiveChannelId(channelId);
         setModalOpen?.(true);
         return;
@@ -89,16 +92,6 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
       });
 
       if (response.ok) {
-        // 채널 참여 시 바로 채널 페이지로 이동
-        // if (method === 'POST') {
-        //   if (needsPassword) {
-        //     setActiveChannelId(channelId);
-        //     setIsPasswordModalOpen(true);
-        //     return;
-        //   }
-        //   router.push(`/channels/${channelId}`);
-        // }
-
         // 채널 탈퇴 시 채널 목록 새로고침
         window.location.reload();
       } else {
@@ -116,7 +109,6 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
 
   // 새 채널 생성 후 처리
   const handleChannelCreated = () => {
-    // setChannels((prev) => [newChannel, ...prev]);
     window.location.reload();
   };
 
