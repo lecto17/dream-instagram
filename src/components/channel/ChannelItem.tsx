@@ -36,6 +36,9 @@ export default function ChannelItem({
             handleSetActiveChannelId(channel.id);
             setIsPasswordModalOpen(true);
           }
+          if (!channel.needsPassword && !channel.isJoined) {
+            handleParticipateChannel(channel.id);
+          }
         }}
       >
         <div className="flex-1">
