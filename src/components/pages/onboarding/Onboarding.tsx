@@ -34,7 +34,7 @@ export default function Onboarding({ channelId }: { channelId: string }) {
       {step > 1 && (
         <button
           onClick={handlePrevious}
-          className="absolute left-2 sm:left-4 top-1/2 sm:top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-gray-50 transition-colors"
+          className="absolute -left-1 sm:-left-2 top-1/2 sm:top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-gray-50 transition-colors"
           aria-label="이전 단계"
         >
           <svg
@@ -69,7 +69,7 @@ export default function Onboarding({ channelId }: { channelId: string }) {
       {step < TOTAL_STEPS && (
         <button
           onClick={handleNext}
-          className="absolute right-2 sm:right-4 top-1/2 sm:top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-gray-50 transition-colors"
+          className="absolute -right-1 sm:-right-2 top-1/2 sm:top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 sm:p-3 shadow-lg hover:bg-gray-50 transition-colors"
           aria-label="다음 단계"
         >
           <svg
