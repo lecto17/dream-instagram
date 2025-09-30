@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthenticatedUser } from '@/actions/action';
 import { serverSupabase } from '@/lib/supabaseServerClient';
