@@ -20,15 +20,6 @@ const MoodResponsePage = async ({
   const { channelId } = await params;
   if (channelId == null) return redirect('/channels');
 
-  const userSession = await getAuthenticatedUserSession();
-
-  // const url = `${getAppUrl()}/api/mood/response?channelId=${channelId}`;
-  // const data = await fetch(url, {
-  //   headers: {
-  //     Authorization: `Bearer ${userSession?.access_token}`,
-  //   },
-  // });
-
   const data = await getMoodStatistics(user.id, channelId);
   const { moodCountsResult, myMood, totalCounts } = data;
 
@@ -52,6 +43,7 @@ const MoodResponsePage = async ({
       moodData={formattedData.moodCountsResult}
       myMood={formattedData.myMood || undefined}
       totalCounts={totalCounts}
+      channelId={channelId}
     />
   );
 };
