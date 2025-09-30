@@ -12,6 +12,7 @@ type ChannelItemProps = {
     joinedStatus: boolean,
     needsPassword?: boolean,
   ) => void;
+  handleParticipateChannel: (channelId: string) => void;
 };
 
 export default function ChannelItem({
@@ -19,15 +20,16 @@ export default function ChannelItem({
   handleSetActiveChannelId,
   setIsPasswordModalOpen,
   handleChannelAction,
+  handleParticipateChannel,
 }: ChannelItemProps) {
   return (
     <li
       key={channel.id}
-      className="bg-white border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow duration-200 cursor-pointer"
+      className="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 cursor-pointer"
     >
       <Link
         href={`/channels/${channel.id}`}
-        className="flex items-start justify-between"
+        className="flex items-start justify-between p-3"
         onClick={(e) => {
           if (channel.needsPassword && !channel.isJoined) {
             e.preventDefault();
@@ -66,15 +68,25 @@ export default function ChannelItem({
             </button>
           ) : (
             <button
-              onClick={(e) =>
+              onClick={(e) => {
+                if (channel.needsPassword && !channel.isJoined) {
+                  e.preventDefault();
+                  handleSetActiveChannelId(channel.id);
+                  setIsPasswordModalOpen(true);
+                  return;
+                }
+                if (!channel.needsPassword && !channel.isJoined) {
+                  handleParticipateChannel(channel.id);
+                  return;
+                }
                 handleChannelAction(
                   e,
                   channel.id,
                   'PARTICIPATE',
                   channel.isJoined,
                   channel.needsPassword,
-                )
-              }
+                );
+              }}
               className="px-3 py-1.5 bg-gray-900 hover:bg-gray-800 text-white text-xs rounded-lg transition-colors duration-200"
             >
               {channel.isJoined ? '입장하기' : '참여하기'}

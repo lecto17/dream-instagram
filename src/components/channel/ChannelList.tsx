@@ -12,6 +12,7 @@ type ChannelListProps = {
     joinedStatus: boolean,
     needsPassword?: boolean,
   ) => void;
+  handleParticipateChannel: (channelId: string) => void;
 };
 
 const ChannelList = ({
@@ -19,6 +20,7 @@ const ChannelList = ({
   handleSetActiveChannelId,
   setIsPasswordModalOpen,
   handleChannelAction,
+  handleParticipateChannel,
 }: ChannelListProps) => {
   return (
     <div className="flex-1 flex flex-col min-h-0">
@@ -51,6 +53,7 @@ const ChannelList = ({
               handleSetActiveChannelId={handleSetActiveChannelId}
               setIsPasswordModalOpen={setIsPasswordModalOpen}
               handleChannelAction={handleChannelAction}
+              handleParticipateChannel={handleParticipateChannel}
             />
           ))
         )}

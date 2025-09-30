@@ -78,7 +78,7 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
         (action === 'PARTICIPATE' && joinedStatus) ||
         (action === 'PARTICIPATE' && !joinedStatus && !needsPassword)
       ) {
-        router.push(`/channels/${channelId}`);
+        return router.push(`/channels/${channelId}`);
       }
 
       if (action === 'PARTICIPATE' && !joinedStatus && needsPassword) {

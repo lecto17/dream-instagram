@@ -32,6 +32,7 @@ export default function ChannelHome({ channels }: { channels: Channel[] }) {
         handleSetActiveChannelId={handleSetActiveChannelId}
         setIsPasswordModalOpen={setIsPasswordModalOpen}
         handleChannelAction={handleChannelAction}
+        handleParticipateChannel={handleParticipateChannel}
       />
 
       {/* 채널 생성 모달 */}
