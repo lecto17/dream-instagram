@@ -10,6 +10,7 @@ type MoodProps = {
 const Mood = ({ myMood, channelId }: MoodProps) => {
   if (myMood != null) {
     redirect(`/channels/${channelId}/mood/response`);
+    return null;
   }
   return <MoodSurvey channelId={channelId} />;
 };

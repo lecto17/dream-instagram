@@ -15,7 +15,7 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
 
   const handleCheckPassword = async (password: string, channelId?: string) => {
     const targetChannelId = channelId || activeChannelId;
-    if (targetChannelId === null) return;
+    if (targetChannelId === null) return false;
 
     try {
       const response = await fetch(
@@ -28,10 +28,15 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
 
       if (response.status === 401) {
         alert('비밀번호가 일치하지 않습니다.');
-        return;
+        return false;
       }
 
-      return response.ok;
+      if (!response.ok) {
+        alert('비밀번호 확인에 실패하였습니다.');
+        return false;
+      }
+
+      return true;
     } catch (error) {
       console.error('Error checking password:', error);
       alert('비밀번호 확인 중 오류가 발생했습니다.');
@@ -69,11 +74,14 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
     e.preventDefault();
     e.stopPropagation();
     try {
-      if (action === 'PARTICIPATE' && joinedStatus) {
-        router.push(`/channels/${channelId}`);
+      if (
+        (action === 'PARTICIPATE' && joinedStatus) ||
+        (action === 'PARTICIPATE' && !joinedStatus && !needsPassword)
+      ) {
+        return router.push(`/channels/${channelId}`);
       }
 
-      if (action === 'PARTICIPATE' && !joinedStatus) {
+      if (action === 'PARTICIPATE' && !joinedStatus && needsPassword) {
         setActiveChannelId(channelId);
         setModalOpen?.(true);
         return;
@@ -84,16 +92,6 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
       });
 
       if (response.ok) {
-        // 채널 참여 시 바로 채널 페이지로 이동
-        // if (method === 'POST') {
-        //   if (needsPassword) {
-        //     setActiveChannelId(channelId);
-        //     setIsPasswordModalOpen(true);
-        //     return;
-        //   }
-        //   router.push(`/channels/${channelId}`);
-        // }
-
         // 채널 탈퇴 시 채널 목록 새로고침
         window.location.reload();
       } else {
@@ -111,7 +109,6 @@ export const useChannelHomeManageAction = ({ setModalOpen }: Props) => {
 
   // 새 채널 생성 후 처리
   const handleChannelCreated = () => {
-    // setChannels((prev) => [newChannel, ...prev]);
     window.location.reload();
   };
 

@@ -1,5 +1,5 @@
 // BottomSheet.tsx
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { AnimatePresence, motion, useDragControls } from 'framer-motion';
 
 type BottomSheetProps = {
@@ -63,7 +63,7 @@ export default function BottomSheet({
             <div className="flex flex-col items-center py-3 h-10">
               {/* Drag Handle */}
               <div
-                className="mx-auto mt-2 mb-2 h-1 w-12 rounded-full bg-gray-300"
+                className="mx-auto mt-2 mb-2 min-h-1 w-12 rounded-full bg-gray-300"
                 onPointerDown={(e) => controls.start(e)}
               />
             </div>

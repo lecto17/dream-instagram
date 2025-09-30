@@ -22,6 +22,6 @@ export async function POST(request: NextRequest) {
     return new Response('Invalid mood', { status: 400 });
   }
 
-  const moodData = await addMyMood(moodValue, channelId, user.id);
-  return new Response(JSON.stringify(moodData), { status: 200 });
+  await addMyMood(moodValue, channelId, user.id);
+  return new Response(JSON.stringify({ message: 'success' }), { status: 200 });
 }
