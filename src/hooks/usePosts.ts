@@ -2,15 +2,15 @@ import { useCacheKeyContext } from '@/context/CacheKeyContext';
 import { SupaComment, SupaPost } from '@/types/post';
 import { getDateYYYYMMDDWithDash } from '@/utils/utils';
 import { useCallback } from 'react';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 
 export default function usePosts(channelId: string, date?: string) {
   const { postsKey } = useCacheKeyContext();
   const today = getDateYYYYMMDDWithDash().replaceAll('-', '');
-
   const key = `${postsKey}?channelId=${channelId}&date=${date || today}`;
 
   const { data: posts, isLoading, error, mutate } = useSWR<SupaPost[]>(key);
+  const { mutate: globalMutate } = useSWRConfig();
 
   const addPost = async (text: string, file?: File) => {
     const formData = new FormData();
@@ -67,8 +67,10 @@ export default function usePosts(channelId: string, date?: string) {
         revalidate: false,
         rollbackOnError: true,
       });
+
+      globalMutate(`/api/posts/${postId}`);
     },
-    [posts, mutate, upsertCommentOnPost],
+    [posts, mutate, upsertCommentOnPost, globalMutate],
   );
 
   const toggleReactionOnPost = useCallback(
