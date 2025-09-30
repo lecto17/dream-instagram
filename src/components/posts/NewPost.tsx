@@ -19,15 +19,8 @@ const NewPost = ({ channelId }: { channelId: string }) => {
   const [error, setError] = useState<string>();
 
   const { addPost } = usePosts(channelId);
-
   const { user: userProfile } = useUser(channelId);
-
   const prefixUrl = `/channels/${channelId}`;
-
-  // if (!user) {
-  //   router.push('/auth/login');
-  //   return;
-  // }
 
   const handleClickPublish = async () => {
     setLoading(true);
@@ -36,7 +29,7 @@ const NewPost = ({ channelId }: { channelId: string }) => {
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.toString());
     } finally {
-      router.push(`${prefixUrl}/post`);
+      router.push(`${prefixUrl}`);
       setLoading(false);
     }
   };
