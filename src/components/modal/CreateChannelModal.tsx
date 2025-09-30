@@ -9,11 +9,10 @@ type CreateChannelModalProps = {
   onChannelCreated: () => void;
 };
 
-export default function CreateChannelModal({
-  isOpen,
-  onClose,
-  onChannelCreated,
-}: CreateChannelModalProps) {
+const useCreatChannelModal = (
+  onClose: () => void,
+  onChannelCreated: () => void,
+) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -83,6 +82,17 @@ export default function CreateChannelModal({
       [name]: name === 'isPrivate' ? !!value : value,
     }));
   };
+
+  return { modalRef, handleSubmit, handleInputChange, formData, isLoading };
+};
+
+export default function CreateChannelModal({
+  isOpen,
+  onClose,
+  onChannelCreated,
+}: CreateChannelModalProps) {
+  const { modalRef, handleSubmit, handleInputChange, formData, isLoading } =
+    useCreatChannelModal(onClose, onChannelCreated);
 
   if (!isOpen) return null;
 
@@ -159,7 +169,6 @@ export default function CreateChannelModal({
                 placeholder="채널명을 입력하세요"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 maxLength={50}
-                required
               />
             </div>
           </div>
