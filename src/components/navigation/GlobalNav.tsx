@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { BsPlusSquare } from 'react-icons/bs';
 
 import Avatar from '@/components/avatar/Avatar';
@@ -132,7 +132,7 @@ const GlobalNav = ({
   return (
     <section className="sticky top-0 z-10 flex justify-between items-center py-3 px-2 md:px-6 border-b shadow-sm bg-white">
       <Link
-        href="/"
+        href={`${prefixUrl}`}
         className="text-xl font-semibold md:text-3xl"
         onClick={() => setActiveDropdown(null)}
       >
